@@ -54,21 +54,12 @@ dependencies {
 2.使用
 
 ```java
-package me.zhenxin.qqbot;
-
 import me.zhenxin.qqbot.core.AccessInfo;
 import me.zhenxin.qqbot.core.ApiManager;
 import me.zhenxin.qqbot.core.BotCore;
 import me.zhenxin.qqbot.core.EventHandler;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 
-/**
- * 示例程序
- *
- * @author 真心
- * @email qgzhenxin@qq.com
- * @since 2021/12/8 15:41
- */
 class Example {
     public static void main(String[] args) {
         AccessInfo accessInfo = new AccessInfo();
@@ -77,7 +68,7 @@ class Example {
         // 创建实例
         BotCore bot = new BotCore(accessInfo);
         // 获取API管理器
-        ApiManager api = botCore.getApiManager();
+        ApiManager api = bot.getApiManager();
         // 注册AT消息相关事件
         bot.registerAtMessageEvent();
         // 设置事件处理器
