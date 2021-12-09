@@ -14,11 +14,14 @@ QQ官方机器人 SDK For Java
     <id>zhenxin</id>
     <url>https://repo.zhenxin.me/</url>
 </repository>
+```
+
+```xml
 
 <dependency>
-<groupId>me.zhenxin</groupId>
-<artifactId>qq-official-bot-sdk</artifactId>
-<version>0.0.1-SNAPSHOT</version>
+    <groupId>me.zhenxin</groupId>
+    <artifactId>qq-official-bot-sdk</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
 
