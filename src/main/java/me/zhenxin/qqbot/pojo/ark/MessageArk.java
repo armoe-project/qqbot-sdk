@@ -2,6 +2,8 @@ package me.zhenxin.qqbot.pojo.ark;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Ark对象
  *
@@ -14,6 +16,6 @@ public class MessageArk {
     /**
      * 模板ID
      */
-    private String templateId;
-    private MessageAkrKv[] kv;
+    private Integer templateId;
+    private List<MessageArkKv> kv;
 }

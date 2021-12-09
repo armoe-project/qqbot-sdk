@@ -4,6 +4,7 @@ package me.zhenxin.qqbot.core.websocket;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.core.EventHandler;
 import me.zhenxin.qqbot.core.Intent;
 import me.zhenxin.qqbot.event.AtMessageEvent;
@@ -25,6 +26,7 @@ import java.util.*;
  * @since 2021/12/9 1:23
  */
 @Setter
+@Slf4j
 public class WSSClient {
     private URI uri;
     private String token;
@@ -46,15 +48,13 @@ public class WSSClient {
 
             @Override
             public void onOpen(ServerHandshake serverHandshake) {
-                System.out.println("连接成功!");
+                log.info("连接成功!");
             }
 
             @Override
             public void onMessage(String s) {
                 Payload payload = JSONUtil.toBean(s, Payload.class);
-                if (Objects.equals(System.getenv("DEBUG"), "true")) {
-                    System.out.println(payload);
-                }
+                log.debug(JSONUtil.toJsonStr(payload));
                 seq = payload.getS();
                 switch (payload.getOp()) {
                     case 7:
@@ -96,19 +96,19 @@ public class WSSClient {
 
             @Override
             public void onClose(int i, String s, boolean b) {
-                System.out.println("连接关闭!");
-                System.out.println("开始尝试重新连接...");
+                log.info("连接关闭!");
+                log.info("开始尝试重新连接...");
                 try {
                     new Thread(this::connect).start();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("重新连接失败,请检查网络!");
+                    log.info("重新连接失败,请检查网络!");
                 }
             }
 
             @Override
             public void onError(Exception e) {
-                System.out.println("发生错误: " + e.getMessage());
+                log.info("发生错误: " + e.getMessage());
                 e.printStackTrace();
             }
         };

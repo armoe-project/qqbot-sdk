@@ -2,6 +2,8 @@ package me.zhenxin.qqbot.pojo.ark;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * ArkKv对象
  *
@@ -10,8 +12,8 @@ import lombok.Data;
  * @since 2021/12/8 16:34
  */
 @Data
-public class MessageAkrKv {
+public class MessageArkKv {
     private String key;
     private String value;
-    private MessageArkObj[] obj;
+    private List<MessageArkObj> obj;
 }
