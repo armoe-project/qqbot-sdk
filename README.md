@@ -2,6 +2,9 @@
 
 QQ官方机器人 SDK For Java
 
+* [加入QQ频道](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=GECpm&from=246610&biz=ka)
+* 使用文档(编写中)
+
 ## 警告
 
 请勿使用`0.0.2-SNAPSHOT`版本的SDK!
