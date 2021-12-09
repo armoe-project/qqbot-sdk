@@ -3,6 +3,7 @@ package me.zhenxin.qqbot.api;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONUtil;
 
 import java.util.Map;
 
@@ -35,28 +36,36 @@ class BaseApi {
     }
 
     protected String post(String path, Map<String, Object> data) {
-        HttpRequest request = HttpRequest.post(api + path).form(data);
+        HttpRequest request = HttpRequest
+                .post(api + path)
+                .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
         return response.body();
     }
 
     protected String put(String path, Map<String, Object> data) {
-        HttpRequest request = HttpRequest.put(api + path).form(data);
+        HttpRequest request = HttpRequest
+                .put(api + path)
+                .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
         return response.body();
     }
 
     protected String delete(String path, Map<String, Object> data) {
-        HttpRequest request = HttpRequest.delete(api + path).form(data);
+        HttpRequest request = HttpRequest
+                .delete(api + path)
+                .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
         return response.body();
     }
 
     protected String patch(String path, Map<String, Object> data) {
-        HttpRequest request = HttpRequest.patch(api + path).form(data);
+        HttpRequest request = HttpRequest
+                .patch(api + path)
+                .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
         return response.body();

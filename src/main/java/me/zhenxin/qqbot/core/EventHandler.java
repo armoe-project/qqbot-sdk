@@ -13,6 +13,7 @@ import me.zhenxin.qqbot.event.UserMessageEvent;
 public class EventHandler {
     /**
      * 艾特信息
+     *
      * @param event 事件
      */
     public void onAtMessage(AtMessageEvent event) {
@@ -21,6 +22,7 @@ public class EventHandler {
 
     /**
      * 用户消息
+     *
      * @param event 事件
      */
     public void onUserMessage(UserMessageEvent event) {

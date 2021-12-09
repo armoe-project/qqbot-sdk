@@ -25,79 +25,110 @@ import java.util.*;
  * @since 2021/12/9 1:23
  */
 @Setter
-public class WSSClient extends WebSocketClient {
+public class WSSClient {
+    private URI uri;
     private String token;
     private List<Intent> intents;
-    private Integer s;
     private EventHandler eventHandler;
 
-    public WSSClient(URI serverUri) {
-        super(serverUri);
+    private Integer seq;
+    private WebSocketClient client;
+
+    public WSSClient(URI uri, String token, List<Intent> intents, EventHandler eventHandler) {
+        this.uri = uri;
+        this.token = token;
+        this.intents = intents;
+        this.eventHandler = eventHandler;
     }
 
-    @Override
-    public void onOpen(ServerHandshake serverHandshake) {
-        System.out.println("连接成功!");
-    }
+    public void connect() {
+        client = new WebSocketClient(uri) {
 
-    @Override
-    public void onMessage(String s) {
-        Payload payload = JSONUtil.toBean(s, Payload.class);
-        if (Objects.equals(System.getenv("DEBUG"), "true")) {
-            System.out.println(payload);
-        }
-        this.s = payload.getS();
-        switch (payload.getOp()) {
-            case 10:
-                int intents = 0;
-                for (Intent intent : this.intents) {
-                    intents = intents | intent.getValue();
+            @Override
+            public void onOpen(ServerHandshake serverHandshake) {
+                System.out.println("连接成功!");
+            }
+
+            @Override
+            public void onMessage(String s) {
+                Payload payload = JSONUtil.toBean(s, Payload.class);
+                if (Objects.equals(System.getenv("DEBUG"), "true")) {
+                    System.out.println(payload);
                 }
-                Identify identify = new Identify();
-                identify.setToken(token);
-                identify.setIntents(intents);
-                Payload identifyPayload = new Payload();
-                identifyPayload.setOp(2);
-                identifyPayload.setD(identify);
-                send(JSONUtil.toJsonStr(identifyPayload));
-                break;
-            case 0:
-                String e = payload.getT();
-                switch (e) {
-                    case "READY":
-                        Timer timer = new Timer();
-                        timer.schedule(new HeartbeatTimer(this), 0, 15000);
+                seq = payload.getS();
+                switch (payload.getOp()) {
+                    case 7:
+                        close();
                         break;
-                    case "AT_MESSAGE_CREATE":
-                        Message atMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
-                        AtMessageEvent atMessageEvent = new AtMessageEvent(this, atMessage);
-                        eventHandler.onAtMessage(atMessageEvent);
+                    case 10:
+                        int intentsNum = 0;
+                        for (Intent intent : intents) {
+                            intentsNum = intentsNum | intent.getValue();
+                        }
+                        Identify identify = new Identify();
+                        identify.setToken(token);
+                        identify.setIntents(intentsNum);
+                        Payload identifyPayload = new Payload();
+                        identifyPayload.setOp(2);
+                        identifyPayload.setD(identify);
+                        send(JSONUtil.toJsonStr(identifyPayload));
                         break;
-                    case "MESSAGE_CREATE":
-                        Message userMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
-                        UserMessageEvent userMessageEvent = new UserMessageEvent(this, userMessage);
-                        eventHandler.onUserMessage(userMessageEvent);
+                    case 0:
+                        String e = payload.getT();
+                        switch (e) {
+                            case "READY":
+                                startHeartbeatTimer();
+                                break;
+                            case "AT_MESSAGE_CREATE":
+                                Message atMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
+                                AtMessageEvent atMessageEvent = new AtMessageEvent(this, atMessage);
+                                eventHandler.onAtMessage(atMessageEvent);
+                                break;
+                            case "MESSAGE_CREATE":
+                                Message userMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
+                                UserMessageEvent userMessageEvent = new UserMessageEvent(this, userMessage);
+                                eventHandler.onUserMessage(userMessageEvent);
+                                break;
+                        }
                         break;
                 }
-                break;
-        }
+            }
+
+            @Override
+            public void onClose(int i, String s, boolean b) {
+                System.out.println("连接关闭!");
+                System.out.println("开始尝试重新连接...");
+                try {
+                    new Thread(this::connect).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("重新连接失败,请检查网络!");
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                System.out.println("发生错误: " + e.getMessage());
+                e.printStackTrace();
+            }
+        };
+        client.setConnectionLostTimeout(0);
+        client.connect();
     }
 
-    @Override
-    public void onClose(int i, String s, boolean b) {
-        System.out.println("连接关闭!");
-    }
-
-    @Override
-    public void onError(Exception e) {
-        System.out.println("发生错误: " + e.getMessage());
-        e.printStackTrace();
+    public void startHeartbeatTimer() {
+        Timer timer = new Timer();
+        timer.schedule(new HeartbeatTimer(this), 0, 15000);
     }
 
     public void sendHeartbeat() {
         Map<String, Integer> data = new HashMap<>();
         data.put("op", 1);
-        data.put("d", s);
-        send(JSONUtil.toJsonStr(data));
+        data.put("d", seq);
+        client.send(JSONUtil.toJsonStr(data));
+    }
+
+    public void reconnect() {
+        connect();
     }
 }

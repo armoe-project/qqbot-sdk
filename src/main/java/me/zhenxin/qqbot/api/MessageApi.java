@@ -1,5 +1,8 @@
 package me.zhenxin.qqbot.api;
 
+import cn.hutool.json.JSONUtil;
+import me.zhenxin.qqbot.pojo.Message;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +18,11 @@ public class MessageApi extends BaseApi {
         super(isSandBoxMode, token);
     }
 
-    public void sendTextMessage(String channelId, String content, String messageId) {
+    public Message sendTextMessage(String channelId, String content, String messageId) {
         Map<String, Object> data = new HashMap<>();
         data.put("content", content);
         data.put("msg_id", messageId);
         String result = post("/channels/" + channelId + "/messages", data);
-        System.out.println(result);
+        return JSONUtil.toBean(result, Message.class);
     }
 }

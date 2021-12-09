@@ -4,7 +4,6 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
-import lombok.experimental.StandardException;
 import me.zhenxin.qqbot.core.websocket.WSSClient;
 import me.zhenxin.qqbot.pojo.Gateway;
 
@@ -25,6 +24,7 @@ public class BotCore {
     private final AccessInfo accessInfo;
     @Setter
     private EventHandler eventHandler = new EventHandler();
+
     /**
      * BotCore 机器人核心
      *
@@ -47,10 +47,7 @@ public class BotCore {
         if (result.getCode() == null) {
             String url = result.getUrl();
             try {
-                WSSClient wss = new WSSClient(new URI(url));
-                wss.setToken(token);
-                wss.setIntents(intents);
-                wss.setEventHandler(eventHandler);
+                WSSClient wss = new WSSClient(new URI(url), token, intents, eventHandler);
                 wss.connect();
             } catch (URISyntaxException e) {
                 System.out.println("WS链接格式错误!");

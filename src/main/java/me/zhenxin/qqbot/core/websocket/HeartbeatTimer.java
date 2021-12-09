@@ -10,12 +10,14 @@ import java.util.TimerTask;
  * @since 2021/12/9 11:34
  */
 public class HeartbeatTimer extends TimerTask {
-    private  WSSClient wssClient;
-    public HeartbeatTimer(WSSClient wssClient){
+    private WSSClient wssClient;
+
+    public HeartbeatTimer(WSSClient wssClient) {
         this.wssClient = wssClient;
     }
+
     @Override
     public void run() {
-       wssClient.sendHeartbeat();
+        wssClient.sendHeartbeat();
     }
 }
