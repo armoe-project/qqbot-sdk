@@ -2,6 +2,14 @@
 
 QQ官方机器人 SDK For Java
 
+## 警告
+
+请勿使用`0.0.2-SNAPSHOT`版本的SDK!
+
+此版本存在`Log4j 2 远程代码执行漏洞`
+
+详情情况请参考: https://cloud.tencent.com/announce/detail/1692
+
 ## 使用
 
 1.添加依赖
@@ -21,7 +29,7 @@ QQ官方机器人 SDK For Java
 <dependency>
     <groupId>me.zhenxin</groupId>
     <artifactId>qq-official-bot-sdk</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -33,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.zhenxin:qq-official-bot-sdk:0.0.2-SNAPSHOT")
+    implementation("me.zhenxin:qq-official-bot-sdk:0.0.3-SNAPSHOT")
 }
 ```
 
@@ -47,7 +55,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.zhenxin:qq-official-bot-sdk:0.0.2-SNAPSHOT'
+    implementation 'me.zhenxin:qq-official-bot-sdk:0.0.3-SNAPSHOT'
 }
 ```
 

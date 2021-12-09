@@ -6,7 +6,7 @@
 
     <groupId>me.zhenxin</groupId>
     <artifactId>qq-official-bot-sdk</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -15,10 +15,21 @@
 
     <distributionManagement>
         <repository>
-            <id>local</id>
+            <id>localRepo</id>
             <url>file://${project.build.directory}/repository</url>
         </repository>
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshot Repository</name>
+            <url>https://repository.apache.org/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- hutool -->
@@ -46,21 +57,21 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.32</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.14.1</version>
-        </dependency>
         <!-- log4j2 -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.15.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.14.1</version>
+            <version>2.15.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.14.1</version>
+            <version>2.15.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
