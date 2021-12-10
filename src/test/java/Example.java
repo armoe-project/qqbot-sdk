@@ -1,6 +1,3 @@
-package me.zhenxin.qqbot;
-
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.core.AccessInfo;
 import me.zhenxin.qqbot.core.ApiManager;
@@ -9,11 +6,7 @@ import me.zhenxin.qqbot.core.EventHandler;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.pojo.Message;
 import me.zhenxin.qqbot.pojo.ark.MessageArk;
-import me.zhenxin.qqbot.template.LinkText;
-import me.zhenxin.qqbot.template.LinkTextTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
+import me.zhenxin.qqbot.template.TextThumbnailTemplate;
 
 /**
  * 示例程序
@@ -52,18 +45,8 @@ class IEventHandler extends EventHandler {
         String channelId = message.getChannelId();
         String content = message.getContent();
         String messageId = message.getId();
-        List<LinkText> linkTexts = new ArrayList<>();
-        LinkText linkText = new LinkText();
-        linkText.setDesc("纯文本测试");
-        linkTexts.add(linkText);
-        LinkText linkText2 = new LinkText();
-        linkText2.setDesc("打开链接测试");
-        linkText2.setLink("https://api.zplu.cc/jump");
-        linkTexts.add(linkText2);
-        MessageArk ark = LinkTextTemplate.builder()
-                .prompt("提示信息")
-                .desc("描述")
-                .list(linkTexts)
+
+        MessageArk ark = TextThumbnailTemplate.builder()
                 .build()
                 .toMessageArk();
         if (content.contains("ping")) {

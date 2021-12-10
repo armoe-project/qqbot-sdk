@@ -1,12 +1,10 @@
-package me.zhenxin.qqbot.core.websocket;
+package me.zhenxin.qqbot.core;
 
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import me.zhenxin.qqbot.core.EventHandler;
-import me.zhenxin.qqbot.core.Intent;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
 import me.zhenxin.qqbot.pojo.Identify;
@@ -16,7 +14,10 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
 
 /**
  * WebSocket 客户端
@@ -27,7 +28,7 @@ import java.util.*;
  */
 @Setter
 @Slf4j
-public class WSSClient {
+class WSSClient {
     private URI uri;
     private String token;
     private List<Intent> intents;

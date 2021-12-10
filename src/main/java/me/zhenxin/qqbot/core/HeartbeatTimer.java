@@ -1,4 +1,4 @@
-package me.zhenxin.qqbot.core.websocket;
+package me.zhenxin.qqbot.core;
 
 import java.util.TimerTask;
 
@@ -9,8 +9,8 @@ import java.util.TimerTask;
  * @email qgzhenxin@qq.com
  * @since 2021/12/9 11:34
  */
-public class HeartbeatTimer extends TimerTask {
-    private WSSClient wssClient;
+class HeartbeatTimer extends TimerTask {
+    private final WSSClient wssClient;
 
     public HeartbeatTimer(WSSClient wssClient) {
         this.wssClient = wssClient;

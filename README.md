@@ -32,7 +32,7 @@ QQ官方机器人 SDK For Java
 <dependency>
     <groupId>me.zhenxin</groupId>
     <artifactId>qq-official-bot-sdk</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.zhenxin:qq-official-bot-sdk:0.0.3-SNAPSHOT")
+    implementation("me.zhenxin:qq-official-bot-sdk:0.0.4-SNAPSHOT")
 }
 ```
 
@@ -58,7 +58,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.zhenxin:qq-official-bot-sdk:0.0.3-SNAPSHOT'
+    implementation 'me.zhenxin:qq-official-bot-sdk:0.0.4-SNAPSHOT'
 }
 ```
 
@@ -70,12 +70,16 @@ import me.zhenxin.qqbot.core.ApiManager;
 import me.zhenxin.qqbot.core.BotCore;
 import me.zhenxin.qqbot.core.EventHandler;
 import me.zhenxin.qqbot.event.AtMessageEvent;
+import me.zhenxin.qqbot.pojo.Message;
+import me.zhenxin.qqbot.pojo.ark.MessageArk;
+import me.zhenxin.qqbot.template.TextThumbnailTemplate;
 
 class Example {
     public static void main(String[] args) {
         AccessInfo accessInfo = new AccessInfo();
         accessInfo.setBotAppId(0); // 管理端的BotAppId
         accessInfo.setBotToken(""); // 管理端的BotToken
+        accessInfo.setUseSandBoxMode(true); // 使用沙盒模式
         // 创建实例
         BotCore bot = new BotCore(accessInfo);
         // 获取API管理器
@@ -100,8 +104,22 @@ class IEventHandler extends EventHandler {
     @Override
     public void onAtMessage(AtMessageEvent event) {
         Message message = event.getMessage();
-        // 发送消息
-        api.getMessageApi().sendTextMessage(message.getChannelId(), message.getContent(), message.getId());
+        String channelId = message.getChannelId();
+        String content = message.getContent();
+        String messageId = message.getId();
+
+        if (content.contains("ping")) {
+            // 文本消息
+            api.getMessageApi()
+                    .sendTextMessage(channelId, "pong!", messageId);
+        } else if (content.contains("ark")) {
+            // 模板消息
+            MessageArk ark = TextThumbnailTemplate.builder()
+                    .build()
+                    .toMessageArk();
+            api.getMessageApi()
+                    .sendTemplateMessage(channelId, ark, messageId);
+        }
     }
 }
 

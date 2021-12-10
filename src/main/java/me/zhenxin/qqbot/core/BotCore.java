@@ -4,7 +4,6 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
-import me.zhenxin.qqbot.core.websocket.WSSClient;
 import me.zhenxin.qqbot.pojo.Gateway;
 
 import java.net.URI;
