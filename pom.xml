@@ -6,9 +6,10 @@
 
     <groupId>me.zhenxin</groupId>
     <artifactId>qq-official-bot-sdk</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 依赖版本 -->
@@ -78,7 +79,13 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>${project.build.directory}/generated-sources/delombok</sourceDirectory>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -111,10 +118,30 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>1.18.20.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>delombok</goal>
+                        </goals>
+                        <configuration>
+                            <addOutputDirectory>false</addOutputDirectory>
+                            <sourceDirectory>src/main/java</sourceDirectory>
+                            <formatPreferences>
+                                <pretty/>
+                            </formatPreferences>
+
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
