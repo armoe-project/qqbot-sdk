@@ -2,6 +2,9 @@
 
 QQ官方机器人 SDK For Java
 
+![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=http%3A%2F%2Frepo.zhenxin.me%2Fme%2Fzhenxin%2Fqq-official-bot-sdk%2Fmaven-metadata.xml)
+![GitHub Repo stars](https://img.shields.io/github/stars/xiaoye-bot/qq-official-bot-sdk) 
+
 * [加入QQ频道](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=GECpm&from=246610&biz=ka)
 * 使用文档(编写中)
 
@@ -32,7 +35,7 @@ QQ官方机器人 SDK For Java
 <dependency>
     <groupId>me.zhenxin</groupId>
     <artifactId>qq-official-bot-sdk</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>${version}</version>
 </dependency>
 ```
 
@@ -44,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.zhenxin:qq-official-bot-sdk:0.0.5-SNAPSHOT")
+    implementation("me.zhenxin:qq-official-bot-sdk:${version}")
 }
 ```
 
@@ -58,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.zhenxin:qq-official-bot-sdk:0.0.5-SNAPSHOT'
+    implementation 'me.zhenxin:qq-official-bot-sdk:${version}'
 }
 ```
 
