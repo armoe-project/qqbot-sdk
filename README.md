@@ -32,7 +32,7 @@ QQ官方机器人 SDK For Java
 <dependency>
     <groupId>me.zhenxin</groupId>
     <artifactId>qq-official-bot-sdk</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.zhenxin:qq-official-bot-sdk:0.0.4-SNAPSHOT")
+    implementation("me.zhenxin:qq-official-bot-sdk:0.0.5-SNAPSHOT")
 }
 ```
 
@@ -58,7 +58,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.zhenxin:qq-official-bot-sdk:0.0.4-SNAPSHOT'
+    implementation 'me.zhenxin:qq-official-bot-sdk:0.0.5-SNAPSHOT'
 }
 ```
 
