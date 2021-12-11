@@ -1,6 +1,8 @@
-package me.zhenxin.qqbot.pojo;
+package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * 成员对象
@@ -30,5 +32,5 @@ public class Member {
     /**
      * 用户加入频道的时间
      */
-    private Long joinedAt;
+    private LocalDateTime joinedAt;
 }

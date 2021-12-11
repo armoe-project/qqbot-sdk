@@ -1,4 +1,4 @@
-package me.zhenxin.qqbot.pojo;
+package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
 import me.zhenxin.qqbot.enums.ChannelSubType;

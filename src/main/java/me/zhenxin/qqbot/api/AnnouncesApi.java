@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.api;
 
 import cn.hutool.json.JSONUtil;
-import me.zhenxin.qqbot.pojo.Announces;
+import me.zhenxin.qqbot.entity.Announces;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class AnnouncesApi extends BaseApi {
      */
     public Announces createAnnounces(String channelId, String messageId) {
         Map<String, Object> data = new HashMap<>();
-        data.put("messageId", messageId);
+        data.put("message_id", messageId);
         String result = post("/channels/" + channelId + "/announces", data);
         return JSONUtil.toBean(result, Announces.class);
     }

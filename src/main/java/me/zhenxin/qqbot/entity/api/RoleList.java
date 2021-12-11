@@ -1,8 +1,8 @@
-package me.zhenxin.qqbot.pojo.api;
+package me.zhenxin.qqbot.entity.api;
 
 import lombok.Data;
+import me.zhenxin.qqbot.entity.Role;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 /**

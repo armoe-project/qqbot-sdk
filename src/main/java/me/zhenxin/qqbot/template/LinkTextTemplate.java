@@ -1,10 +1,10 @@
 package me.zhenxin.qqbot.template;
 
 import lombok.Builder;
-import me.zhenxin.qqbot.pojo.ark.MessageArk;
-import me.zhenxin.qqbot.pojo.ark.MessageArkKv;
-import me.zhenxin.qqbot.pojo.ark.MessageArkObj;
-import me.zhenxin.qqbot.pojo.ark.MessageArkObjKv;
+import me.zhenxin.qqbot.entity.ark.MessageArk;
+import me.zhenxin.qqbot.entity.ark.MessageArkKv;
+import me.zhenxin.qqbot.entity.ark.MessageArkObj;
+import me.zhenxin.qqbot.entity.ark.MessageArkObjKv;
 
 import java.util.ArrayList;
 import java.util.List;

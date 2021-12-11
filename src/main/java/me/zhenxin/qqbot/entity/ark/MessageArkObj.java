@@ -1,4 +1,4 @@
-package me.zhenxin.qqbot.pojo.ark;
+package me.zhenxin.qqbot.entity.ark;
 
 import lombok.Data;
 

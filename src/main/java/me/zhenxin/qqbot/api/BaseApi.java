@@ -3,6 +3,7 @@ package me.zhenxin.qqbot.api;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import java.util.Map;
  * @email qgzhenxin@qq.com
  * @since 2021/12/8 16:53
  */
+@Slf4j
 class BaseApi {
     private final String api;
     private final String token;
@@ -30,6 +32,7 @@ class BaseApi {
         HttpRequest request = HttpRequest.get(api + url);
         request.header("Authorization", token);
         HttpResponse response = request.execute();
+        log.debug("API请求结果: {}", response.body());
         return response.body();
     }
 
@@ -39,6 +42,7 @@ class BaseApi {
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
+        log.debug("API请求结果: {}", response.body());
         return response.body();
     }
 
@@ -48,6 +52,7 @@ class BaseApi {
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
+        log.debug("API请求结果: {}", response.body());
         return response.body();
     }
 
@@ -57,6 +62,7 @@ class BaseApi {
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
+        log.debug("API请求结果: {}", response.body());
         return response.body();
     }
 
@@ -66,6 +72,7 @@ class BaseApi {
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
+        log.debug("API请求结果: {}", response.body());
         return response.body();
     }
 }

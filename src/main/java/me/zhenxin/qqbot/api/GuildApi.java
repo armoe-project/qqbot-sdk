@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.api;
 
 import cn.hutool.json.JSONUtil;
-import me.zhenxin.qqbot.pojo.Guild;
+import me.zhenxin.qqbot.entity.Guild;
 
 /**
  * 频道相关接口

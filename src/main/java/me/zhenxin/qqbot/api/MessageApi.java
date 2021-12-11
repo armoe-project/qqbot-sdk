@@ -1,8 +1,8 @@
 package me.zhenxin.qqbot.api;
 
 import cn.hutool.json.JSONUtil;
-import me.zhenxin.qqbot.pojo.Message;
-import me.zhenxin.qqbot.pojo.ark.MessageArk;
+import me.zhenxin.qqbot.entity.Message;
+import me.zhenxin.qqbot.entity.ark.MessageArk;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +65,7 @@ public class MessageApi extends BaseApi {
     }
 
     /**
-     * 发送图片消息
+     * 发送文本和图片消息
      *
      * @param channelId 子频道ID
      * @param content   文本内容

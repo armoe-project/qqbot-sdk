@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.event;
 
 import lombok.Getter;
-import me.zhenxin.qqbot.pojo.Message;
+import me.zhenxin.qqbot.entity.Message;
 
 import java.util.EventObject;
 

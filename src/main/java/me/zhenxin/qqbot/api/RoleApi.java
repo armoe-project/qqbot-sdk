@@ -3,10 +3,10 @@ package me.zhenxin.qqbot.api;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
-import me.zhenxin.qqbot.pojo.Channel;
-import me.zhenxin.qqbot.pojo.api.RoleList;
+import me.zhenxin.qqbot.entity.Channel;
+import me.zhenxin.qqbot.entity.Role;
+import me.zhenxin.qqbot.entity.api.RoleList;
 
-import javax.management.relation.Role;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,14 +112,14 @@ public class RoleApi extends BaseApi {
 
     private Map<String, Object> getData(String name, Long color, Boolean hoist) {
         Filter filter = new Filter();
-        System.out.println(filter);
         if (name == null) filter.name = 0;
         if (color == null) filter.color = 0;
-        if (hoist == null || !hoist) filter.hoist = 0;
+        if (hoist == null) hoist = false;
+        if (!hoist) filter.hoist = 0;
         Info info = new Info();
         info.name = name;
         info.color = color;
-        info.hoist = hoist;
+        info.hoist = hoist ? 1 : 0;
         Map<String, Object> data = new HashMap<>();
         data.put("filter", filter);
         data.put("info", info);
@@ -137,6 +137,6 @@ public class RoleApi extends BaseApi {
     private static class Info {
         private String name;
         private Long color;
-        private Boolean hoist;
+        private Integer hoist;
     }
 }

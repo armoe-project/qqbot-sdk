@@ -73,8 +73,8 @@ import me.zhenxin.qqbot.core.ApiManager;
 import me.zhenxin.qqbot.core.BotCore;
 import me.zhenxin.qqbot.core.EventHandler;
 import me.zhenxin.qqbot.event.AtMessageEvent;
-import me.zhenxin.qqbot.pojo.Message;
-import me.zhenxin.qqbot.pojo.ark.MessageArk;
+import me.zhenxin.qqbot.entity.Message;
+import me.zhenxin.qqbot.entity.ark.MessageArk;
 import me.zhenxin.qqbot.template.TextThumbnailTemplate;
 
 class Example {

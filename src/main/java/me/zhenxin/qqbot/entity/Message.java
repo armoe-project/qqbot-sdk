@@ -1,7 +1,7 @@
-package me.zhenxin.qqbot.pojo;
+package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
-import me.zhenxin.qqbot.pojo.ark.MessageArk;
+import me.zhenxin.qqbot.entity.ark.MessageArk;
 
 /**
  * 消息对象

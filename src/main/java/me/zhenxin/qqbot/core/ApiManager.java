@@ -48,7 +48,6 @@ public class ApiManager {
 
     /**
      * 获取 成员API 实例
-     *
      */
     public MemberApi getMemberApi() {
         return new MemberApi(useSandBoxMode, token);

@@ -5,8 +5,8 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import me.zhenxin.qqbot.entity.Gateway;
 import me.zhenxin.qqbot.enums.Intent;
-import me.zhenxin.qqbot.pojo.Gateway;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -48,12 +48,16 @@ public class BotCore {
         Gateway result = JSONUtil.toBean(response.body(), Gateway.class);
         if (result.getCode() == null) {
             String url = result.getUrl();
-            log.info("WSS: " + url);
+            log.debug(url);
             try {
-                WSClient wss = new WSClient(new URI(url), token, intents, eventHandler);
-                wss.connect();
+                WSClient client = new WSClient(new URI(url));
+                client.setToken(token);
+                client.setIntents(intents);
+                client.setEventHandler(eventHandler);
+                client.setConnectionLostTimeout(0);
+                client.connect();
             } catch (URISyntaxException e) {
-                System.out.println("WS链接格式错误!");
+                log.error("WS链接格式错误!");
                 System.exit(1);
             }
         }
