@@ -19,6 +19,7 @@ public class Role {
      * 4 - 创建者
      * 5 - 子频道管理员
      * 其他 - 用户创建的身份组ID
+     * </pre>
      */
     private String id;
     /**
