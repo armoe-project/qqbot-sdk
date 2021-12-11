@@ -5,6 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import me.zhenxin.qqbot.enums.Intent;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
 import me.zhenxin.qqbot.pojo.Identify;
@@ -28,7 +29,7 @@ import java.util.Timer;
  */
 @Setter
 @Slf4j
-class WSSClient {
+class WSClient {
     private URI uri;
     private String token;
     private List<Intent> intents;
@@ -36,8 +37,9 @@ class WSSClient {
 
     private Integer seq;
     private WebSocketClient client;
+    private Timer timer;
 
-    public WSSClient(URI uri, String token, List<Intent> intents, EventHandler eventHandler) {
+    public WSClient(URI uri, String token, List<Intent> intents, EventHandler eventHandler) {
         this.uri = uri;
         this.token = token;
         this.intents = intents;
@@ -54,10 +56,13 @@ class WSSClient {
 
             @Override
             public void onMessage(String s) {
+                log.debug(s);
                 Payload payload = JSONUtil.toBean(s, Payload.class);
-                log.debug(JSONUtil.toJsonStr(payload));
                 seq = payload.getS();
                 switch (payload.getOp()) {
+                    case 9:
+                        log.error("鉴权失败!");
+                        System.exit(1);
                     case 7:
                         close();
                         break;
@@ -98,9 +103,10 @@ class WSSClient {
             @Override
             public void onClose(int i, String s, boolean b) {
                 log.info("连接关闭!");
-                log.info("开始尝试重新连接...");
+                log.info("2秒后开始尝试重新连接...");
                 try {
-                    new Thread(this::connect).start();
+                    Thread.sleep(2000);
+                    new Thread(this::reconnect).start();
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.info("重新连接失败,请检查网络!");
@@ -118,7 +124,7 @@ class WSSClient {
     }
 
     public void startHeartbeatTimer() {
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new HeartbeatTimer(this), 0, 15000);
     }
 
@@ -130,6 +136,7 @@ class WSSClient {
     }
 
     public void reconnect() {
+        timer.cancel();
         connect();
     }
 }

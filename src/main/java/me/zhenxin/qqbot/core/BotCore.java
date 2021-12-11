@@ -4,6 +4,8 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import me.zhenxin.qqbot.enums.Intent;
 import me.zhenxin.qqbot.pojo.Gateway;
 
 import java.net.URI;
@@ -18,6 +20,7 @@ import java.util.List;
  * @email qgzhenxin@qq.com
  * @since 2021/12/9 0:58
  */
+@Slf4j
 public class BotCore {
     private final List<Intent> intents = new ArrayList<>();
     private final AccessInfo accessInfo;
@@ -45,8 +48,9 @@ public class BotCore {
         Gateway result = JSONUtil.toBean(response.body(), Gateway.class);
         if (result.getCode() == null) {
             String url = result.getUrl();
+            log.info("WSS: " + url);
             try {
-                WSSClient wss = new WSSClient(new URI(url), token, intents, eventHandler);
+                WSClient wss = new WSClient(new URI(url), token, intents, eventHandler);
                 wss.connect();
             } catch (URISyntaxException e) {
                 System.out.println("WS链接格式错误!");
@@ -79,7 +83,7 @@ public class BotCore {
     /**
      * 注册 私域消息事件
      */
-    public void registerMessagesEvent() {
+    public void registerUserMessagesEvent() {
         intents.add(Intent.MESSAGES);
     }
 

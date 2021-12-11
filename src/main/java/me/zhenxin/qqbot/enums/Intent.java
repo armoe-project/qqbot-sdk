@@ -1,5 +1,6 @@
-package me.zhenxin.qqbot.core;
+package me.zhenxin.qqbot.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Getter;
  * @since 2021/12/9 0:37
  */
 @Getter
+@AllArgsConstructor
 public enum Intent {
     /**
      * 频道相关事件
@@ -39,9 +41,5 @@ public enum Intent {
      * 艾特消息事件
      */
     AT_MESSAGES(1 << 30);
-    private Integer value;
-
-    Intent(Integer value) {
-        this.value = value;
-    }
+    private final Integer value;
 }

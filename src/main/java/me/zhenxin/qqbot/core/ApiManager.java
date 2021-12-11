@@ -1,6 +1,6 @@
 package me.zhenxin.qqbot.core;
 
-import me.zhenxin.qqbot.api.MessageApi;
+import me.zhenxin.qqbot.api.*;
 
 /**
  * API 管理器
@@ -30,5 +30,34 @@ public class ApiManager {
      */
     public MessageApi getMessageApi() {
         return new MessageApi(useSandBoxMode, token);
+    }
+
+    /**
+     * 获取 频道API 实例
+     */
+    public GuildApi getGuildApi() {
+        return new GuildApi(useSandBoxMode, token);
+    }
+
+    /**
+     * 获取 身份组API 实例
+     */
+    public RoleApi getRoleApi() {
+        return new RoleApi(useSandBoxMode, token);
+    }
+
+    /**
+     * 获取 成员API 实例
+     *
+     */
+    public MemberApi getMemberApi() {
+        return new MemberApi(useSandBoxMode, token);
+    }
+
+    /**
+     * 获取 公告API 实例
+     */
+    public AnnouncesApi getAnnouncesApi() {
+        return new AnnouncesApi(useSandBoxMode, token);
     }
 }

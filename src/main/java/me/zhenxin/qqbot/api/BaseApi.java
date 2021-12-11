@@ -2,7 +2,6 @@ package me.zhenxin.qqbot.api;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 
 import java.util.Map;
@@ -27,9 +26,8 @@ class BaseApi {
         this.token = token;
     }
 
-    protected String get(String path, Map<String, Object> params) {
-        String data = HttpUtil.toParams(params);
-        HttpRequest request = HttpRequest.get(api + path + data);
+    protected String get(String url) {
+        HttpRequest request = HttpRequest.get(api + url);
         request.header("Authorization", token);
         HttpResponse response = request.execute();
         return response.body();

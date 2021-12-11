@@ -12,6 +12,10 @@ import lombok.Data;
 @Data
 public class Member {
     /**
+     * 频道ID
+     */
+    private String guildId;
+    /**
      * 用户基础信息
      */
     private User user;
