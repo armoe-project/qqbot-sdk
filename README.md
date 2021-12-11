@@ -14,7 +14,7 @@ QQ官方机器人 SDK For Java
 
 此版本存在`Log4j 2 远程代码执行漏洞`
 
-详情情况请参考: https://cloud.tencent.com/announce/detail/1692
+详细情况请参考: [腾讯云公告](https://cloud.tencent.com/announce/detail/1692)
 
 ## 使用
 
