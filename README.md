@@ -6,7 +6,7 @@ QQ官方机器人 SDK For Java
 ![GitHub Repo stars](https://img.shields.io/github/stars/xiaoye-bot/qq-official-bot-sdk) 
 
 * [加入QQ频道](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=GECpm&from=246610&biz=ka)
-* 使用文档(编写中)
+* [使用文档](https://sdk.armoe.cn/qq/)
 
 ## 警告
 
