@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONUtil;
 import me.zhenxin.qqbot.entity.Member;
+import me.zhenxin.qqbot.exception.ApiException;
 
 /**
  * 成员相关接口
@@ -11,7 +11,7 @@ import me.zhenxin.qqbot.entity.Member;
  * @since 2021/12/11 13:11
  */
 public class MemberApi extends BaseApi {
-    public MemberApi(Boolean isSandBoxMode, String token) {
+    public MemberApi(Boolean isSandBoxMode, String token) throws ApiException {
         super(isSandBoxMode, token);
     }
 
@@ -21,8 +21,7 @@ public class MemberApi extends BaseApi {
      * @param guildId 频道ID
      * @param userId  用户ID
      */
-    public Member getMemberInfo(String guildId, String userId) {
-        String result = get("/guilds/" + guildId + "/members/" + userId);
-        return JSONUtil.toBean(result, Member.class);
+    public Member getMemberInfo(String guildId, String userId) throws ApiException {
+        return get("/guilds/" + guildId + "/members/" + userId, Member.class);
     }
 }

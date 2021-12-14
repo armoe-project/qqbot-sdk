@@ -1,8 +1,8 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONUtil;
 import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
+import me.zhenxin.qqbot.exception.ApiException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 2021/12/8 16:15
  */
 public class MessageApi extends BaseApi {
-    public MessageApi(Boolean isSandBoxMode, String token) {
+    public MessageApi(Boolean isSandBoxMode, String token) throws ApiException {
         super(isSandBoxMode, token);
     }
 
@@ -27,7 +27,7 @@ public class MessageApi extends BaseApi {
      * @param messageId 消息ID
      * @return 消息对象
      */
-    public Message sendTextMessage(String channelId, String content, String messageId) {
+    public Message sendTextMessage(String channelId, String content, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("content", content);
         data.put("msg_id", messageId);
@@ -42,7 +42,7 @@ public class MessageApi extends BaseApi {
      * @param messageId 消息ID
      * @return Message对象
      */
-    public Message sendTemplateMessage(String channelId, MessageArk ark, String messageId) {
+    public Message sendTemplateMessage(String channelId, MessageArk ark, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("ark", ark);
         data.put("msg_id", messageId);
@@ -57,7 +57,7 @@ public class MessageApi extends BaseApi {
      * @param messageId 消息ID
      * @return 消息对象
      */
-    public Message sendImageMessage(String channelId, String image, String messageId) {
+    public Message sendImageMessage(String channelId, String image, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("image", image);
         data.put("msg_id", messageId);
@@ -73,7 +73,7 @@ public class MessageApi extends BaseApi {
      * @param messageId 消息ID
      * @return 消息对象
      */
-    public Message sendTextAndImageMessage(String channelId, String content, String image, String messageId) {
+    public Message sendTextAndImageMessage(String channelId, String content, String image, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("content", content);
         data.put("image", image);
@@ -82,7 +82,6 @@ public class MessageApi extends BaseApi {
     }
 
     private Message getResult(String channelId, Map<String, Object> data) {
-        String result = post("/channels/" + channelId + "/messages", data);
-        return JSONUtil.toBean(result, Message.class);
+        return post("/channels/" + channelId + "/messages", data, Message.class);
     }
 }

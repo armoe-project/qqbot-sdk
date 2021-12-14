@@ -6,6 +6,7 @@ import lombok.Data;
 import me.zhenxin.qqbot.entity.Channel;
 import me.zhenxin.qqbot.entity.Role;
 import me.zhenxin.qqbot.entity.api.RoleList;
+import me.zhenxin.qqbot.exception.ApiException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
  * @since 2021/12/11 11:02
  */
 public class RoleApi extends BaseApi {
-    public RoleApi(Boolean isSandBoxMode, String token) {
+    public RoleApi(Boolean isSandBoxMode, String token) throws ApiException {
         super(isSandBoxMode, token);
     }
 
@@ -28,9 +29,8 @@ public class RoleApi extends BaseApi {
      * @param guildId 频道ID
      * @return 身份组列表(RoleList)对象
      */
-    public RoleList getRoles(String guildId) {
-        String result = get("/guilds/" + guildId + "/roles");
-        return JSONUtil.toBean(result, RoleList.class);
+    public RoleList getRoles(String guildId) throws ApiException {
+        return get("/guilds/" + guildId + "/roles", RoleList.class);
     }
 
     /**
@@ -41,11 +41,10 @@ public class RoleApi extends BaseApi {
      * @param color   身份组颜色 ARGB的HEX值
      * @param hoist   是否在成员列表单独显示
      */
-    public Role createRole(String guildId, String name, Long color, Boolean hoist) {
+    public Role createRole(String guildId, String name, Long color, Boolean hoist) throws ApiException {
         Map<String, Object> data = getData(name, color, hoist);
-        String result = post("/guilds/" + guildId + "/roles", data);
-        JSONObject r = new JSONObject(result);
-        return JSONUtil.toBean(r.getJSONObject("role"), Role.class);
+        JSONObject result = post("/guilds/" + guildId + "/roles", data, JSONObject.class);
+        return JSONUtil.toBean(result.getJSONObject("role"), Role.class);
     }
 
     /**
@@ -57,11 +56,10 @@ public class RoleApi extends BaseApi {
      * @param color   身份组颜色 ARGB的HEX值
      * @param hoist   是否在成员列表单独显示
      */
-    public Role changeRole(String guildId, String roleId, String name, Long color, Boolean hoist) {
+    public Role changeRole(String guildId, String roleId, String name, Long color, Boolean hoist) throws ApiException {
         Map<String, Object> data = getData(name, color, hoist);
-        String result = patch("/guilds/" + guildId + "/roles/" + roleId, data);
-        JSONObject r = new JSONObject(result);
-        return JSONUtil.toBean(r.getJSONObject("role"), Role.class);
+        JSONObject result = patch("/guilds/" + guildId + "/roles/" + roleId, data, JSONObject.class);
+        return JSONUtil.toBean(result.getJSONObject("role"), Role.class);
     }
 
     /**
@@ -70,8 +68,8 @@ public class RoleApi extends BaseApi {
      * @param guildId 频道ID
      * @param roleId  身份组ID
      */
-    public void deleteRole(String guildId, String roleId) {
-        delete("/guilds/" + guildId + "/roles/" + roleId, null);
+    public void deleteRole(String guildId, String roleId) throws ApiException {
+        delete("/guilds/" + guildId + "/roles/" + roleId, null, null);
     }
 
     /**
@@ -82,14 +80,14 @@ public class RoleApi extends BaseApi {
      * @param roleId    身份组ID
      * @param channelId 子频道ID (如果roleId为5[子频道管理员]，则为设置的子频道。否则参数无效)
      */
-    public void addRoleMember(String guildId, String userId, String roleId, String channelId) {
+    public void addRoleMember(String guildId, String userId, String roleId, String channelId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         if (channelId != null) {
             Channel channel = new Channel();
             channel.setId(channelId);
             data.put("channel", channel);
         }
-        put("/guilds/" + guildId + "/members/" + userId + "/roles/" + roleId, data);
+        put("/guilds/" + guildId + "/members/" + userId + "/roles/" + roleId, data, null);
     }
 
     /**
@@ -100,14 +98,14 @@ public class RoleApi extends BaseApi {
      * @param roleId    身份组ID
      * @param channelId 子频道ID (如果roleId为5[子频道管理员]，则为设置的子频道。否则参数无效)
      */
-    public void deleteRoleMember(String guildId, String userId, String roleId, String channelId) {
+    public void deleteRoleMember(String guildId, String userId, String roleId, String channelId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         if (channelId != null) {
             Channel channel = new Channel();
             channel.setId(channelId);
             data.put("channel", channel);
         }
-        delete("/guilds/" + guildId + "/members/" + userId + "/roles/" + roleId, data);
+        delete("/guilds/" + guildId + "/members/" + userId + "/roles/" + roleId, data, null);
     }
 
     private Map<String, Object> getData(String name, Long color, Boolean hoist) {

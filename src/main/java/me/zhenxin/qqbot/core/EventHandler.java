@@ -1,8 +1,7 @@
 package me.zhenxin.qqbot.core;
 
-import lombok.extern.slf4j.Slf4j;
-import me.zhenxin.qqbot.event.AtMessageEvent;
-import me.zhenxin.qqbot.event.UserMessageEvent;
+import lombok.Setter;
+import me.zhenxin.qqbot.entity.User;
 
 /**
  * 事件处理器
@@ -11,23 +10,10 @@ import me.zhenxin.qqbot.event.UserMessageEvent;
  * @email qgzhenxin@qq.com
  * @since 2021/12/9 12:19
  */
-@Slf4j
-public class EventHandler {
+public class EventHandler implements EHInterface {
     /**
-     * 艾特信息
-     *
-     * @param event 事件
+     * 机器人本身的用户信息
      */
-    public void onAtMessage(AtMessageEvent event) {
-        log.info("收到艾特消息：" + event.getMessage().getContent());
-    }
-
-    /**
-     * 用户消息
-     *
-     * @param event 事件
-     */
-    public void onUserMessage(UserMessageEvent event) {
-        log.info("收到用户消息：" + event.getMessage().getContent());
-    }
+    @Setter
+    protected User me;
 }

@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONUtil;
 import me.zhenxin.qqbot.entity.Announces;
+import me.zhenxin.qqbot.exception.ApiException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,18 +20,23 @@ public class AnnouncesApi extends BaseApi {
 
     /**
      * 创建子频道公告
+     *
+     * @param channelId 频道ID
+     * @param messageId 消息ID
      */
-    public Announces createAnnounces(String channelId, String messageId) {
+    public Announces createAnnounces(String channelId, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("message_id", messageId);
-        String result = post("/channels/" + channelId + "/announces", data);
-        return JSONUtil.toBean(result, Announces.class);
+        return post("/channels/" + channelId + "/announces", data, Announces.class);
     }
 
     /**
      * 删除子频道公告
+     *
+     * @param channelId 频道ID
+     * @param messageId 消息ID
      */
-    public void deleteAnnounces(String channelId, String messageId) {
-        delete("/channels/" + channelId + "/announces/" + messageId, null);
+    public void deleteAnnounces(String channelId, String messageId) throws ApiException {
+        delete("/channels/" + channelId + "/announces/" + messageId, null, null);
     }
 }

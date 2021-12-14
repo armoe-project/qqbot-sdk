@@ -2,6 +2,9 @@ package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Identify 鉴权类
  *
@@ -13,5 +16,5 @@ import lombok.Data;
 public class Identify {
     private String token;
     private Integer intents;
-    private Integer[] shard = {0, 1};
+    private List<Integer> shard = new ArrayList<>();
 }

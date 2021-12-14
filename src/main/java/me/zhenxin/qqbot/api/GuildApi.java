@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONUtil;
 import me.zhenxin.qqbot.entity.Guild;
+import me.zhenxin.qqbot.exception.ApiException;
 
 /**
  * 频道相关接口
@@ -20,8 +20,7 @@ public class GuildApi extends BaseApi {
      *
      * @param guildId 频道ID
      */
-    public Guild getGuildInfo(String guildId) {
-        String result = get("/guilds/" + guildId);
-        return JSONUtil.toBean(result, Guild.class);
+    public Guild getGuildInfo(String guildId) throws ApiException {
+        return get("/guilds/" + guildId, Guild.class);
     }
 }

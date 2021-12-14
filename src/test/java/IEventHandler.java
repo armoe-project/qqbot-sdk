@@ -3,7 +3,10 @@ import me.zhenxin.qqbot.core.ApiManager;
 import me.zhenxin.qqbot.core.EventHandler;
 import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.entity.User;
-import me.zhenxin.qqbot.event.UserMessageEvent;
+import me.zhenxin.qqbot.entity.ark.MessageArk;
+import me.zhenxin.qqbot.event.AtMessageEvent;
+import me.zhenxin.qqbot.exception.ApiException;
+import me.zhenxin.qqbot.template.TextThumbnailTemplate;
 
 /**
  * 事件执行器
@@ -21,17 +24,23 @@ class IEventHandler extends EventHandler {
     }
 
     @Override
-    public void onUserMessage(UserMessageEvent event) {
-        super.onUserMessage(event);
+    public void onAtMessage(AtMessageEvent event) {
         Message message = event.getMessage();
         String guildId = message.getGuildId();
         String channelId = message.getChannelId();
         String content = message.getContent();
         String messageId = message.getId();
         User author = message.getAuthor();
-
-        if (content.contains("ping")) {
-            api.getMessageApi().sendTextAndImageMessage(channelId,"内容。", "https://tva1.sinaimg.cn/large/0072Vf1pgy1foxkd13vc7j31kw0w0txx.jpg", messageId);
+        super.onAtMessage(event);
+        try {
+            if (content.contains("ping")) {
+                log.info("pong!");
+                MessageArk ark = TextThumbnailTemplate.builder().build().toMessageArk();
+                api.getMessageApi().sendTemplateMessage(channelId, ark, messageId);
+            }
+        } catch (ApiException e) {
+            log.warn("消息处理发生异常: {}-{} {}", e.getCode(), e.getMessage(), e.getError());
+            api.getMessageApi().sendTextMessage(channelId, "消息处理失败: " + e.getMessage(), messageId);
         }
     }
 }

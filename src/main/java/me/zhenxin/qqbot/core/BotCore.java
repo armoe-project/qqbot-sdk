@@ -24,6 +24,9 @@ import java.util.List;
 public class BotCore {
     private final List<Intent> intents = new ArrayList<>();
     private final AccessInfo accessInfo;
+    /**
+     * 事件监听器
+     */
     @Setter
     private EventHandler eventHandler = new EventHandler();
 
@@ -36,22 +39,37 @@ public class BotCore {
         this.accessInfo = accessInfo;
     }
 
-    public void start() {
-        boolean sandBox = accessInfo.getUseSandBoxMode();
-        String token = "Bot " + accessInfo.getBotAppId() + "." + accessInfo.getBotToken();
-        String apiBase = "https://api.sgroup.qq.com";
-        if (sandBox) apiBase = "https://sandbox.api.sgroup.qq.com";
+    private Gateway getGateway() {
+        String token = getToken();
+        String apiBase = getApiBase();
 
         HttpRequest request = HttpRequest.get(apiBase + "/gateway");
         request.header("Authorization", token);
         HttpResponse response = request.execute();
-        Gateway result = JSONUtil.toBean(response.body(), Gateway.class);
-        if (result.getCode() == null) {
-            String url = result.getUrl();
+        return JSONUtil.toBean(response.body(), Gateway.class);
+    }
+
+    private String getToken() {
+        return "Bot " + accessInfo.getBotAppId() + "." + accessInfo.getBotToken();
+    }
+
+    private String getApiBase() {
+        String apiBase = "https://api.sgroup.qq.com";
+        if (accessInfo.getUseSandBoxMode()) apiBase = "https://sandbox.api.sgroup.qq.com";
+        return apiBase;
+    }
+
+    /**
+     * 启动机器人
+     */
+    public void start() {
+        Gateway gateway = getGateway();
+        if (gateway.getCode() == null) {
+            String url = gateway.getUrl();
             log.debug(url);
             try {
                 WSClient client = new WSClient(new URI(url));
-                client.setToken(token);
+                client.setToken(getToken());
                 client.setIntents(intents);
                 client.setEventHandler(eventHandler);
                 client.setConnectionLostTimeout(0);

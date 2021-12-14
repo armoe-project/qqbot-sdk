@@ -4,10 +4,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import me.zhenxin.qqbot.entity.Identify;
-import me.zhenxin.qqbot.entity.Message;
-import me.zhenxin.qqbot.entity.Payload;
-import me.zhenxin.qqbot.entity.Ready;
+import me.zhenxin.qqbot.entity.*;
 import me.zhenxin.qqbot.enums.Intent;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
@@ -62,7 +59,9 @@ class WSClient extends WebSocketClient {
                 System.exit(1);
                 break;
             case 10:
+                Hello hello = JSONUtil.toBean((JSONObject) payload.getD(), Hello.class);
                 if (sessionId == null || sessionId.isEmpty()) {
+
                     int intentsNum = 0;
                     for (Intent intent : intents) {
                         intentsNum = intentsNum | intent.getValue();
@@ -75,6 +74,7 @@ class WSClient extends WebSocketClient {
                     identifyPayload.setD(identify);
                     send(JSONUtil.toJsonStr(identifyPayload));
                 }
+                startHeartbeatTimer(hello.getHeartbeatInterval());
                 break;
             case 11:
                 log.debug("已收到服务端心跳.");
@@ -85,7 +85,8 @@ class WSClient extends WebSocketClient {
                     case "READY":
                         Ready ready = JSONUtil.toBean((JSONObject) payload.getD(), Ready.class);
                         sessionId = ready.getSessionId();
-                        startHeartbeatTimer();
+                        eventHandler.setMe(ready.getUser());
+                        log.info("机器人已上线!");
                         break;
                     case "AT_MESSAGE_CREATE":
                         Message atMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
@@ -99,6 +100,7 @@ class WSClient extends WebSocketClient {
                         break;
                     case "RESUMED":
                         log.info("恢复连接成功, 离线消息已处理!");
+                        break;
                     default:
                         log.warn("未知事件: " + e);
                 }
@@ -113,6 +115,7 @@ class WSClient extends WebSocketClient {
         log.info("连接关闭!");
         log.info("2秒后开始尝试恢复连接...");
         try {
+            timer.cancel();
             Thread.sleep(2000);
             new Thread(this::reConnect).start();
         } catch (Exception e) {
@@ -148,9 +151,9 @@ class WSClient extends WebSocketClient {
         }
     }
 
-    public void startHeartbeatTimer() {
+    public void startHeartbeatTimer(Integer i) {
         timer = new Timer();
-        timer.schedule(new HeartbeatTimer(this), 0, 15000);
+        timer.schedule(new HeartbeatTimer(this), i, i);
     }
 
     public void reConnect() {

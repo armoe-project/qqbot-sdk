@@ -16,10 +16,9 @@ class Example {
         AccessInfo accessInfo = new AccessInfo();
         accessInfo.setBotAppId(Integer.parseInt(System.getenv("BotAppid")));
         accessInfo.setBotToken(System.getenv("BotToken"));
-        accessInfo.setUseSandBoxMode(true);
         BotCore bot = new BotCore(accessInfo);
         ApiManager api = bot.getApiManager();
-        bot.registerUserMessagesEvent();
+        bot.registerAtMessageEvent();
         bot.setEventHandler(new IEventHandler(api));
         log.info("正在启动中...");
         bot.start();
