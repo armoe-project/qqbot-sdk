@@ -147,7 +147,7 @@ class BaseApi {
             case 304003:
                 throw new ApiException(code, "URL未报备", message);
             case 304004:
-                throw new ApiException(code, "没有发送ARK消息权限", message);
+                throw new ApiException(code, "没有发送Ark消息权限", message);
             case 304005:
                 throw new ApiException(code, "Embed 长度超限", message);
             case 304006:
