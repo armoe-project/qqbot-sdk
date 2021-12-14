@@ -18,8 +18,8 @@ public class ApiManager {
      *
      * @param accessInfo 访问信息
      */
-    protected ApiManager(AccessInfo accessInfo) {
-        this.useSandBoxMode = accessInfo.getUseSandBoxMode();
+    protected ApiManager(AccessInfo accessInfo, Boolean useSandBoxMode) {
+        this.useSandBoxMode = useSandBoxMode;
         Integer botAppId = accessInfo.getBotAppId();
         String botToken = accessInfo.getBotToken();
         this.token = "Bot " + botAppId + "." + botToken;

@@ -35,6 +35,7 @@ class WSClient extends WebSocketClient {
     private Timer timer;
     private Integer seq;
     private String sessionId;
+    private User me;
 
     public WSClient(URI serverUri) {
         super(serverUri);
@@ -86,10 +87,13 @@ class WSClient extends WebSocketClient {
                         Ready ready = JSONUtil.toBean((JSONObject) payload.getD(), Ready.class);
                         sessionId = ready.getSessionId();
                         eventHandler.setMe(ready.getUser());
+                        me = ready.getUser();
                         log.info("机器人已上线!");
                         break;
                     case "AT_MESSAGE_CREATE":
                         Message atMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
+                        atMessage.setContent(atMessage.getContent().replaceAll("<@!" + me.getId() + "> ", ""));
+                        atMessage.setContent(atMessage.getContent().replaceAll("<@!" + me.getId() + ">", ""));
                         AtMessageEvent atMessageEvent = new AtMessageEvent(this, atMessage);
                         eventHandler.onAtMessage(atMessageEvent);
                         break;

@@ -24,6 +24,7 @@ import java.util.List;
 public class BotCore {
     private final List<Intent> intents = new ArrayList<>();
     private final AccessInfo accessInfo;
+    private Boolean useSandBoxMode = false;
     /**
      * 事件监听器
      */
@@ -55,7 +56,7 @@ public class BotCore {
 
     private String getApiBase() {
         String apiBase = "https://api.sgroup.qq.com";
-        if (accessInfo.getUseSandBoxMode()) apiBase = "https://sandbox.api.sgroup.qq.com";
+        if (useSandBoxMode) apiBase = "https://sandbox.api.sgroup.qq.com";
         return apiBase;
     }
 
@@ -85,7 +86,14 @@ public class BotCore {
      * 获取 API管理器 实例
      */
     public ApiManager getApiManager() {
-        return new ApiManager(accessInfo);
+        return new ApiManager(accessInfo, useSandBoxMode);
+    }
+
+    /**
+     * 使用沙盒模式
+     */
+    public void useSandBoxMode() {
+        useSandBoxMode = true;
     }
 
     /**

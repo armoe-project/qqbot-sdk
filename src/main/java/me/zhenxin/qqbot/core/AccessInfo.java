@@ -23,8 +23,4 @@ public class AccessInfo {
      * 管理端的 BotSecret
      */
     private String botSecret;
-    /**
-     * 是否使用沙盒模式
-     */
-    private Boolean useSandBoxMode = false;
 }

@@ -1,5 +1,7 @@
 package me.zhenxin.qqbot.core;
 
+import lombok.AllArgsConstructor;
+
 import java.util.TimerTask;
 
 /**
@@ -9,12 +11,9 @@ import java.util.TimerTask;
  * @email qgzhenxin@qq.com
  * @since 2021/12/9 11:34
  */
+@AllArgsConstructor
 class HeartbeatTimer extends TimerTask {
     private final WSClient client;
-
-    public HeartbeatTimer(WSClient client) {
-        this.client = client;
-    }
 
     @Override
     public void run() {
