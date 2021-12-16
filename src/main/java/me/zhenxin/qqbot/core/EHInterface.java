@@ -1,5 +1,6 @@
 package me.zhenxin.qqbot.core;
 
+import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
 import org.slf4j.Logger;
@@ -20,7 +21,8 @@ interface EHInterface {
      */
     default void onAtMessage(AtMessageEvent event) {
         Logger log = LoggerFactory.getLogger(EHInterface.class);
-        log.info("收到艾特消息：" + event.getMessage().getContent());
+        Message message = event.getMessage();
+        log.info("[AtMessage]: 频道({}) 子频道({}) {}: {}", message.getGuildId(), message.getChannelId(), message.getAuthor().getUsername(), message.getContent());
     }
 
     /**
@@ -30,6 +32,8 @@ interface EHInterface {
      */
     default void onUserMessage(UserMessageEvent event) {
         Logger log = LoggerFactory.getLogger(EHInterface.class);
-        log.info("收到用户消息：" + event.getMessage().getContent());
+        Message message = event.getMessage();
+        log.info("[UserMessage]: 频道({}) 子频道({}) {}: {}", message.getGuildId(), message.getChannelId(), message.getAuthor().getUsername(), message.getContent());
+
     }
 }

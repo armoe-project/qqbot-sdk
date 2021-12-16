@@ -1,5 +1,6 @@
 package me.zhenxin.qqbot.core;
 
+import lombok.Getter;
 import lombok.Setter;
 import me.zhenxin.qqbot.entity.User;
 
@@ -16,4 +17,10 @@ public class EventHandler implements EHInterface {
      */
     @Setter
     protected User me;
+    /**
+     * 是否去除消息中的@机器人
+     */
+    @Getter
+    @Setter
+    protected boolean removeAt;
 }

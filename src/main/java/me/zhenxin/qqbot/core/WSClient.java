@@ -53,7 +53,7 @@ class WSClient extends WebSocketClient {
         if (payload.getS() != null) seq = payload.getS();
         switch (payload.getOp()) {
             case 7:
-                close();
+                log.info("服务端通知重新连接!");
                 break;
             case 9:
                 log.error("鉴权失败!");
@@ -62,7 +62,6 @@ class WSClient extends WebSocketClient {
             case 10:
                 Hello hello = JSONUtil.toBean((JSONObject) payload.getD(), Hello.class);
                 if (sessionId == null || sessionId.isEmpty()) {
-
                     int intentsNum = 0;
                     for (Intent intent : intents) {
                         intentsNum = intentsNum | intent.getValue();
@@ -116,12 +115,13 @@ class WSClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
+        log.debug("连接关闭: {} {}[{}]", code, reason, remote);
         log.info("连接关闭!");
-        log.info("2秒后开始尝试恢复连接...");
+        log.info("5秒后开始尝试恢复连接...");
         try {
             timer.cancel();
-            Thread.sleep(2000);
-            new Thread(this::reConnect).start();
+            Thread.sleep(5000);
+            new Thread(() -> this.reConnect(code)).start();
         } catch (Exception e) {
             e.printStackTrace();
             log.info("重新连接失败,请检查网络!");
@@ -146,7 +146,7 @@ class WSClient extends WebSocketClient {
         super.send(data);
     }
 
-    public void sendHeartbeat() {
+    protected void sendHeartbeat() {
         Payload payload = new Payload();
         payload.setOp(1);
         payload.setD(seq);
@@ -155,26 +155,34 @@ class WSClient extends WebSocketClient {
         }
     }
 
-    public void startHeartbeatTimer(Integer i) {
+    private void startHeartbeatTimer(Integer i) {
         timer = new Timer();
         timer.schedule(new HeartbeatTimer(this), i, i);
     }
 
-    public void reConnect() {
+    private void reConnect(Integer code) {
         log.info("正在重新连接...");
         reconnect();
-        while (true) {
-            if (getReadyState() == ReadyState.OPEN) {
-                JSONObject data = new JSONObject();
-                data.set("token", token);
-                data.set("session_id", sessionId);
-                data.set("seq", seq);
-                Payload payload = new Payload();
-                payload.setOp(6);
-                payload.setD(data);
-                send(JSONUtil.toJsonStr(payload));
-                break;
+        if (code == 4009) {
+            while (true) {
+                if (getReadyState() == ReadyState.OPEN) {
+                    sendResumed();
+                    break;
+                }
             }
+        } else {
+            sessionId = null;
         }
+    }
+
+    private void sendResumed() {
+        JSONObject data = new JSONObject();
+        data.set("token", token);
+        data.set("session_id", sessionId);
+        data.set("seq", seq);
+        Payload payload = new Payload();
+        payload.setOp(6);
+        payload.setD(data);
+        send(JSONUtil.toJsonStr(payload));
     }
 }

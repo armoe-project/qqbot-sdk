@@ -13,7 +13,8 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 依赖版本 -->
-        <log4j2.version>2.15.1-SNAPSHOT</log4j2.version>
+        <log4j2.version>2.16.0</log4j2.version>
+        <hutool.version>5.7.17</hutool.version>
     </properties>
 
     <distributionManagement>
@@ -23,23 +24,22 @@
         </repository>
     </distributionManagement>
 
-    <repositories>
-        <repository>
-            <id>apache.snapshots</id>
-            <name>Apache Snapshot Repository</name>
-            <url>https://repository.apache.org/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!-- hutool -->
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.7.16</version>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
         <!-- lombok -->
         <dependency>
@@ -140,7 +140,6 @@
                             <formatPreferences>
                                 <pretty/>
                             </formatPreferences>
-
                         </configuration>
                     </execution>
                 </executions>
