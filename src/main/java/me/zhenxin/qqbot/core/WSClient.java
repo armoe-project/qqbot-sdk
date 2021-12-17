@@ -1,44 +1,42 @@
 package me.zhenxin.qqbot.core;
 
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import me.zhenxin.qqbot.entity.*;
+import me.zhenxin.qqbot.entity.ws.Payload;
 import me.zhenxin.qqbot.enums.Intent;
-import me.zhenxin.qqbot.event.AtMessageEvent;
-import me.zhenxin.qqbot.event.UserMessageEvent;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.enums.ReadyState;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Timer;
 
 /**
  * WebSocket 客户端
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 20:21
  */
 @Slf4j
 class WSClient extends WebSocketClient {
+    private final WSEvent event;
     @Setter
+    @Getter
     private String token;
     @Setter
+    @Getter
     private List<Intent> intents;
     @Setter
+    @Getter
     private EventHandler eventHandler;
-
-    private Timer timer;
+    @Getter
     private Integer seq;
-    private String sessionId;
-    private User me;
 
     public WSClient(URI serverUri) {
         super(serverUri);
+        event = new WSEvent();
+        event.setClient(this);
     }
 
     @Override
@@ -52,61 +50,20 @@ class WSClient extends WebSocketClient {
         Payload payload = JSONUtil.toBean(message, Payload.class);
         if (payload.getS() != null) seq = payload.getS();
         switch (payload.getOp()) {
+            case 0:
+                event.onDispatch(payload);
+                break;
             case 7:
-                log.info("服务端通知重新连接!");
+                event.onReconnect();
                 break;
             case 9:
-                log.error("鉴权失败!");
-                System.exit(1);
+                event.onInvalidSession();
                 break;
             case 10:
-                Hello hello = JSONUtil.toBean((JSONObject) payload.getD(), Hello.class);
-                if (sessionId == null || sessionId.isEmpty()) {
-                    int intentsNum = 0;
-                    for (Intent intent : intents) {
-                        intentsNum = intentsNum | intent.getValue();
-                    }
-                    Identify identify = new Identify();
-                    identify.setToken(token);
-                    identify.setIntents(intentsNum);
-                    Payload identifyPayload = new Payload();
-                    identifyPayload.setOp(2);
-                    identifyPayload.setD(identify);
-                    send(JSONUtil.toJsonStr(identifyPayload));
-                }
-                startHeartbeatTimer(hello.getHeartbeatInterval());
+                event.onHello(payload);
                 break;
             case 11:
-                log.debug("已收到服务端心跳.");
-                break;
-            case 0:
-                String e = payload.getT();
-                switch (e) {
-                    case "READY":
-                        Ready ready = JSONUtil.toBean((JSONObject) payload.getD(), Ready.class);
-                        sessionId = ready.getSessionId();
-                        eventHandler.setMe(ready.getUser());
-                        me = ready.getUser();
-                        log.info("机器人已上线!");
-                        break;
-                    case "AT_MESSAGE_CREATE":
-                        Message atMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
-                        atMessage.setContent(atMessage.getContent().replaceAll("<@!" + me.getId() + "> ", ""));
-                        atMessage.setContent(atMessage.getContent().replaceAll("<@!" + me.getId() + ">", ""));
-                        AtMessageEvent atMessageEvent = new AtMessageEvent(this, atMessage);
-                        eventHandler.onAtMessage(atMessageEvent);
-                        break;
-                    case "MESSAGE_CREATE":
-                        Message userMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
-                        UserMessageEvent userMessageEvent = new UserMessageEvent(this, userMessage);
-                        eventHandler.onUserMessage(userMessageEvent);
-                        break;
-                    case "RESUMED":
-                        log.info("恢复连接成功, 离线消息已处理!");
-                        break;
-                    default:
-                        log.warn("未知事件: " + e);
-                }
+                event.onHeartbeatACK();
                 break;
             default:
                 log.warn("未知消息类型: OpCode " + payload.getOp());
@@ -115,17 +72,7 @@ class WSClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        log.debug("连接关闭: {} {}[{}]", code, reason, remote);
-        log.info("连接关闭!");
-        log.info("5秒后开始尝试恢复连接...");
-        try {
-            timer.cancel();
-            Thread.sleep(5000);
-            new Thread(() -> this.reConnect(code)).start();
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.info("重新连接失败,请检查网络!");
-        }
+        event.onClientClose(code, reason, remote);
     }
 
     @Override
@@ -146,43 +93,4 @@ class WSClient extends WebSocketClient {
         super.send(data);
     }
 
-    protected void sendHeartbeat() {
-        Payload payload = new Payload();
-        payload.setOp(1);
-        payload.setD(seq);
-        if (getReadyState() == ReadyState.OPEN) {
-            send(JSONUtil.toJsonStr(payload));
-        }
-    }
-
-    private void startHeartbeatTimer(Integer i) {
-        timer = new Timer();
-        timer.schedule(new HeartbeatTimer(this), i, i);
-    }
-
-    private void reConnect(Integer code) {
-        log.info("正在重新连接...");
-        reconnect();
-        if (code == 4009) {
-            while (true) {
-                if (getReadyState() == ReadyState.OPEN) {
-                    sendResumed();
-                    break;
-                }
-            }
-        } else {
-            sessionId = null;
-        }
-    }
-
-    private void sendResumed() {
-        JSONObject data = new JSONObject();
-        data.set("token", token);
-        data.set("session_id", sessionId);
-        data.set("seq", seq);
-        Payload payload = new Payload();
-        payload.setOp(6);
-        payload.setD(data);
-        send(JSONUtil.toJsonStr(payload));
-    }
 }

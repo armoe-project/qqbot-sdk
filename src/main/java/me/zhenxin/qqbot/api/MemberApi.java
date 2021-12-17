@@ -7,7 +7,6 @@ import me.zhenxin.qqbot.exception.ApiException;
  * 成员相关接口
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 13:11
  */
 public class MemberApi extends BaseApi {

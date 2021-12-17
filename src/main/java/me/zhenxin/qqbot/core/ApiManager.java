@@ -6,7 +6,6 @@ import me.zhenxin.qqbot.api.*;
  * API 管理器
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/8 16:45
  */
 public class ApiManager {

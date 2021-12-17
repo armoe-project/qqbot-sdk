@@ -9,7 +9,6 @@ import java.util.EventObject;
  * 艾特消息事件
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/9 12:08
  */
 @Getter

@@ -9,7 +9,6 @@ import java.util.List;
  * 身份组列表
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 11:04
  */
 @Data

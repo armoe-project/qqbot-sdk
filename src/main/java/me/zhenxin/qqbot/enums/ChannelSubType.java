@@ -7,7 +7,6 @@ import lombok.Getter;
  * 子频道子类型
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 13:02
  */
 @Getter

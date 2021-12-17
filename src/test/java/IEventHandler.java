@@ -14,7 +14,6 @@ import me.zhenxin.qqbot.template.TextThumbnailTemplate;
  * 事件执行器
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 21:28
  */
 @Slf4j

@@ -11,7 +11,6 @@ import java.util.List;
  * 文本+缩略图模板
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/9 17:08
  */
 @Builder

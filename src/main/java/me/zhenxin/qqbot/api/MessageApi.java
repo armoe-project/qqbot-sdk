@@ -11,7 +11,6 @@ import java.util.Map;
  * 消息相关接口
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/8 16:15
  */
 public class MessageApi extends BaseApi {

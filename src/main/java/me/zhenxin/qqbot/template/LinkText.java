@@ -6,7 +6,6 @@ import lombok.Data;
  * 文本+链接模板 #LIST# 对象
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/9 22:49
  */
 @Data

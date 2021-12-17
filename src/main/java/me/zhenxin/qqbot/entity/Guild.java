@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
  * 频道对象
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/8 15:44
  */
 @Data

@@ -13,7 +13,6 @@ import java.util.List;
  * 链接+文本列表模板
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/9 17:07
  */
 @Builder

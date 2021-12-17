@@ -1,4 +1,4 @@
-package me.zhenxin.qqbot.entity;
+package me.zhenxin.qqbot.entity.ws;
 
 import lombok.Data;
 
@@ -6,7 +6,6 @@ import lombok.Data;
  * Gateway 类
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/9 2:06
  */
 @Data

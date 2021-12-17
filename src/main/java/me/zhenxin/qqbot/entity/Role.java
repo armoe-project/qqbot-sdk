@@ -6,7 +6,6 @@ import lombok.Data;
  * 身份组对象
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 21:35
  */
 @Data

@@ -8,7 +8,6 @@ import me.zhenxin.qqbot.enums.ChannelType;
  * 子频道对象
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 12:53
  */
 @Data

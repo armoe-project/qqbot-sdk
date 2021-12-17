@@ -1,6 +1,7 @@
-package me.zhenxin.qqbot.entity;
+package me.zhenxin.qqbot.entity.ws;
 
 import lombok.Data;
+import me.zhenxin.qqbot.entity.User;
 
 import java.util.List;
 
@@ -8,7 +9,6 @@ import java.util.List;
  * WS链接成功
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 16:03
  */
 @Data

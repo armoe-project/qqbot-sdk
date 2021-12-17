@@ -7,7 +7,6 @@ import lombok.Getter;
  * Intents
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/9 0:37
  */
 @Getter

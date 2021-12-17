@@ -7,7 +7,6 @@ import me.zhenxin.qqbot.core.BotCore;
  * 示例程序
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/8 15:41
  */
 @Slf4j
@@ -18,9 +17,9 @@ class Example {
         accessInfo.setBotToken(System.getenv("BotToken"));
         BotCore bot = new BotCore(accessInfo);
         ApiManager api = bot.getApiManager();
-        bot.useSandBoxMode();
         bot.registerAtMessageEvent();
-        bot.setEventHandler(new IEventHandler(api));
+        IEventHandler handler = new IEventHandler(api);
+        bot.setEventHandler(handler);
         log.info("正在启动中...");
         bot.start();
     }

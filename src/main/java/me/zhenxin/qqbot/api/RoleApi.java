@@ -15,7 +15,6 @@ import java.util.Map;
  * 身份组相关接口
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/11 11:02
  */
 public class RoleApi extends BaseApi {

@@ -6,7 +6,6 @@ import lombok.Data;
  * 消息 EmbedField 对象
  *
  * @author 真心
- * @email qgzhenxin@qq.com
  * @since 2021/12/8 16:21
  */
 @Data
