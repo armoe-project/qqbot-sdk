@@ -82,6 +82,15 @@ public class BotCore {
     }
 
     /**
+     * 使用沙箱模式
+     *
+     * @deprecated 使用 {@link AccessInfo#useSandBoxMode()} 替代
+     */
+    public void useSandBoxMode() {
+        accessInfo.setUseSandBoxMode(true);
+    }
+
+    /**
      * 获取 API管理器 实例
      */
     public ApiManager getApiManager() {

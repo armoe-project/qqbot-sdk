@@ -22,15 +22,26 @@ public class AccessInfo {
      * 管理端的 BotSecret
      */
     private String botSecret;
+
     /**
-     * 是否使用沙盒模式
+     * 是否使用沙箱模式
      */
     private Boolean useSandBoxMode = false;
 
     /**
-     * 使用沙盒模式
+     * 使用沙箱模式
      */
     public void useSandBoxMode() {
         this.useSandBoxMode = true;
+    }
+
+    /**
+     * 设置沙箱模式
+     *
+     * @param useSandBoxMode 沙箱模式
+     * @deprecated 使用 {@link #useSandBoxMode()} 替代
+     */
+    public void setUseSandBoxMode(Boolean useSandBoxMode) {
+        this.useSandBoxMode = useSandBoxMode;
     }
 }
