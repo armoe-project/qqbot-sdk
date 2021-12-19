@@ -11,6 +11,7 @@ import me.zhenxin.qqbot.enums.Intent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -98,7 +99,15 @@ public class BotCore {
     }
 
     /**
+     * 注册事件订阅
+     */
+    public void registerIntents(Intent... intents) {
+        this.intents.addAll(Arrays.asList(intents));
+    }
+
+    /**
      * 注册 频道相关 事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerGuildsEvent() {
         intents.add(Intent.GUILDS);
@@ -106,34 +115,47 @@ public class BotCore {
 
     /**
      * 注册 频道成员相关 事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerGuildMembersEvent() {
         intents.add(Intent.GUILD_MEMBERS);
     }
 
     /**
-     * 注册 私域消息事件
+     * 注册 私域消息 事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerUserMessagesEvent() {
-        intents.add(Intent.MESSAGES);
+        intents.add(Intent.USER_MESSAGES);
     }
 
     /**
      * 注册 消息表态 相关事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerGuildMessageReactionsEvent() {
         intents.add(Intent.GUILD_MESSAGE_REACTIONS);
     }
 
     /**
-     * 注册 私聊消息事件
+     * 注册 私聊消息 事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerDirectMessageEvent() {
         intents.add(Intent.DIRECT_MESSAGE);
     }
 
     /**
+     * 注册 论坛相关 事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
+     */
+    public void registerForumEvent() {
+        intents.add(Intent.FORUM_EVENT);
+    }
+
+    /**
      * 注册 音频相关 事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerAudioActionEvent() {
         intents.add(Intent.AUDIO_ACTION);
@@ -141,6 +163,7 @@ public class BotCore {
 
     /**
      * 注册 AT消息 事件
+     * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerAtMessageEvent() {
         intents.add(Intent.AT_MESSAGES);

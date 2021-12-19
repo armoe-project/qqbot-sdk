@@ -1,0 +1,22 @@
+package me.zhenxin.qqbot.event;
+
+import lombok.Getter;
+import me.zhenxin.qqbot.entity.Member;
+
+import java.util.EventObject;
+
+/**
+ * 频道成员增加事件
+ *
+ * @author 真心
+ * @since 2021/12/19 12:28
+ */
+@Getter
+public class GuildMemberAddEvent extends EventObject {
+    private final Member member;
+
+    public GuildMemberAddEvent(Object source, Member member) {
+        super(source);
+        this.member = member;
+    }
+}

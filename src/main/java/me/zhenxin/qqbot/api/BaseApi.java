@@ -2,6 +2,7 @@ package me.zhenxin.qqbot.api;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ class BaseApi {
     private final String api;
     private final String token;
 
-    protected BaseApi(Boolean isSandBoxMode, String token) throws ApiException {
+    protected BaseApi(Boolean isSandBoxMode, String token) {
         if (isSandBoxMode) {
             api = "https://sandbox.api.sgroup.qq.com";
         } else {
@@ -74,6 +75,12 @@ class BaseApi {
 
     private <T> T result(String body, Class<T> tClass) throws ApiException {
         log.debug("API请求结果: {}", body);
+        if (tClass == JSONArray.class) {
+            return (T) new JSONArray(body);
+        }
+        if (body == null || body.isEmpty()) {
+            return null;
+        }
         JSONObject j = new JSONObject(body);
 
         Integer code = j.getInt("code");

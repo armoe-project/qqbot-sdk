@@ -39,6 +39,27 @@ public class ApiManager {
     }
 
     /**
+     * 获取 子频道API 实例
+     */
+    public ChannelApi getChannelApi() {
+        return new ChannelApi(useSandBoxMode, token);
+    }
+
+    /**
+     * 获取 日程API 实例
+     */
+    public ScheduleApi getScheduleApi() {
+        return new ScheduleApi(useSandBoxMode, token);
+    }
+
+    /**
+     * 获取 音频API 实例
+     */
+    public AudioApi getAudioApi() {
+        return new AudioApi(useSandBoxMode, token);
+    }
+
+    /**
      * 获取 身份组API 实例
      */
     public RoleApi getRoleApi() {

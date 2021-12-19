@@ -3,6 +3,8 @@ package me.zhenxin.qqbot.entity;
 import lombok.Data;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
 
+import java.time.LocalDateTime;
+
 /**
  * 消息对象
  *
@@ -30,11 +32,11 @@ public class Message {
     /**
      * 消息创建时间
      */
-    private Long timestamp;
+    private LocalDateTime timestamp;
     /**
      * 消息编辑时间
      */
-    private Long editedTimestamp;
+    private LocalDateTime editedTimestamp;
     /**
      * 是否为 @全体成员 消息
      */

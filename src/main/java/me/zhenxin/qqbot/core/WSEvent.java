@@ -4,15 +4,13 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import me.zhenxin.qqbot.entity.Message;
-import me.zhenxin.qqbot.entity.User;
+import me.zhenxin.qqbot.entity.*;
 import me.zhenxin.qqbot.entity.ws.Hello;
 import me.zhenxin.qqbot.entity.ws.Identify;
 import me.zhenxin.qqbot.entity.ws.Payload;
 import me.zhenxin.qqbot.entity.ws.Ready;
 import me.zhenxin.qqbot.enums.Intent;
-import me.zhenxin.qqbot.event.AtMessageEvent;
-import me.zhenxin.qqbot.event.UserMessageEvent;
+import me.zhenxin.qqbot.event.*;
 import org.java_websocket.enums.ReadyState;
 
 import java.util.Timer;
@@ -43,8 +41,82 @@ class WSEvent {
                 me = ready.getUser();
                 log.info("机器人已上线!");
                 break;
+            case "GUILD_CREATE":
+                Guild gc = JSONUtil.toBean((JSONObject) payload.getD(), Guild.class);
+                log.info("新增频道: {}({})", gc.getName(), gc.getId());
+                GuildCreateEvent guildCreateEvent = new GuildCreateEvent(this, gc);
+                client.getEventHandler().onGuildCreate(guildCreateEvent);
+                break;
+            case "GUILD_UPDATE":
+                Guild gu = JSONUtil.toBean((JSONObject) payload.getD(), Guild.class);
+                log.info("频道信息变更: {}({})", gu.getName(), gu.getId());
+                GuildUpdateEvent guildUpdateEvent = new GuildUpdateEvent(this, gu);
+                client.getEventHandler().onGuildUpdate(guildUpdateEvent);
+                break;
+            case "GUILD_DELETE":
+                Guild gd = JSONUtil.toBean((JSONObject) payload.getD(), Guild.class);
+                log.info("退出频道: {}({})", gd.getName(), gd.getId());
+                GuildDeleteEvent guildDeleteEvent = new GuildDeleteEvent(this, gd);
+                client.getEventHandler().onGuildDelete(guildDeleteEvent);
+                break;
+            case "CHANNEL_CREATE":
+                Channel cc = JSONUtil.toBean((JSONObject) payload.getD(), Channel.class);
+                log.info("子频道创建: {}({})", cc.getName(), cc.getId());
+                ChannelCreateEvent channelCreateEvent = new ChannelCreateEvent(this, cc);
+                client.getEventHandler().onChannelCreate(channelCreateEvent);
+                break;
+            case "CHANNEL_UPDATE":
+                Channel cu = JSONUtil.toBean((JSONObject) payload.getD(), Channel.class);
+                log.info("子频道更新: {}({})", cu.getName(), cu.getId());
+                ChannelUpdateEvent channelUpdateEvent = new ChannelUpdateEvent(this, cu);
+                client.getEventHandler().onChannelUpdate(channelUpdateEvent);
+                break;
+            case "CHANNEL_DELETE":
+                Channel cd = JSONUtil.toBean((JSONObject) payload.getD(), Channel.class);
+                log.info("子频道删除: {}({})", cd.getName(), cd.getId());
+                ChannelDeleteEvent channelDeleteEvent = new ChannelDeleteEvent(this, cd);
+                client.getEventHandler().onChannelDelete(channelDeleteEvent);
+                break;
+            case "GUILD_MEMBER_ADD":
+                Member ma = JSONUtil.toBean((JSONObject) payload.getD(), Member.class);
+                log.info("频道用户增加: {}[{}]({})", ma.getUser().getUsername(), ma.getNick(), ma.getUser().getId());
+                GuildMemberAddEvent guildMemberAddEvent = new GuildMemberAddEvent(this, ma);
+                client.getEventHandler().onGuildMemberAdd(guildMemberAddEvent);
+                break;
+            case "GUILD_MEMBER_UPDATE":
+                Member mu = JSONUtil.toBean((JSONObject) payload.getD(), Member.class);
+                log.info("频道用户更新: {}[{}]({})", mu.getUser().getUsername(), mu.getNick(), mu.getUser().getId());
+                GuildMemberUpdateEvent guildMemberUpdateEvent = new GuildMemberUpdateEvent(this, mu);
+                client.getEventHandler().onGuildMemberUpdate(guildMemberUpdateEvent);
+                break;
+            case "GUILD_MEMBER_REMOVE":
+                Member md = JSONUtil.toBean((JSONObject) payload.getD(), Member.class);
+                log.info("频道用户删除: {}[{}]({})", md.getUser().getUsername(), md.getNick(), md.getUser().getId());
+                GuildMemberRemoveEvent guildMemberRemoveEvent = new GuildMemberRemoveEvent(this, md);
+                client.getEventHandler().onGuildMemberRemove(guildMemberRemoveEvent);
+                break;
+            case "MESSAGE_REACTION_ADD":
+                MessageReaction ra = JSONUtil.toBean((JSONObject) payload.getD(), MessageReaction.class);
+                log.info("表情添加: {}({})", JSONUtil.toJsonStr(ra.getTarget()), ra.getChannelId());
+                MessageReactionAddEvent messageReactionAddEvent = new MessageReactionAddEvent(this, ra);
+                client.getEventHandler().onMessageReactionAdd(messageReactionAddEvent);
+                break;
+            case "MESSAGE_REACTION_REMOVE":
+                MessageReaction rr = JSONUtil.toBean((JSONObject) payload.getD(), MessageReaction.class);
+                log.info("表情移除: {}({})", JSONUtil.toJsonStr(rr.getTarget()), rr.getChannelId());
+                MessageReactionRemoveEvent messageReactionRemoveEvent = new MessageReactionRemoveEvent(this, rr);
+                client.getEventHandler().onMessageReactionRemove(messageReactionRemoveEvent);
+                break;
             case "AT_MESSAGE_CREATE":
                 Message atMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
+                log.info(
+                        "[AtMessage]: 频道({}) 子频道({}) {}({}): {}",
+                        atMessage.getGuildId(),
+                        atMessage.getChannelId(),
+                        atMessage.getAuthor().getUsername(),
+                        atMessage.getAuthor().getId(),
+                        atMessage.getContent()
+                );
                 if (client.getEventHandler().isRemoveAt()) {
                     atMessage.setContent(atMessage.getContent().replaceAll("<@!" + me.getId() + "> ", ""));
                     atMessage.setContent(atMessage.getContent().replaceAll("<@!" + me.getId() + ">", ""));
@@ -54,6 +126,14 @@ class WSEvent {
                 break;
             case "MESSAGE_CREATE":
                 Message userMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
+                log.info(
+                        "[UserMessage]: 频道({}) 子频道({}) {}({}): {}",
+                        userMessage.getGuildId(),
+                        userMessage.getChannelId(),
+                        userMessage.getAuthor().getUsername(),
+                        userMessage.getAuthor().getId(),
+                        userMessage.getContent()
+                );
                 UserMessageEvent userMessageEvent = new UserMessageEvent(this, userMessage);
                 client.getEventHandler().onUserMessage(userMessageEvent);
                 break;
@@ -73,7 +153,6 @@ class WSEvent {
     // OP 9
     public void onInvalidSession() {
         log.error("鉴权失败!");
-        System.exit(1);
     }
 
     // OP 10
@@ -94,8 +173,15 @@ class WSEvent {
     }
 
     public void onClientClose(int code, String reason, boolean remote) {
-        log.debug("连接关闭: {} {}[{}]", code, reason, remote);
-        log.info("连接关闭!");
+        if (remote) {
+            log.info("服务端关闭连接, 原因 {} {}", code, reason);
+        } else {
+            log.info("客户端关闭连接, 原因 {} {}", code, reason);
+        }
+        if (code == 4014) {
+            System.exit(code);
+        }
+
         log.info("5秒后开始尝试恢复连接...");
         try {
             Thread.sleep(5000);
@@ -108,7 +194,7 @@ class WSEvent {
 
     private void startHeartbeatTimer(Integer i) {
         timer = new Timer();
-        timer.schedule(new TimerTask() {
+        TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 Payload payload = new Payload();
@@ -118,7 +204,8 @@ class WSEvent {
                     client.send(JSONUtil.toJsonStr(payload));
                 }
             }
-        }, i, i);
+        };
+        timer.schedule(task, i, i);
     }
 
     private void reConnect(Integer code) {

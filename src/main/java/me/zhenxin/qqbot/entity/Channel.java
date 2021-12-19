@@ -1,8 +1,6 @@
 package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
-import me.zhenxin.qqbot.enums.ChannelSubType;
-import me.zhenxin.qqbot.enums.ChannelType;
 
 /**
  * 子频道对象
@@ -27,11 +25,11 @@ public class Channel {
     /**
      * 子频道类型
      */
-    private ChannelType type;
+    private Integer type;
     /**
      * 子频道子类型
      */
-    private ChannelSubType subType;
+    private Integer subType;
     /**
      * 排序 (必填，而且不能够和其他子频道的值重复)
      */

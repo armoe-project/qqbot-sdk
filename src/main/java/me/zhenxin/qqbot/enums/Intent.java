@@ -9,21 +9,22 @@ import lombok.Getter;
  * @author 真心
  * @since 2021/12/9 0:37
  */
+@SuppressWarnings("PointlessBitwiseExpression")
 @Getter
 @AllArgsConstructor
 public enum Intent {
     /**
      * 频道相关事件
      */
-    GUILDS(1),
+    GUILDS(1 << 0),
     /**
      * 频道成员相关事件
      */
     GUILD_MEMBERS(1 << 1),
     /**
-     * 全部消息事件
+     * 用户消息事件(私域可用)
      */
-    MESSAGES(1 << 9),
+    USER_MESSAGES(1 << 9),
     /**
      * 消息表态相关事件
      */
@@ -33,6 +34,10 @@ public enum Intent {
      */
     DIRECT_MESSAGE(1 << 12),
     /**
+     * 论坛相关事件
+     */
+    FORUM_EVENT(1 << 28),
+    /**
      * 音频相关事件
      */
     AUDIO_ACTION(1 << 29),
@@ -40,5 +45,6 @@ public enum Intent {
      * 艾特消息事件
      */
     AT_MESSAGES(1 << 30);
+
     private final Integer value;
 }

@@ -2,6 +2,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.core.AccessInfo;
 import me.zhenxin.qqbot.core.ApiManager;
 import me.zhenxin.qqbot.core.BotCore;
+import me.zhenxin.qqbot.enums.Intent;
 
 /**
  * 示例程序
@@ -17,7 +18,14 @@ class Example {
         accessInfo.setBotToken(System.getenv("BotToken"));
         BotCore bot = new BotCore(accessInfo);
         ApiManager api = bot.getApiManager();
-        bot.registerAtMessageEvent();
+        bot.registerIntents(
+                Intent.GUILDS,
+                Intent.GUILD_MEMBERS,
+                Intent.GUILD_MESSAGE_REACTIONS,
+                //  Intent.FORUM_EVENT,
+                Intent.AT_MESSAGES,
+                Intent.USER_MESSAGES
+        );
         IEventHandler handler = new IEventHandler(api);
         bot.setEventHandler(handler);
         log.info("正在启动中...");

@@ -3,10 +3,8 @@ package me.zhenxin.qqbot.core;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.entity.User;
-import me.zhenxin.qqbot.event.AtMessageEvent;
-import me.zhenxin.qqbot.event.UserMessageEvent;
+import me.zhenxin.qqbot.event.*;
 
 /**
  * 事件处理器
@@ -29,20 +27,111 @@ public class EventHandler {
     private boolean removeAt = true;
 
     /**
+     * 频道新增
+     *
+     * @param event 事件
+     */
+    protected void onGuildCreate(GuildCreateEvent event) {
+
+    }
+
+    /**
+     * 频道更新
+     *
+     * @param event 事件
+     */
+    protected void onGuildUpdate(GuildUpdateEvent event) {
+
+    }
+
+    /**
+     * 频道删除
+     *
+     * @param event 事件
+     */
+    protected void onGuildDelete(GuildDeleteEvent event) {
+
+    }
+
+    /**
+     * 子频道创建
+     *
+     * @param event 事件
+     */
+    protected void onChannelCreate(ChannelCreateEvent event) {
+
+    }
+
+    /**
+     * 子频道更新
+     *
+     * @param event 事件
+     */
+    protected void onChannelUpdate(ChannelUpdateEvent event) {
+
+    }
+
+    /**
+     * 子频道删除
+     *
+     * @param event 事件
+     */
+    protected void onChannelDelete(ChannelDeleteEvent event) {
+
+    }
+
+    /**
+     * 频道成员增加
+     *
+     * @param event 事件
+     */
+    public void onGuildMemberAdd(GuildMemberAddEvent event) {
+
+    }
+
+    /**
+     * 频道成员更新
+     *
+     * @param event 事件
+     */
+    public void onGuildMemberUpdate(GuildMemberUpdateEvent event) {
+
+    }
+
+    /**
+     * 频道成员移除
+     *
+     * @param event 事件
+     */
+    public void onGuildMemberRemove(GuildMemberRemoveEvent event) {
+
+    }
+
+    /**
+     * 表态添加
+     *
+     * @param event 事件
+     */
+    public void onMessageReactionAdd(MessageReactionAddEvent event) {
+
+    }
+
+    /**
+     * 表态移除
+     *
+     * @param event 事件
+     */
+    public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
+
+    }
+
+    /**
      * 艾特信息
      *
      * @param event 事件
      */
     protected void onAtMessage(AtMessageEvent event) {
-        Message message = event.getMessage();
-        log.info(
-                "[AtMessage]: 频道({}) 子频道({}) {}({}): {}",
-                message.getGuildId(),
-                message.getChannelId(),
-                message.getAuthor().getUsername(),
-                message.getAuthor().getId(),
-                message.getContent()
-        );
+
     }
 
     /**
@@ -51,14 +140,6 @@ public class EventHandler {
      * @param event 事件
      */
     protected void onUserMessage(UserMessageEvent event) {
-        Message message = event.getMessage();
-        log.info(
-                "[UserMessage]: 频道({}) 子频道({}) {}({}): {}",
-                message.getGuildId(),
-                message.getChannelId(),
-                message.getAuthor().getUsername(),
-                message.getAuthor().getId(),
-                message.getContent()
-        );
+
     }
 }

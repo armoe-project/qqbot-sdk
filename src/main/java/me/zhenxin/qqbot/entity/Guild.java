@@ -2,8 +2,6 @@ package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * 频道对象
  *
@@ -33,13 +31,17 @@ public class Guild {
      */
     private Boolean owner;
     /**
+     * 操作用户ID
+     */
+    private String opUserId;
+    /**
      * 成员数
      */
     private Integer memberCount;
     /**
      * 最大成员数
      */
-    private Integer maxMemberCount;
+    private Integer maxMembers;
     /**
      * 简介
      */
@@ -47,5 +49,5 @@ public class Guild {
     /**
      * 加入时间
      */
-    private LocalDateTime joinedAt;
+    private Long joinedAt;
 }
