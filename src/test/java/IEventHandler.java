@@ -47,19 +47,17 @@ class IEventHandler extends EventHandler {
 
                     break;
                 case "ping":
-                    api.getMessageApi()
-                            .sendTextMessage(channelId, "pong", messageId);
+                    api.getMessageApi().sendMessage(channelId, "pong", messageId);
                     break;
                 case "ark":
                     MessageArk ark = TextThumbnailTemplate.builder()
                             .build().toMessageArk();
-                    api.getMessageApi()
-                            .sendTemplateMessage(channelId, ark, messageId);
+                    api.getMessageApi().sendMessage(channelId, ark, messageId);
                     break;
             }
         } catch (ApiException e) {
             log.error("消息处理发生异常: {} {}({})", e.getCode(), e.getMessage(), e.getError());
-            api.getMessageApi().sendTextMessage(channelId, "消息处理失败: " + e.getMessage(), messageId);
+            api.getMessageApi().sendMessage(channelId, "消息处理失败: " + e.getMessage(), messageId);
         }
     }
 
@@ -71,7 +69,7 @@ class IEventHandler extends EventHandler {
     @Override
     public void onMessageReactionAdd(MessageReactionAddEvent event) {
         MessageReaction reaction = event.getReaction();
-        api.getMessageApi().sendTextMessage(
+        api.getMessageApi().sendMessage(
                 reaction.getChannelId(),
                 reaction.toString(),
                 null
@@ -81,7 +79,7 @@ class IEventHandler extends EventHandler {
     @Override
     public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
         MessageReaction reaction = event.getReaction();
-        api.getMessageApi().sendTextMessage(
+        api.getMessageApi().sendMessage(
                 reaction.getChannelId(),
                 reaction.toString(),
                 null
