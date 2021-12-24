@@ -2,6 +2,8 @@ package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 消息 Embed 对象
  *
@@ -15,19 +17,15 @@ public class MessageEmbed {
      */
     private String title;
     /**
-     * 描述
-     */
-    private String description;
-    /**
      * 消息弹窗内容
      */
     private String prompt;
     /**
-     * 消息创建时间
+     * 缩略图
      */
-    private Long timestamp;
+    private MessageEmbedThumbnail thumbnail;
     /**
      * MessageEmbedField 对象数组
      */
-    private MessageEmbedField[] fields;
+    private List<MessageEmbedField> fields;
 }

@@ -1,6 +1,7 @@
 package me.zhenxin.qqbot.api;
 
 import me.zhenxin.qqbot.entity.Message;
+import me.zhenxin.qqbot.entity.MessageEmbed;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
 import me.zhenxin.qqbot.exception.ApiException;
 
@@ -15,6 +16,7 @@ import java.util.Map;
  * @author 真心
  * @since 2021/12/8 16:15
  */
+@SuppressWarnings("UnusedReturnValue")
 public class MessageApi extends BaseApi {
     public MessageApi(Boolean isSandBoxMode, String token) throws ApiException {
         super(isSandBoxMode, token);
@@ -83,6 +85,21 @@ public class MessageApi extends BaseApi {
     }
 
     /**
+     * 发送 Embed 消息
+     *
+     * @param channelId 子频道ID
+     * @param embed     Embed 消息
+     * @param messageId 消息ID
+     * @return 消息对象
+     */
+    public Message sendMessage(String channelId, MessageEmbed embed, String messageId) throws ApiException {
+        Map<String, Object> data = new HashMap<>();
+        data.put("embed", embed);
+        data.put("msg_id", messageId);
+        return getResult(channelId, data);
+    }
+
+    /**
      * 发送文本消息
      *
      * @param channelId 子频道ID
@@ -144,6 +161,19 @@ public class MessageApi extends BaseApi {
             return null;
         }
     }
+
+
+    /**
+     * 获取指定消息
+     *
+     * @param channelId 子频道ID
+     * @param messageId 消息ID
+     * @return 消息对象
+     */
+    public Message getMessageInfo(String channelId, String messageId) {
+        return get("/channels/" + channelId + "/messages/" + messageId, Message.class);
+    }
+
 
     private Message getResult(String channelId, Map<String, Object> data) {
         return post("/channels/" + channelId + "/messages", data, Message.class);

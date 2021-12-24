@@ -46,6 +46,13 @@ public class ApiManager {
     }
 
     /**
+     * 获取 子频道权限API 实例
+     */
+    public ChannelPermissionsApi getChannelPermissionsApi() {
+        return new ChannelPermissionsApi(useSandBoxMode, token);
+    }
+
+    /**
      * 获取 日程API 实例
      */
     public ScheduleApi getScheduleApi() {
@@ -78,5 +85,12 @@ public class ApiManager {
      */
     public AnnouncesApi getAnnouncesApi() {
         return new AnnouncesApi(useSandBoxMode, token);
+    }
+
+    /**
+     * 获取 禁言API 实例
+     */
+    public MuteApi getMuteApi() {
+        return new MuteApi(useSandBoxMode, token);
     }
 }

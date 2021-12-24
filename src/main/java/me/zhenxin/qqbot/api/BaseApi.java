@@ -31,62 +31,81 @@ class BaseApi {
     }
 
     protected <T> T get(String url, Class<T> tClass) throws ApiException {
+        log.debug("GET Url: {}", url);
         HttpRequest request = HttpRequest.get(api + url);
         request.header("Authorization", token);
         HttpResponse response = request.execute();
-        return result(response.body(), tClass);
+        return result(response, tClass);
     }
 
     protected <T> T post(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
+        log.debug("POST Data: {}", JSONUtil.toJsonStr(data));
         HttpRequest request = HttpRequest
                 .post(api + path)
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
-        return result(response.body(), tClass);
+        return result(response, tClass);
     }
 
     protected <T> T put(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
+        log.debug("PUT Data: {}", JSONUtil.toJsonStr(data));
         HttpRequest request = HttpRequest
                 .put(api + path)
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
-        return result(response.body(), tClass);
+        return result(response, tClass);
     }
 
     protected <T> T delete(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
+        log.debug("DELETE Data: {}", JSONUtil.toJsonStr(data));
         HttpRequest request = HttpRequest
                 .delete(api + path)
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
-        return result(response.body(), tClass);
+        return result(response, tClass);
     }
 
     protected <T> T patch(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
+        log.debug("PATCH Data: {}", JSONUtil.toJsonStr(data));
         HttpRequest request = HttpRequest
                 .patch(api + path)
                 .body(JSONUtil.toJsonStr(data));
         request.header("Authorization", token);
         HttpResponse response = request.execute();
-        return result(response.body(), tClass);
+        return result(response, tClass);
     }
 
-    private <T> T result(String body, Class<T> tClass) throws ApiException {
-        log.debug("API请求结果: {}", body);
+    private <T> T result(HttpResponse response, Class<T> tClass) throws ApiException {
+        int status = response.getStatus();
+        log.debug("API请求: 状态码 {}", status);
+        if (status == 204) {
+            log.debug("API请求成功: 无Body");
+            return null;
+        }
+        if (status == 201 || status == 202) {
+            log.info("API异步请求成功: {}", response.body());
+            return null;
+        }
+        String body = response.body();
+        log.debug("API请求成功: {}", body);
         if (tClass == JSONArray.class) {
+            //noinspection unchecked
             return (T) new JSONArray(body);
         }
         if (body == null || body.isEmpty()) {
             return null;
         }
-        JSONObject j = new JSONObject(body);
 
+        JSONObject j = JSONUtil.parseObj(body);
         Integer code = j.getInt("code");
         if (code != null) {
             String message = j.getStr("message");
             exception(code, message);
+        } else {
+            throw new ApiException(code, "未知错误(" + j + ")", j.toString());
         }
 
         if (tClass != null) {
@@ -239,14 +258,14 @@ class BaseApi {
             case 1100308:
                 throw new ApiException(code, "触发频道内限频", message);
             case 1100499:
-                throw new ApiException(code, "其他错误", message);
+                throw new ApiException(code, "其他错误(" + message + ")", message);
             default:
                 if (code > 500000 && code < 500999) {
-                    throw new ApiException(code, "公告错误", message);
+                    throw new ApiException(code, "公告错误(" + message + ")", message);
                 } else if (code > 1000000 && code < 2999999) {
-                    throw new ApiException(code, "发消息错误", message);
+                    throw new ApiException(code, "发消息错误(" + message + ")", message);
                 } else {
-                    throw new ApiException(code, "未知错误", message);
+                    throw new ApiException(code, "未知错误(" + message + ")", message);
                 }
 
         }

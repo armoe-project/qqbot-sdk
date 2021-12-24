@@ -14,8 +14,4 @@ public class MessageEmbedField {
      * 字段名
      */
     private String name;
-    /**
-     * 字段值
-     */
-    private String value;
 }

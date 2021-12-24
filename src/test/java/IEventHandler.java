@@ -2,8 +2,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.core.ApiManager;
 import me.zhenxin.qqbot.core.EventHandler;
-import me.zhenxin.qqbot.entity.AudioControl;
 import me.zhenxin.qqbot.entity.Message;
+import me.zhenxin.qqbot.entity.MessageEmbed;
 import me.zhenxin.qqbot.entity.MessageReaction;
 import me.zhenxin.qqbot.entity.User;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
@@ -12,7 +12,11 @@ import me.zhenxin.qqbot.event.MessageReactionAddEvent;
 import me.zhenxin.qqbot.event.MessageReactionRemoveEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
 import me.zhenxin.qqbot.exception.ApiException;
+import me.zhenxin.qqbot.template.EmbedTemplate;
 import me.zhenxin.qqbot.template.TextThumbnailTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 事件执行器
@@ -39,12 +43,28 @@ class IEventHandler extends EventHandler {
             String command = args[0];
             switch (command) {
                 case "info":
-                    AudioControl control = new AudioControl();
-                    control.setStatus(0);
-                    control.setText("测试");
-                    control.setAudioUrl("http://m7.music.126.net/20211219162118/d9b0454e49ddd50ceabe41a269242ba8/ymusic/515c/005d/545e/f6aa38a76977062514bcc4b7371bd57c.mp3");
-                    api.getAudioApi().AudioControl("2069055", control);
-
+                    api.getChannelPermissionsApi().addChannelPermissions(channelId, author.getId(), 1);
+                    break;
+                case "muteAll":
+                    api.getMuteApi().muteAll(guildId, 300);
+                    break;
+                case "muteMe":
+                    api.getMuteApi().mute(guildId, author.getId(), 300);
+                    Thread.sleep(6000);
+                    api.getMuteApi().mute(guildId, author.getId(), 0);
+                    break;
+                case "embed":
+                    List<String> fields = new ArrayList<>();
+                    fields.add("测试");
+                    fields.add("测试2");
+                    fields.add(String.valueOf(System.currentTimeMillis()));
+                    MessageEmbed embed = EmbedTemplate.builder()
+                            .title("测试")
+                            .prompt("[测试]Embed")
+                            .thumbnail("https://b.armoe.cn/assets/image/logo.png")
+                            .fields(fields)
+                            .build().toMessageEmbed();
+                    api.getMessageApi().sendMessage(channelId, embed, messageId);
                     break;
                 case "ping":
                     api.getMessageApi().sendMessage(channelId, "pong", messageId);
@@ -58,6 +78,8 @@ class IEventHandler extends EventHandler {
         } catch (ApiException e) {
             log.error("消息处理发生异常: {} {}({})", e.getCode(), e.getMessage(), e.getError());
             api.getMessageApi().sendMessage(channelId, "消息处理失败: " + e.getMessage(), messageId);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
