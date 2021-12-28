@@ -2,10 +2,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.core.ApiManager;
 import me.zhenxin.qqbot.core.EventHandler;
-import me.zhenxin.qqbot.entity.Message;
-import me.zhenxin.qqbot.entity.MessageEmbed;
-import me.zhenxin.qqbot.entity.MessageReaction;
-import me.zhenxin.qqbot.entity.User;
+import me.zhenxin.qqbot.entity.*;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
 import me.zhenxin.qqbot.event.GuildUpdateEvent;
 import me.zhenxin.qqbot.event.MessageReactionAddEvent;
@@ -32,7 +29,6 @@ class IEventHandler extends EventHandler {
     @Override
     public void onUserMessage(UserMessageEvent event) {
         Message message = event.getMessage();
-        log.info(message.toString());
         String guildId = message.getGuildId();
         String channelId = message.getChannelId();
         String content = message.getContent();
@@ -52,6 +48,21 @@ class IEventHandler extends EventHandler {
                     api.getMuteApi().mute(guildId, author.getId(), 300);
                     Thread.sleep(6000);
                     api.getMuteApi().mute(guildId, author.getId(), 0);
+                    break;
+                case "dMsg":
+                    api.getMessageApi().deleteMessage(channelId, messageId);
+                    break;
+                case "meInfo":
+                    User user = api.getUserApi().getMeInfo();
+                    user.setAvatar("");
+                    api.getMessageApi().sendMessage(channelId, user.toString(), messageId);
+                    break;
+                case "meGuilds":
+                    List<Guild> meGuilds = api.getUserApi().getMeGuilds();
+                    for (Guild meGuild : meGuilds) {
+                        meGuild.setIcon("");
+                        api.getMessageApi().sendMessage(channelId, meGuild.toString(), messageId);
+                    }
                     break;
                 case "embed":
                     List<String> fields = new ArrayList<>();

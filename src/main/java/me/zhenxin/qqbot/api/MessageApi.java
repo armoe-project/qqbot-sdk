@@ -100,6 +100,15 @@ public class MessageApi extends BaseApi {
     }
 
     /**
+     * 撤回消息
+     * @param channelId 子频道ID
+     * @param messageId 消息ID
+     */
+    public void deleteMessage(String channelId, String messageId) throws ApiException {
+        delete("/channels/"+channelId+"/messages/" + messageId,null,null);
+    }
+
+    /**
      * 发送文本消息
      *
      * @param channelId 子频道ID

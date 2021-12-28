@@ -104,8 +104,6 @@ class BaseApi {
         if (code != null) {
             String message = j.getStr("message");
             exception(code, message);
-        } else {
-            throw new ApiException(code, "未知错误(" + j + ")", j.toString());
         }
 
         if (tClass != null) {

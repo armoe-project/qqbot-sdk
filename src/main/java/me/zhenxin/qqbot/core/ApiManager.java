@@ -93,4 +93,11 @@ public class ApiManager {
     public MuteApi getMuteApi() {
         return new MuteApi(useSandBoxMode, token);
     }
+
+    /**
+     * 获取 用户API 实例
+     */
+    public UserApi getUserApi() {
+        return new UserApi(useSandBoxMode, token);
+    }
 }
