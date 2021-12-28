@@ -3,7 +3,7 @@
 QQ官方机器人 SDK For Java
 
 ![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=http%3A%2F%2Frepo.zhenxin.me%2Fme%2Fzhenxin%2Fqq-official-bot-sdk%2Fmaven-metadata.xml)
-![GitHub Repo stars](https://img.shields.io/github/stars/xiaoye-bot/qq-official-bot-sdk) 
+![GitHub Repo stars](https://img.shields.io/github/stars/xiaoye-bot/qq-official-bot-sdk)
 
 * [加入QQ频道](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=GECpm&from=246610&biz=ka)
 * [使用文档](https://sdk.armoe.cn/qq/)
@@ -13,6 +13,8 @@ QQ官方机器人 SDK For Java
 请勿使用`0.0.2-SNAPSHOT`版本的SDK!
 
 此版本存在`Log4j 2 远程代码执行漏洞`
+
+另 `0.0.3-SNAPSHOT - 0.0.8-SNAPSHOT` 存在另一漏洞 不建议使用
 
 详细情况请参考: [腾讯云公告](https://cloud.tencent.com/announce/detail/1692)
 
@@ -73,14 +75,16 @@ class Example {
         AccessInfo accessInfo = new AccessInfo();
         accessInfo.setBotAppId(0); // 管理端的BotAppId
         accessInfo.setBotToken(""); // 管理端的BotToken
+        // 使用沙盒模式
+        accessInfo.useSandBoxMode();
         // 创建实例
         BotCore bot = new BotCore(accessInfo);
         // 获取API管理器
         ApiManager api = bot.getApiManager();
-        // 使用沙盒模式
-        bot.useSandBoxMode();
-        // 注册AT消息相关事件
-        bot.registerAtMessageEvent();
+        // 注册事件订阅
+        bot.registerIntents(
+                Intent.AT_MESSAGES // AT消息相关事件
+        );
         // 设置事件处理器
         bot.setEventHandler(new IEventHandler(api));
         // 启动
