@@ -1,6 +1,6 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONArray;
+import com.alibaba.fastjson.JSONArray;
 import me.zhenxin.qqbot.entity.Guild;
 import me.zhenxin.qqbot.entity.User;
 
@@ -33,6 +33,6 @@ public class UserApi extends BaseApi {
      */
     public List<Guild> getMeGuilds() {
         JSONArray array = get("/users/@me/guilds", JSONArray.class);
-        return array.toList(Guild.class);
+        return array.toJavaList(Guild.class);
     }
 }

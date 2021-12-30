@@ -1,6 +1,6 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONArray;
+import com.alibaba.fastjson.JSONArray;
 import me.zhenxin.qqbot.entity.Channel;
 
 import java.util.List;
@@ -34,6 +34,6 @@ public class ChannelApi extends BaseApi {
      */
     public List<Channel> getChannelList(String guildId) {
         JSONArray arr = get("/guilds/" + guildId + "/channels", JSONArray.class);
-        return arr.toList(Channel.class);
+        return arr.toJavaList(Channel.class);
     }
 }

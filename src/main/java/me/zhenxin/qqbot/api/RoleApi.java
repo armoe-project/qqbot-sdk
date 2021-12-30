@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import me.zhenxin.qqbot.entity.Channel;
 import me.zhenxin.qqbot.entity.Role;
@@ -43,7 +43,7 @@ public class RoleApi extends BaseApi {
     public Role createRole(String guildId, String name, Long color, Boolean hoist) throws ApiException {
         Map<String, Object> data = getData(name, color, hoist);
         JSONObject result = post("/guilds/" + guildId + "/roles", data, JSONObject.class);
-        return JSONUtil.toBean(result.getJSONObject("role"), Role.class);
+        return JSON.toJavaObject(result.getJSONObject("role"), Role.class);
     }
 
     /**
@@ -58,7 +58,7 @@ public class RoleApi extends BaseApi {
     public Role changeRole(String guildId, String roleId, String name, Long color, Boolean hoist) throws ApiException {
         Map<String, Object> data = getData(name, color, hoist);
         JSONObject result = patch("/guilds/" + guildId + "/roles/" + roleId, data, JSONObject.class);
-        return JSONUtil.toBean(result.getJSONObject("role"), Role.class);
+        return JSON.toJavaObject(result.getJSONObject("role"), Role.class);
     }
 
     /**

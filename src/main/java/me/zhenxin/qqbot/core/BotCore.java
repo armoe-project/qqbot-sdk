@@ -1,15 +1,13 @@
 package me.zhenxin.qqbot.core;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.entity.ws.Gateway;
 import me.zhenxin.qqbot.enums.Intent;
+import okhttp3.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,10 +42,25 @@ public class BotCore {
         String token = getToken();
         String apiBase = getApiBase();
 
-        HttpRequest request = HttpRequest.get(apiBase + "/gateway");
-        request.header("Authorization", token);
-        HttpResponse response = request.execute();
-        return JSONUtil.toBean(response.body(), Gateway.class);
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder()
+                .url(apiBase + "/gateway")
+                .header("Authorization", token)
+                .get()
+                .build();
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            ResponseBody body = response.body();
+            if (body == null) {
+                System.exit(1);
+            }
+            return JSON.parseObject(body.string(), Gateway.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
+        }
     }
 
     private String getToken() {
@@ -68,17 +81,11 @@ public class BotCore {
         if (gateway.getCode() == null) {
             String url = gateway.getUrl();
             log.debug(url);
-            try {
-                WSClient client = new WSClient(new URI(url));
-                client.setToken(getToken());
-                client.setIntents(intents);
-                client.setEventHandler(eventHandler);
-                client.setConnectionLostTimeout(0);
-                client.connect();
-            } catch (URISyntaxException e) {
-                log.error("WS链接格式错误!");
-                System.exit(1);
-            }
+            WSClient client = new WSClient(url);
+            client.setToken(getToken());
+            client.setIntents(intents);
+            client.setEventHandler(eventHandler);
+            client.connect();
         }
     }
 
@@ -107,6 +114,7 @@ public class BotCore {
 
     /**
      * 注册 频道相关 事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerGuildsEvent() {
@@ -115,6 +123,7 @@ public class BotCore {
 
     /**
      * 注册 频道成员相关 事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerGuildMembersEvent() {
@@ -123,6 +132,7 @@ public class BotCore {
 
     /**
      * 注册 私域消息 事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerUserMessagesEvent() {
@@ -131,6 +141,7 @@ public class BotCore {
 
     /**
      * 注册 消息表态 相关事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerGuildMessageReactionsEvent() {
@@ -139,6 +150,7 @@ public class BotCore {
 
     /**
      * 注册 私聊消息 事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerDirectMessageEvent() {
@@ -147,6 +159,7 @@ public class BotCore {
 
     /**
      * 注册 论坛相关 事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerForumEvent() {
@@ -155,6 +168,7 @@ public class BotCore {
 
     /**
      * 注册 音频相关 事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerAudioActionEvent() {
@@ -163,6 +177,7 @@ public class BotCore {
 
     /**
      * 注册 AT消息 事件
+     *
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerAtMessageEvent() {

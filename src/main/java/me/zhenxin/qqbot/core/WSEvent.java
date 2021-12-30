@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.core;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.entity.*;
@@ -11,7 +11,6 @@ import me.zhenxin.qqbot.entity.ws.Payload;
 import me.zhenxin.qqbot.entity.ws.Ready;
 import me.zhenxin.qqbot.enums.Intent;
 import me.zhenxin.qqbot.event.*;
-import org.java_websocket.enums.ReadyState;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,80 +34,80 @@ class WSEvent {
         String e = payload.getT();
         switch (e) {
             case "READY":
-                Ready ready = JSONUtil.toBean((JSONObject) payload.getD(), Ready.class);
+                Ready ready = JSON.toJavaObject((JSONObject) payload.getD(), Ready.class);
                 sessionId = ready.getSessionId();
                 client.getEventHandler().setMe(ready.getUser());
                 me = ready.getUser();
                 log.info("机器人已上线!");
                 break;
             case "GUILD_CREATE":
-                Guild gc = JSONUtil.toBean((JSONObject) payload.getD(), Guild.class);
+                Guild gc = JSON.toJavaObject((JSONObject) payload.getD(), Guild.class);
                 log.info("新增频道: {}({})", gc.getName(), gc.getId());
                 GuildCreateEvent guildCreateEvent = new GuildCreateEvent(this, gc);
                 client.getEventHandler().onGuildCreate(guildCreateEvent);
                 break;
             case "GUILD_UPDATE":
-                Guild gu = JSONUtil.toBean((JSONObject) payload.getD(), Guild.class);
+                Guild gu = JSON.toJavaObject((JSONObject) payload.getD(), Guild.class);
                 log.info("频道信息变更: {}({})", gu.getName(), gu.getId());
                 GuildUpdateEvent guildUpdateEvent = new GuildUpdateEvent(this, gu);
                 client.getEventHandler().onGuildUpdate(guildUpdateEvent);
                 break;
             case "GUILD_DELETE":
-                Guild gd = JSONUtil.toBean((JSONObject) payload.getD(), Guild.class);
+                Guild gd = JSON.toJavaObject((JSONObject) payload.getD(), Guild.class);
                 log.info("退出频道: {}({})", gd.getName(), gd.getId());
                 GuildDeleteEvent guildDeleteEvent = new GuildDeleteEvent(this, gd);
                 client.getEventHandler().onGuildDelete(guildDeleteEvent);
                 break;
             case "CHANNEL_CREATE":
-                Channel cc = JSONUtil.toBean((JSONObject) payload.getD(), Channel.class);
+                Channel cc = JSON.toJavaObject((JSONObject) payload.getD(), Channel.class);
                 log.info("子频道创建: {}({})", cc.getName(), cc.getId());
                 ChannelCreateEvent channelCreateEvent = new ChannelCreateEvent(this, cc);
                 client.getEventHandler().onChannelCreate(channelCreateEvent);
                 break;
             case "CHANNEL_UPDATE":
-                Channel cu = JSONUtil.toBean((JSONObject) payload.getD(), Channel.class);
+                Channel cu = JSON.toJavaObject((JSONObject) payload.getD(), Channel.class);
                 log.info("子频道更新: {}({})", cu.getName(), cu.getId());
                 ChannelUpdateEvent channelUpdateEvent = new ChannelUpdateEvent(this, cu);
                 client.getEventHandler().onChannelUpdate(channelUpdateEvent);
                 break;
             case "CHANNEL_DELETE":
-                Channel cd = JSONUtil.toBean((JSONObject) payload.getD(), Channel.class);
+                Channel cd = JSON.toJavaObject((JSONObject) payload.getD(), Channel.class);
                 log.info("子频道删除: {}({})", cd.getName(), cd.getId());
                 ChannelDeleteEvent channelDeleteEvent = new ChannelDeleteEvent(this, cd);
                 client.getEventHandler().onChannelDelete(channelDeleteEvent);
                 break;
             case "GUILD_MEMBER_ADD":
-                Member ma = JSONUtil.toBean((JSONObject) payload.getD(), Member.class);
+                Member ma = JSON.toJavaObject((JSONObject) payload.getD(), Member.class);
                 log.info("频道用户增加: {}[{}]({})", ma.getUser().getUsername(), ma.getNick(), ma.getUser().getId());
                 GuildMemberAddEvent guildMemberAddEvent = new GuildMemberAddEvent(this, ma);
                 client.getEventHandler().onGuildMemberAdd(guildMemberAddEvent);
                 break;
             case "GUILD_MEMBER_UPDATE":
-                Member mu = JSONUtil.toBean((JSONObject) payload.getD(), Member.class);
+                Member mu = JSON.toJavaObject((JSONObject) payload.getD(), Member.class);
                 log.info("频道用户更新: {}[{}]({})", mu.getUser().getUsername(), mu.getNick(), mu.getUser().getId());
                 GuildMemberUpdateEvent guildMemberUpdateEvent = new GuildMemberUpdateEvent(this, mu);
                 client.getEventHandler().onGuildMemberUpdate(guildMemberUpdateEvent);
                 break;
             case "GUILD_MEMBER_REMOVE":
-                Member md = JSONUtil.toBean((JSONObject) payload.getD(), Member.class);
+                Member md = JSON.toJavaObject((JSONObject) payload.getD(), Member.class);
                 log.info("频道用户删除: {}[{}]({})", md.getUser().getUsername(), md.getNick(), md.getUser().getId());
                 GuildMemberRemoveEvent guildMemberRemoveEvent = new GuildMemberRemoveEvent(this, md);
                 client.getEventHandler().onGuildMemberRemove(guildMemberRemoveEvent);
                 break;
             case "MESSAGE_REACTION_ADD":
-                MessageReaction ra = JSONUtil.toBean((JSONObject) payload.getD(), MessageReaction.class);
-                log.info("表情添加: {}({})", JSONUtil.toJsonStr(ra.getTarget()), ra.getChannelId());
+                MessageReaction ra = JSON.toJavaObject((JSONObject) payload.getD(), MessageReaction.class);
+                log.info("表情添加: {}({})", JSON.toJSONString(ra.getTarget()), ra.getChannelId());
                 MessageReactionAddEvent messageReactionAddEvent = new MessageReactionAddEvent(this, ra);
                 client.getEventHandler().onMessageReactionAdd(messageReactionAddEvent);
                 break;
             case "MESSAGE_REACTION_REMOVE":
-                MessageReaction rr = JSONUtil.toBean((JSONObject) payload.getD(), MessageReaction.class);
-                log.info("表情移除: {}({})", JSONUtil.toJsonStr(rr.getTarget()), rr.getChannelId());
+                MessageReaction rr = JSON.toJavaObject((JSONObject) payload.getD(), MessageReaction.class);
+                log.info("表情移除: {}({})", JSON.toJSONString(rr.getTarget()), rr.getChannelId());
                 MessageReactionRemoveEvent messageReactionRemoveEvent = new MessageReactionRemoveEvent(this, rr);
                 client.getEventHandler().onMessageReactionRemove(messageReactionRemoveEvent);
                 break;
             case "AT_MESSAGE_CREATE":
-                Message atMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
+                Message atMessage = JSON.toJavaObject((JSONObject) payload.getD(), Message.class);
                 log.info(
                         "[AtMessage]: 频道({}) 子频道({}) {}({}): {}",
                         atMessage.getGuildId(),
@@ -125,7 +124,7 @@ class WSEvent {
                 client.getEventHandler().onAtMessage(atMessageEvent);
                 break;
             case "MESSAGE_CREATE":
-                Message userMessage = JSONUtil.toBean((JSONObject) payload.getD(), Message.class);
+                Message userMessage = JSON.toJavaObject((JSONObject) payload.getD(), Message.class);
                 log.info(
                         "[UserMessage]: 频道({}) 子频道({}) {}({}): {}",
                         userMessage.getGuildId(),
@@ -157,7 +156,7 @@ class WSEvent {
 
     // OP 10
     public void onHello(Payload payload) {
-        Hello hello = JSONUtil.toBean((JSONObject) payload.getD(), Hello.class);
+        Hello hello = JSON.toJavaObject((JSONObject) payload.getD(), Hello.class);
         if (sessionId == null || sessionId.isEmpty()) {
             sendIdentify();
         } else {
@@ -172,12 +171,8 @@ class WSEvent {
         log.debug("已收到服务端心跳.");
     }
 
-    public void onClientClose(int code, String reason, boolean remote) {
-        if (remote) {
-            log.info("服务端关闭连接, 原因 {} {}", code, reason);
-        } else {
-            log.info("客户端关闭连接, 原因 {} {}", code, reason);
-        }
+    public void onClientClose(int code, String reason) {
+        log.info("连接关闭, 原因 {} {}", code, reason);
         if (code == 4014) {
             System.exit(code);
         }
@@ -195,13 +190,19 @@ class WSEvent {
     private void startHeartbeatTimer(Integer i) {
         timer = new Timer();
         TimerTask task = new TimerTask() {
+            private Boolean setEd = false;
+
             @Override
             public void run() {
+                if (!setEd) {
+                    Thread.currentThread().setName("Heartbeat");
+                    setEd = true;
+                }
                 Payload payload = new Payload();
                 payload.setOp(1);
                 payload.setD(client.getSeq());
-                if (client.getReadyState() == ReadyState.OPEN) {
-                    client.send(JSONUtil.toJsonStr(payload));
+                if (client.getOpen()) {
+                    client.send(JSON.toJSONString(payload));
                 }
             }
         };
@@ -211,9 +212,6 @@ class WSEvent {
     private void reConnect(Integer code) {
         log.info("正在重新连接...");
         client.reconnect();
-        if (code != 4009) {
-            sessionId = null;
-        }
     }
 
     private void sendIdentify() {
@@ -227,17 +225,17 @@ class WSEvent {
         Payload identifyPayload = new Payload();
         identifyPayload.setOp(2);
         identifyPayload.setD(identify);
-        client.send(JSONUtil.toJsonStr(identifyPayload));
+        client.send(JSON.toJSONString(identifyPayload));
     }
 
     private void sendResumed() {
         JSONObject data = new JSONObject();
-        data.set("token", client.getToken());
-        data.set("session_id", sessionId);
-        data.set("seq", client.getSeq());
+        data.put("token", client.getToken());
+        data.put("session_id", sessionId);
+        data.put("seq", client.getSeq());
         Payload payload = new Payload();
         payload.setOp(6);
         payload.setD(data);
-        client.send(JSONUtil.toJsonStr(payload));
+        client.send(JSON.toJSONString(payload));
     }
 }

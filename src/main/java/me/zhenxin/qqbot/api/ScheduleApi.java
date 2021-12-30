@@ -1,6 +1,6 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.json.JSONArray;
+import com.alibaba.fastjson.JSONArray;
 import me.zhenxin.qqbot.entity.Schedule;
 
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class ScheduleApi extends BaseApi {
         } else {
             arr = get("/channels/" + channelId + "/schedules?since=" + since, JSONArray.class);
         }
-        return arr.toList(Schedule.class);
+        return arr.toJavaList(Schedule.class);
     }
 
     /**

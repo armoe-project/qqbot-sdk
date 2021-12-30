@@ -9,8 +9,8 @@ import me.zhenxin.qqbot.api.*;
  * @since 2021/12/8 16:45
  */
 public class ApiManager {
-    private final Boolean useSandBoxMode;
-    private final String token;
+    private Boolean useSandBoxMode;
+    private String token;
 
     /**
      * API 管理器
@@ -22,6 +22,9 @@ public class ApiManager {
         Integer botAppId = accessInfo.getBotAppId();
         String botToken = accessInfo.getBotToken();
         this.token = "Bot " + botAppId + "." + botToken;
+    }
+
+    public ApiManager() {
     }
 
     /**

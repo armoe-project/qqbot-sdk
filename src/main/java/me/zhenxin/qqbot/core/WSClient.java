@@ -1,15 +1,15 @@
 package me.zhenxin.qqbot.core;
 
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.entity.ws.Payload;
 import me.zhenxin.qqbot.enums.Intent;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2021/12/11 20:21
  */
 @Slf4j
-class WSClient extends WebSocketClient {
+class WSClient extends WebSocketListener {
     private final WSEvent event;
     @Setter
     @Getter
@@ -32,22 +32,39 @@ class WSClient extends WebSocketClient {
     private EventHandler eventHandler;
     @Getter
     private Integer seq;
+    @Getter
+    private Boolean open = false;
 
-    public WSClient(URI serverUri) {
-        super(serverUri);
+    private final String url;
+    private WebSocket ws = null;
+
+    public WSClient(String url) {
+        this.url = url;
         event = new WSEvent();
         event.setClient(this);
     }
 
     @Override
-    public void onOpen(ServerHandshake handshake) {
-        log.info("连接成功!");
+    public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+        event.onClientClose(code, reason);
     }
 
     @Override
-    public void onMessage(String message) {
-        log.debug("收到消息: " + message);
-        Payload payload = JSONUtil.toBean(message, Payload.class);
+    public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+        open = false;
+    }
+
+    @Override
+    public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
+        log.info("发生错误: " + t.getMessage());
+        t.printStackTrace();
+        event.onClientClose(4000, "error");
+    }
+
+    @Override
+    public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
+        log.debug("收到消息: " + text);
+        Payload payload = JSON.parseObject(text, Payload.class);
         if (payload.getS() != null) seq = payload.getS();
         switch (payload.getOp()) {
             case 0:
@@ -71,26 +88,24 @@ class WSClient extends WebSocketClient {
     }
 
     @Override
-    public void onClose(int code, String reason, boolean remote) {
-        event.onClientClose(code, reason, remote);
+    public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
+        Thread.currentThread().setName("WebSocket");
+        log.info("连接成功!");
+        open = true;
     }
 
-    @Override
-    public void onError(Exception ex) {
-        log.info("发生错误: " + ex.getMessage());
-        ex.printStackTrace();
+    public void connect() {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder().get().url(url).build();
+        ws = client.newWebSocket(request, this);
     }
 
-    @Override
+    public void reconnect() {
+        connect();
+    }
+
     public void send(String text) {
         log.debug("发送消息: " + text);
-        super.send(text);
+        ws.send(text);
     }
-
-    @Override
-    public void send(byte[] data) {
-        log.debug("发送消息: " + new String(data));
-        super.send(data);
-    }
-
 }

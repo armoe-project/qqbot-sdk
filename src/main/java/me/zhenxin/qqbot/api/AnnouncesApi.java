@@ -38,7 +38,7 @@ public class AnnouncesApi extends BaseApi {
      * @param guildId   频道ID
      * @param messageId 消息ID
      */
-    public void createGuildAnnounces(String guildId, String messageId) throws ApiException {
+    public void deleteGuildAnnounces(String guildId, String messageId) throws ApiException {
         delete("/guilds/" + guildId + "/announces/" + messageId, null, null);
     }
 

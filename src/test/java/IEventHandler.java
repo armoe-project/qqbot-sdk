@@ -50,7 +50,9 @@ class IEventHandler extends EventHandler {
                     api.getMuteApi().mute(guildId, author.getId(), 0);
                     break;
                 case "dMsg":
-                    api.getMessageApi().deleteMessage(channelId, messageId);
+                    Message m = api.getMessageApi().sendMessage(channelId, "你好", messageId);
+                    String id = m.getId();
+                    api.getMessageApi().deleteMessage(channelId, id);
                     break;
                 case "meInfo":
                     User user = api.getUserApi().getMeInfo();

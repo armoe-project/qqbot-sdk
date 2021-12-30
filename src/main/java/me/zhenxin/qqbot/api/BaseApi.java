@@ -1,13 +1,13 @@
 package me.zhenxin.qqbot.api;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.exception.ApiException;
+import okhttp3.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -21,6 +21,9 @@ class BaseApi {
     private final String api;
     private final String token;
 
+    private final OkHttpClient client = new OkHttpClient.Builder().build();
+    private final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+
     protected BaseApi(Boolean isSandBoxMode, String token) {
         if (isSandBoxMode) {
             api = "https://sandbox.api.sgroup.qq.com";
@@ -32,83 +35,107 @@ class BaseApi {
 
     protected <T> T get(String url, Class<T> tClass) throws ApiException {
         log.debug("GET Url: {}", url);
-        HttpRequest request = HttpRequest.get(api + url);
-        request.header("Authorization", token);
-        HttpResponse response = request.execute();
-        return result(response, tClass);
+        Request request =
+                new Request.Builder()
+                        .url(api + url)
+                        .header("Authorization", token)
+                        .get()
+                        .build();
+        Call call = client.newCall(request);
+        return result(call, tClass);
     }
 
     protected <T> T post(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
-        log.debug("POST Data: {}", JSONUtil.toJsonStr(data));
-        HttpRequest request = HttpRequest
-                .post(api + path)
-                .body(JSONUtil.toJsonStr(data));
-        request.header("Authorization", token);
-        HttpResponse response = request.execute();
-        return result(response, tClass);
+        log.debug("POST Data: {}", JSON.toJSONString(data));
+        RequestBody body = RequestBody.create(JSON.toJSONString(data), mediaType);
+        Request request =
+                new Request.Builder()
+                        .url(api + path)
+                        .header("Authorization", token)
+                        .post(body)
+                        .build();
+        Call call = client.newCall(request);
+        return result(call, tClass);
     }
 
     protected <T> T put(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
-        log.debug("PUT Data: {}", JSONUtil.toJsonStr(data));
-        HttpRequest request = HttpRequest
-                .put(api + path)
-                .body(JSONUtil.toJsonStr(data));
-        request.header("Authorization", token);
-        HttpResponse response = request.execute();
-        return result(response, tClass);
+        log.debug("PUT Data: {}", JSON.toJSONString(data));
+        RequestBody body = RequestBody.create(JSON.toJSONString(data), mediaType);
+        Request request =
+                new Request.Builder()
+                        .url(api + path)
+                        .header("Authorization", token)
+                        .put(body)
+                        .build();
+        Call call = client.newCall(request);
+        return result(call, tClass);
     }
 
     protected <T> T delete(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
-        log.debug("DELETE Data: {}", JSONUtil.toJsonStr(data));
-        HttpRequest request = HttpRequest
-                .delete(api + path)
-                .body(JSONUtil.toJsonStr(data));
-        request.header("Authorization", token);
-        HttpResponse response = request.execute();
-        return result(response, tClass);
+        log.debug("DELETE Data: {}", JSON.toJSONString(data));
+        RequestBody body = RequestBody.create(JSON.toJSONString(data), mediaType);
+        Request request =
+                new Request.Builder()
+                        .url(api + path)
+                        .header("Authorization", token)
+                        .delete(body)
+                        .build();
+        Call call = client.newCall(request);
+        return result(call, tClass);
     }
 
     protected <T> T patch(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
-        log.debug("PATCH Data: {}", JSONUtil.toJsonStr(data));
-        HttpRequest request = HttpRequest
-                .patch(api + path)
-                .body(JSONUtil.toJsonStr(data));
-        request.header("Authorization", token);
-        HttpResponse response = request.execute();
-        return result(response, tClass);
+        log.debug("PATCH Data: {}", JSON.toJSONString(data));
+        RequestBody body = RequestBody.create(JSON.toJSONString(data), mediaType);
+        Request request =
+                new Request.Builder()
+                        .url(api + path)
+                        .header("Authorization", token)
+                        .patch(body)
+                        .build();
+        Call call = client.newCall(request);
+        return result(call, tClass);
     }
 
-    private <T> T result(HttpResponse response, Class<T> tClass) throws ApiException {
-        int status = response.getStatus();
-        log.debug("API请求: 状态码 {}", status);
-        if (status == 204) {
-            log.debug("API请求成功: 无Body");
-            return null;
-        }
-        if (status == 201 || status == 202) {
-            log.info("API异步请求成功: {}", response.body());
-            return null;
-        }
-        String body = response.body();
-        log.debug("API请求成功: {}", body);
-        if (tClass == JSONArray.class) {
-            //noinspection unchecked
-            return (T) new JSONArray(body);
-        }
-        if (body == null || body.isEmpty()) {
-            return null;
-        }
+    private <T> T result(Call call, Class<T> tClass) throws ApiException {
+        try {
+            Response response = call.execute();
+            int status = response.code();
+            log.debug("API请求: 状态码 {}", status);
+            if (status == 204) {
+                log.debug("API请求成功: 无Body");
+                return null;
+            }
+            ResponseBody body = response.body();
+            if (body == null) {
+                return null;
+            }
+            String bodyStr = body.string();
+            if (status == 201 || status == 202) {
+                log.info("API异步请求成功: {}", bodyStr);
+                return null;
+            }
 
-        JSONObject j = JSONUtil.parseObj(body);
-        Integer code = j.getInt("code");
-        if (code != null) {
-            String message = j.getStr("message");
-            exception(code, message);
-        }
+            log.debug("API请求成功: {}", bodyStr);
+            if (tClass == JSONArray.class) {
+                //noinspection unchecked
+                return (T) JSON.parseArray(bodyStr);
+            }
 
-        if (tClass != null) {
-            return JSONUtil.toBean(body, tClass);
-        } else {
+            JSONObject obj = JSON.parseObject(bodyStr);
+            Integer code = obj.getInteger("code");
+            if (code != null) {
+                String message = obj.getString("message");
+                exception(code, message);
+            }
+
+            if (tClass != null) {
+                return JSON.parseObject(bodyStr, tClass);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
