@@ -5,7 +5,7 @@
             <pattern>[%d{HH:mm:ss} %cyan(%c{5}) %yellow(%thread) %highlight(%level)]: %msg%n</pattern>
         </encoder>
     </appender>
-    <root level="DEBUG">
+    <root level="${LogLevel:-INFO}">
         <appender-ref ref="Console"/>
     </root>
 </configuration>
