@@ -6,7 +6,7 @@
 
     <groupId>me.zhenxin</groupId>
     <artifactId>qq-official-bot-sdk</artifactId>
-    <version>0.0.10-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
