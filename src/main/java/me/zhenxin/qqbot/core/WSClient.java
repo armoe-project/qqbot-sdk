@@ -45,12 +45,8 @@ class WSClient extends WebSocketListener {
     }
 
     @Override
-    public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-        event.onClientClose(code, reason);
-    }
-
-    @Override
     public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+        event.onClientClose(code, reason);
         open = false;
     }
 
