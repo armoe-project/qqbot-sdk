@@ -1,4 +1,4 @@
-package me.zhenxin.qqbot.core;
+package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
 
