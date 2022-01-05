@@ -94,7 +94,6 @@ class IEventHandler extends EventHandler {
         String content = message.getContent();
         String messageId = message.getId();
         User author = message.getAuthor();
-        super.onAtMessage(event);
         try {
             String[] args = content.split(" ");
             String command = args[0];
