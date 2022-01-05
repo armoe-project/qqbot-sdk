@@ -152,3 +152,12 @@ class Example {
 | DEBUG | 调试 对应log.debug() |
 | WARN  | 警告 对应log.warn()  |
 | ERROR | 错误 对应log.error() |
+
+## 模块说明
+
+| 模块              | 说明          |
+|-----------------|-------------|
+| qqbot-common    | 公共文件 实体类等   |
+| qqbot-api       | API实现 可单独使用 |
+| qqbot-websocket | Ws实现        |
+| qqbot-sdk       | SDK集成       |
