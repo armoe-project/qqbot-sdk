@@ -1,5 +1,6 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.Announces;
 import me.zhenxin.qqbot.exception.ApiException;
 
@@ -39,7 +40,7 @@ public class AnnouncesApi extends BaseApi {
      * @param messageId 消息ID
      */
     public void deleteGuildAnnounces(String guildId, String messageId) throws ApiException {
-        delete("/guilds/" + guildId + "/announces/" + messageId, null, null);
+        delete("/guilds/" + guildId + "/announces/" + messageId, null);
     }
 
     /**
@@ -61,6 +62,6 @@ public class AnnouncesApi extends BaseApi {
      * @param messageId 消息ID
      */
     public void deleteAnnounces(String channelId, String messageId) throws ApiException {
-        delete("/channels/" + channelId + "/announces/" + messageId, null, null);
+        delete("/channels/" + channelId + "/announces/" + messageId, null);
     }
 }

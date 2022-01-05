@@ -1,11 +1,10 @@
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.api.ApiManager;
-import me.zhenxin.qqbot.entity.Message;
-import me.zhenxin.qqbot.entity.MessageEmbed;
-import me.zhenxin.qqbot.entity.User;
+import me.zhenxin.qqbot.entity.*;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
 import me.zhenxin.qqbot.event.AtMessageEvent;
+import me.zhenxin.qqbot.event.UserMessageEvent;
 import me.zhenxin.qqbot.exception.ApiException;
 import me.zhenxin.qqbot.template.EmbedTemplate;
 import me.zhenxin.qqbot.template.TextThumbnailTemplate;
@@ -27,13 +26,22 @@ class IEventHandler extends EventHandler {
 
     @Override
     protected void onError(Throwable t) {
-        t.printStackTrace();
         log.error("发生异常: {}", t.getMessage());
     }
 
     @Override
-    public void onAtMessage(AtMessageEvent event) {
+    protected void onUserMessage(UserMessageEvent event) {
         Message message = event.getMessage();
+        message(message);
+    }
+
+    @Override
+    protected void onAtMessage(AtMessageEvent event) {
+        Message message = event.getMessage();
+        message(message);
+    }
+
+    private void message(Message message) {
         String guildId = message.getGuildId();
         String channelId = message.getChannelId();
         String content = message.getContent();
@@ -43,6 +51,24 @@ class IEventHandler extends EventHandler {
             String[] args = content.split(" ");
             String command = args[0];
             switch (command) {
+                case "scs":
+                    List<Schedule> scheduleList = api.getScheduleApi().getScheduleList("2067010", null);
+                    api.getMessageApi().sendMessage(
+                            channelId,
+                            scheduleList.toString(),
+                            messageId
+                    );
+                case "members":
+                    List<Member> members = api.getGuildApi().getGuildMembers(guildId, 1000);
+                    for (int i = 0; i < members.size(); i++) {
+                        members.get(i).getUser().setAvatar("");
+                    }
+                    api.getMessageApi().sendMessage(
+                            channelId,
+                            members.toString(),
+                            messageId
+                    );
+                    break;
                 case "info":
                     api.getChannelPermissionsApi().addChannelPermissions(channelId, author.getId(), 1);
                     break;

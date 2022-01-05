@@ -108,7 +108,7 @@ public class BotCore {
      * 获取 API管理器 实例
      */
     public ApiManager getApiManager() {
-        return new ApiManager(accessInfo, accessInfo.getUseSandBoxMode());
+        return new ApiManager(accessInfo);
     }
 
     /**

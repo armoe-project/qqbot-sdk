@@ -1,5 +1,6 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.Member;
 import me.zhenxin.qqbot.exception.ApiException;
 
@@ -22,5 +23,15 @@ public class MemberApi extends BaseApi {
      */
     public Member getMemberInfo(String guildId, String userId) throws ApiException {
         return get("/guilds/" + guildId + "/members/" + userId, Member.class);
+    }
+
+    /**
+     * 删除频道成员 (仅私域可用)
+     *
+     * @param guildId 频道ID
+     * @param userId  用户ID
+     */
+    public void deleteMember(String guildId, String userId) throws ApiException {
+        delete("/guilds/" + guildId + "/members/" + userId, null);
     }
 }

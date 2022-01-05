@@ -1,5 +1,6 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.ChannelPermissions;
 
 import java.util.HashMap;

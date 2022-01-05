@@ -1,4 +1,6 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
+
+import me.zhenxin.qqbot.api.BaseApi;
 
 import java.util.HashMap;
 import java.util.Map;

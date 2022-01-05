@@ -71,7 +71,7 @@ public abstract class BaseApi {
         return result(call, tClass);
     }
 
-    protected <T> T delete(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {
+    protected void delete(String path, Map<String, Object> data) throws ApiException {
         log.debug("DELETE Data: {}", JSON.toJSONString(data));
         RequestBody body = RequestBody.create(JSON.toJSONString(data), mediaType);
         Request request =
@@ -81,7 +81,7 @@ public abstract class BaseApi {
                         .delete(body)
                         .build();
         Call call = client.newCall(request);
-        return result(call, tClass);
+        result(call, null);
     }
 
     protected <T> T patch(String path, Map<String, Object> data, Class<T> tClass) throws ApiException {

@@ -1,6 +1,7 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AudioControl;
 
 /**

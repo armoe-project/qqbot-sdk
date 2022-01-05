@@ -1,6 +1,7 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.Schedule;
 
 import java.util.HashMap;
@@ -59,6 +60,6 @@ public class ScheduleApi extends BaseApi {
     }
 
     public void deleteSchedule(String channelId, String scheduleId) {
-        delete("/channels/" + channelId + "/schedules/" + scheduleId, null, null);
+        delete("/channels/" + channelId + "/schedules/" + scheduleId, null);
     }
 }

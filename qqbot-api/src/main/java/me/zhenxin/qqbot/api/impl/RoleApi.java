@@ -1,8 +1,9 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.Channel;
 import me.zhenxin.qqbot.entity.Role;
 import me.zhenxin.qqbot.entity.api.RoleList;
@@ -68,7 +69,7 @@ public class RoleApi extends BaseApi {
      * @param roleId  身份组ID
      */
     public void deleteRole(String guildId, String roleId) throws ApiException {
-        delete("/guilds/" + guildId + "/roles/" + roleId, null, null);
+        delete("/guilds/" + guildId + "/roles/" + roleId, null);
     }
 
     /**
@@ -104,7 +105,7 @@ public class RoleApi extends BaseApi {
             channel.setId(channelId);
             data.put("channel", channel);
         }
-        delete("/guilds/" + guildId + "/members/" + userId + "/roles/" + roleId, data, null);
+        delete("/guilds/" + guildId + "/members/" + userId + "/roles/" + roleId, data);
     }
 
     private Map<String, Object> getData(String name, Long color, Boolean hoist) {

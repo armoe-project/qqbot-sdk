@@ -1,5 +1,6 @@
 package me.zhenxin.qqbot.api;
 
+import me.zhenxin.qqbot.api.impl.*;
 import me.zhenxin.qqbot.entity.AccessInfo;
 
 /**
@@ -17,8 +18,8 @@ public class ApiManager {
      *
      * @param accessInfo 访问信息
      */
-    public ApiManager(AccessInfo accessInfo, Boolean useSandBoxMode) {
-        this.useSandBoxMode = useSandBoxMode;
+    public ApiManager(AccessInfo accessInfo) {
+        this.useSandBoxMode = accessInfo.getUseSandBoxMode();
         Integer botAppId = accessInfo.getBotAppId();
         String botToken = accessInfo.getBotToken();
         this.token = "Bot " + botAppId + "." + botToken;

@@ -110,3 +110,45 @@ class IEventHandler extends EventHandler {
     }
 }
 ```
+
+## 单独使用API
+
+```xml
+
+<dependency>
+    <groupId>me.zhenxin</groupId>
+    <artifactId>qqbot-api</artifactId>
+    <version>${version}</version>
+</dependency>
+```
+
+```java
+
+@Slf4j
+class Example {
+    public static void main(String[] args) {
+        AccessInfo accessInfo = new AccessInfo();
+        accessInfo.setBotAppId(0); // 管理端的BotAppId
+        accessInfo.setBotToken(""); // 管理端的BotToken
+        // 使用沙盒模式
+        accessInfo.useSandBoxMode();
+        // 创建实例
+        ApiManager api = new ApiManager(accessInfo);
+        // 调用
+        List<Guild> guilds = api.getUserApi().getMeGuilds();
+
+        log.info("{}", guilds);
+    }
+}
+```
+
+## 自定义日志级别
+
+添加环境变量 `LogLevel` 设置日志级别
+
+| 等级    | 描述               |
+|-------|------------------|
+| INFO  | 信息 对应log.info()  |
+| DEBUG | 调试 对应log.debug() |
+| WARN  | 警告 对应log.warn()  |
+| ERROR | 错误 对应log.error() |

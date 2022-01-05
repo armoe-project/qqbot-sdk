@@ -1,5 +1,6 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.entity.MessageEmbed;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
@@ -105,7 +106,7 @@ public class MessageApi extends BaseApi {
      * @param messageId 消息ID
      */
     public void deleteMessage(String channelId, String messageId) throws ApiException {
-        delete("/channels/"+channelId+"/messages/" + messageId,null,null);
+        delete("/channels/"+channelId+"/messages/" + messageId,null);
     }
 
     /**

@@ -1,6 +1,7 @@
-package me.zhenxin.qqbot.api;
+package me.zhenxin.qqbot.api.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.Guild;
 import me.zhenxin.qqbot.entity.User;
 

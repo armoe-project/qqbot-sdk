@@ -52,8 +52,9 @@ public class Client extends WebSocketListener {
 
     @Override
     public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
-
+        t.printStackTrace();
         eventHandler.onError(t);
+        event.onClientClose(1011, "failure");
     }
 
     @Override
