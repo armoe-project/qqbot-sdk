@@ -67,7 +67,7 @@ class IEventHandler extends EventHandler {
     // 处理错误
     @Override
     public void onError(Throwable t) {
-        log.error("发生错误: {}", t.getMessage());
+        
     }
 
     @Override
