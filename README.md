@@ -8,18 +8,6 @@ QQ官方机器人 SDK For Java
 * [加入QQ频道][qqguild]
 * [使用文档][docs]
 
-## 警告
-
-请勿使用`0.0.2-SNAPSHOT`版本的SDK!
-
-此版本存在`Log4j 2 远程代码执行漏洞`
-
-详细情况请参考: [腾讯云公告](https://cloud.tencent.com/announce/detail/1692)
-
-另 `0.0.3-SNAPSHOT - 0.0.8-SNAPSHOT` 存在另一漏洞 不建议使用
-
-另 `0.0.9-SNAPSHOT, 0.0.10-SNAPSHOT` 存在另一漏洞 不建议使用
-
 ## 使用
 
 1.添加依赖
