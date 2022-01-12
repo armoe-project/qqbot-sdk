@@ -11,7 +11,9 @@ import me.zhenxin.qqbot.websocket.entity.Hello;
 import me.zhenxin.qqbot.websocket.entity.Identify;
 import me.zhenxin.qqbot.websocket.entity.Payload;
 import me.zhenxin.qqbot.websocket.entity.Ready;
+import org.java_websocket.enums.ReadyState;
 
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,7 +40,7 @@ class Event {
                 sessionId = ready.getSessionId();
                 client.getEventHandler().setMe(ready.getUser());
                 me = ready.getUser();
-                log.info("机器人已上线!");
+                log.info("鉴权成功, 机器人已上线!");
                 break;
             case "GUILD_CREATE":
                 Guild gc = JSON.toJavaObject((JSONObject) payload.getD(), Guild.class);
@@ -158,29 +160,81 @@ class Event {
     public void onHello(Payload payload) {
         Hello hello = JSON.toJavaObject((JSONObject) payload.getD(), Hello.class);
         if (sessionId == null || sessionId.isEmpty()) {
+            log.info("正在发送鉴权...");
             sendIdentify();
         } else {
-            timer.cancel();
+            log.info("正在发送恢复...");
             sendResumed();
+        }
+        if (timer != null) {
+            timer.cancel();
         }
         startHeartbeatTimer(hello.getHeartbeatInterval());
     }
 
     // OP 11
-    public void onHeartbeatACK() {
+    public void onHeartbeat() {
         log.debug("已收到服务端心跳.");
     }
 
-    public void onClientClose(int code, String reason) {
-        log.info("连接关闭, 原因 {} {}", code, reason);
-        if (code == 4014) {
-            System.exit(code);
+    public void onClientClose(int code, String reason, boolean remote) {
+        switch (code) {
+            case 4001:
+                log.warn("服务端关闭连接, 原因 {} {}({})", code, "无效的 opcode", reason);
+                break;
+            case 4002:
+                log.warn("服务端关闭连接, 原因 {} {}({})", code, "无效的 payload", reason);
+                break;
+            case 4007:
+                log.warn("服务端关闭连接, 原因 {} {}({})", code, "seq 错误", reason);
+                break;
+            case 4008:
+                log.warn("服务端关闭连接, 原因 {} {}({})", code, "发送 payload 过快，请重新连接，并遵守连接后返回的频控信息", reason);
+                break;
+            case 4009:
+                log.warn("服务端关闭连接, 原因 {} {}({})", code, "连接过期，请重连", reason);
+                break;
+            case 4010:
+                log.error("服务端关闭连接, 原因 {} {}({})", code, "无效的 shard", reason);
+                System.exit(code);
+                break;
+            case 4011:
+                log.error("服务端关闭连接, 原因 {} {}({})", code, "连接需要处理的频道过多，请进行合理的分片", reason);
+                System.exit(code);
+                break;
+            case 4012:
+                log.error("服务端关闭连接, 原因 {} {}({})", code, "无效的 version", reason);
+                System.exit(code);
+                break;
+            case 4013:
+                log.error("服务端关闭连接, 原因 {} {}({})", code, "无效的 intent", reason);
+                System.exit(code);
+                break;
+            case 4014:
+                log.error("服务端关闭连接, 原因 {} {}({})", code, "intent 无权限", reason);
+                System.exit(code);
+                break;
+            case 4914:
+                log.error("服务端关闭连接, 原因 {} {}({})", code, "机器人已下架,只允许连接沙箱环境,请断开连接,检验当前连接环境", reason);
+                System.exit(code);
+                break;
+            case 4915:
+                log.error("服务端关闭连接, 原因 {} {}({})", code, "机器人已封禁,不允许连接,请断开连接,申请解封后再连接", reason);
+                System.exit(code);
+                break;
+            default:
+                sessionId = null;
+                if (remote) {
+                    log.warn("服务端关闭连接, 原因 {} {}", code, reason);
+                } else {
+                    log.warn("客户端关闭连接, 原因 {} {}", code, reason);
+                }
         }
 
         log.info("5秒后开始尝试恢复连接...");
         try {
             Thread.sleep(5000);
-            new Thread(() -> reConnect(code)).start();
+            new Thread(() -> reconnect(code)).start();
         } catch (Exception e) {
             e.printStackTrace();
             log.info("重新连接失败,请检查网络!");
@@ -190,18 +244,13 @@ class Event {
     private void startHeartbeatTimer(Integer i) {
         timer = new Timer();
         TimerTask task = new TimerTask() {
-            private Boolean setEd = false;
-
             @Override
             public void run() {
-                if (!setEd) {
-                    Thread.currentThread().setName("Heartbeat");
-                    setEd = true;
-                }
-                Payload payload = new Payload();
-                payload.setOp(1);
-                payload.setD(client.getSeq());
-                if (client.getOpen()) {
+                if (client.getReadyState() == ReadyState.OPEN) {
+                    Payload payload = new Payload();
+                    payload.setOp(1);
+                    payload.setD(client.getSeq());
+                    log.debug("向服务端发送心跳.");
                     client.send(JSON.toJSONString(payload));
                 }
             }
@@ -209,17 +258,25 @@ class Event {
         timer.schedule(task, i, i);
     }
 
-    private void reConnect(Integer code) {
+    private void reconnect(Integer code) {
         log.info("正在重新连接...");
+        if (code != 4009) {
+            sessionId = null;
+        }
         client.reconnect();
     }
 
     private void sendIdentify() {
+        Identify identify = new Identify();
+        Integer shard = client.getShard();
+        Integer totalShard = client.getTotalShard();
+        if (shard != null && totalShard != null) {
+            identify.setShard(Arrays.asList(shard, totalShard));
+        }
         int intentsNum = 0;
         for (Intent intent : client.getIntents()) {
             intentsNum = intentsNum | intent.getValue();
         }
-        Identify identify = new Identify();
         identify.setToken(client.getToken());
         identify.setIntents(intentsNum);
         Payload identifyPayload = new Payload();

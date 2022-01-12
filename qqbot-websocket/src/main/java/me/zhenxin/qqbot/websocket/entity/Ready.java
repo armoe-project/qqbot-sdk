@@ -1,7 +1,7 @@
 package me.zhenxin.qqbot.websocket.entity;
 
-import me.zhenxin.qqbot.entity.User;
 import lombok.Data;
+import me.zhenxin.qqbot.entity.User;
 
 import java.util.List;
 

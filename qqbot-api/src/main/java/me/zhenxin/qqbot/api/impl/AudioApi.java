@@ -1,6 +1,7 @@
 package me.zhenxin.qqbot.api.impl;
 
-import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AudioControl;
 
@@ -15,7 +16,13 @@ public class AudioApi extends BaseApi {
         super(isSandBoxMode, token);
     }
 
-    public void AudioControl(String channelId, AudioControl control) {
-        post("/channels/" + channelId + "/audio", BeanUtil.beanToMap(control), null);
+    /**
+     * 音频控制
+     *
+     * @param channelId 子频道ID
+     * @param control   音频控制对象
+     */
+    public void audioControl(String channelId, AudioControl control) {
+        post("/channels/" + channelId + "/audio", (JSONObject) JSON.toJSON(control), null);
     }
 }

@@ -1,7 +1,10 @@
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.api.ApiManager;
-import me.zhenxin.qqbot.entity.*;
+import me.zhenxin.qqbot.entity.Member;
+import me.zhenxin.qqbot.entity.Message;
+import me.zhenxin.qqbot.entity.MessageEmbed;
+import me.zhenxin.qqbot.entity.User;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
@@ -25,11 +28,6 @@ class IEventHandler extends EventHandler {
     private final ApiManager api;
 
     @Override
-    protected void onError(Throwable t) {
-        log.error("发生异常: {}", t.getMessage());
-    }
-
-    @Override
     protected void onUserMessage(UserMessageEvent event) {
         Message message = event.getMessage();
         message(message);
@@ -51,17 +49,16 @@ class IEventHandler extends EventHandler {
             String[] args = content.split(" ");
             String command = args[0];
             switch (command) {
-                case "scs":
-                    List<Schedule> scheduleList = api.getScheduleApi().getScheduleList("2067010", null);
+                case "error":
                     api.getMessageApi().sendMessage(
                             channelId,
-                            scheduleList.toString(),
+                            "https://www.qq.com",
                             messageId
                     );
                 case "members":
                     List<Member> members = api.getGuildApi().getGuildMembers(guildId, 1000);
-                    for (int i = 0; i < members.size(); i++) {
-                        members.get(i).getUser().setAvatar("");
+                    for (Member member : members) {
+                        member.getUser().setAvatar("");
                     }
                     api.getMessageApi().sendMessage(
                             channelId,

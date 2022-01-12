@@ -12,7 +12,7 @@ import me.zhenxin.qqbot.enums.Intent;
  */
 @Slf4j
 class Example {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         AccessInfo accessInfo = new AccessInfo();
         accessInfo.setBotAppId(Integer.parseInt(System.getenv("BotAppid")));
         accessInfo.setBotToken(System.getenv("BotToken"));
@@ -30,6 +30,8 @@ class Example {
         IEventHandler handler = new IEventHandler(api);
         bot.setEventHandler(handler);
         log.info("正在启动中...");
-        bot.start();
+        bot.start(0, 2);
+        Thread.sleep(2000);
+        bot.start(1, 2);
     }
 }

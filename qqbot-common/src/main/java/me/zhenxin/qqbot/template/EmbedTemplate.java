@@ -1,9 +1,9 @@
 package me.zhenxin.qqbot.template;
 
-import me.zhenxin.qqbot.entity.MessageEmbedThumbnail;
 import lombok.Builder;
 import me.zhenxin.qqbot.entity.MessageEmbed;
 import me.zhenxin.qqbot.entity.MessageEmbedField;
+import me.zhenxin.qqbot.entity.MessageEmbedThumbnail;
 
 import java.util.ArrayList;
 import java.util.List;

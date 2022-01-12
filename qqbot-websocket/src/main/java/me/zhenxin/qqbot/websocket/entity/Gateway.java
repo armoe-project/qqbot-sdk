@@ -13,4 +13,14 @@ public class Gateway {
     private Integer code;
     private String message;
     private String url;
+    private Integer shards;
+    private SessionStartLimit sessionStartLimit;
+
+    @Data
+    public static class SessionStartLimit {
+        private Integer total;
+        private Integer remaining;
+        private Integer resetAfter;
+        private Integer maxConcurrency;
+    }
 }

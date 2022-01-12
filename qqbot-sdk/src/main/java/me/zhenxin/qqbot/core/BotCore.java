@@ -6,12 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import me.zhenxin.qqbot.api.ApiManager;
 import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.enums.Intent;
-import me.zhenxin.qqbot.websocket.EventHandler;
 import me.zhenxin.qqbot.websocket.Client;
+import me.zhenxin.qqbot.websocket.EventHandler;
 import me.zhenxin.qqbot.websocket.entity.Gateway;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +50,7 @@ public class BotCore {
 
         OkHttpClient client = new OkHttpClient.Builder().build();
         Request request = new Request.Builder()
-                .url(apiBase + "/gateway")
+                .url(apiBase + "/gateway/bot")
                 .header("Authorization", token)
                 .get()
                 .build();
@@ -59,7 +61,9 @@ public class BotCore {
             if (body == null) {
                 System.exit(1);
             }
-            return JSON.parseObject(body.string(), Gateway.class);
+            String result = body.string();
+            log.debug(result);
+            return JSON.parseObject(result, Gateway.class);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -80,18 +84,38 @@ public class BotCore {
     }
 
     /**
-     * 启动机器人
+     * 启动机器人 单例
      */
     public void start() {
+        start(null, null);
+    }
+
+    /**
+     * 启动机器人 指定分片
+     *
+     * @param shard      当前连接的分片数
+     * @param totalShard 总分片数
+     */
+    public void start(Integer shard, Integer totalShard) {
         Gateway gateway = getGateway();
         if (gateway.getCode() == null) {
             String url = gateway.getUrl();
-            log.debug(url);
-            Client client = new Client(url);
-            client.setToken(getToken());
-            client.setIntents(intents);
-            client.setEventHandler(eventHandler);
-            client.connect();
+            log.info("网关地址: {}, 建议分片数: {}", url, gateway.getShards());
+            try {
+                Client client = new Client(new URI(url));
+                client.setToken(getToken());
+                client.setIntents(intents);
+                client.setEventHandler(eventHandler);
+                client.setShard(shard, totalShard);
+                client.setConnectionLostTimeout(0);
+                client.connect();
+            } catch (URISyntaxException e) {
+                log.error("WebSocket 连接地址错误!");
+                System.exit(1);
+            }
+        } else {
+            log.error("获取 Gateway 失败! {} {}", gateway.getCode(), gateway.getMessage());
+            System.exit(gateway.getCode());
         }
     }
 

@@ -2,11 +2,11 @@
 
 QQ官方机器人 SDK For Java
 
-[![Maven metadata URL](https://img.shields.io/maven-central/v/me.zhenxin/qqbot-parent)](https://search.maven.org/artifact/me.zhenxin/qqbot-sdk)
-![GitHub Repo stars](https://img.shields.io/github/stars/xiaoye-bot/qq-official-bot-sdk)
+[![Maven metadata URL][img-maven]][maven]
+![GitHub Repo stars][img-stars]
 
-* [加入QQ频道](https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=GECpm&from=246610&biz=ka)
-* [使用文档](https://sdk.armoe.cn/qq/)
+* [加入QQ频道][qqguild]
+* [使用文档][docs]
 
 ## 警告
 
@@ -161,3 +161,25 @@ class Example {
 | qqbot-api       | API实现 可单独使用 |
 | qqbot-websocket | Ws实现        |
 | qqbot-sdk       | SDK集成       |
+
+## 开源协议
+
+本项目使用 [GPL-3.0](LICENSE) 协议开放源代码
+
+## 赞助
+
+你可以请我喝瓶可乐~
+
+![img-pay]
+
+[maven]: https://search.maven.org/artifact/me.zhenxin/qqbot-sdk/1.0.2/jar
+
+[docs]: https://sdk.armoe.cn/qq/
+
+[qqguild]: https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=GECpm&from=246610&biz=ka
+
+[img-maven]: https://img.shields.io/maven-central/v/me.zhenxin/qqbot-sdk
+
+[img-stars]: https://img.shields.io/github/stars/xiaoye-bot/qq-official-bot-sdk
+
+[img-pay]: https://s2.loli.net/2022/01/12/wqhXNKAlnMZ5oci.png

@@ -102,11 +102,12 @@ public class MessageApi extends BaseApi {
 
     /**
      * 撤回消息
+     *
      * @param channelId 子频道ID
      * @param messageId 消息ID
      */
     public void deleteMessage(String channelId, String messageId) throws ApiException {
-        delete("/channels/"+channelId+"/messages/" + messageId,null);
+        delete("/channels/" + channelId + "/messages/" + messageId, null);
     }
 
     /**

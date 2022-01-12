@@ -30,9 +30,9 @@ public class EventHandler {
     /**
      * 错误处理
      *
-     * @param t 异常
+     * @param e 异常
      */
-    protected void onError(Throwable t) {
+    protected void onError(Exception e) {
 
     }
 
