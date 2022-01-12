@@ -15,7 +15,6 @@ QQ官方机器人 SDK For Java
 * Maven
 
 ```xml
-
 <dependency>
     <groupId>me.zhenxin</groupId>
     <artifactId>qqbot-sdk</artifactId>
@@ -26,19 +25,16 @@ QQ官方机器人 SDK For Java
 * Gradle Kotlin DSL
 
 ```kotlin
-
 implementation("me.zhenxin:qqbot-sdk:${version}")
 ```
 
 * Gradle Groovy DSL
 
 ```groovy
-
 implementation 'me.zhenxin:qqbot-sdk:${version}'
 ```
 
 2.使用
-
 ```java
 class Example {
     public static void main(String[] args) {
@@ -102,7 +98,6 @@ class IEventHandler extends EventHandler {
 ## 单独使用API
 
 ```xml
-
 <dependency>
     <groupId>me.zhenxin</groupId>
     <artifactId>qqbot-api</artifactId>
@@ -111,7 +106,6 @@ class IEventHandler extends EventHandler {
 ```
 
 ```java
-
 @Slf4j
 class Example {
     public static void main(String[] args) {
