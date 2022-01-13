@@ -2,11 +2,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import me.zhenxin.qqbot.api.ApiManager;
-import me.zhenxin.qqbot.entity.Member;
 import me.zhenxin.qqbot.entity.Message;
-import me.zhenxin.qqbot.entity.MessageEmbed;
-import me.zhenxin.qqbot.entity.User;
-import me.zhenxin.qqbot.entity.ark.MessageArk;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
 import me.zhenxin.qqbot.exception.ApiException;
@@ -15,7 +11,6 @@ import me.zhenxin.qqbot.template.TextThumbnailTemplate;
 import me.zhenxin.qqbot.websocket.EventHandler;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 事件执行器

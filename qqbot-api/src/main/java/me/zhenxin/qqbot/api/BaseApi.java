@@ -116,38 +116,37 @@ public abstract class BaseApi {
                 log.warn("API异步请求成功: {}", bodyStr);
                 return null;
             }
+            if (status == 200) {
+                log.debug("API请求成功: {}", bodyStr);
+                if (tClass == JSONArray.class) {
+                    //noinspection unchecked
+                    return (T) JSON.parseArray(bodyStr);
+                }
 
+                if (tClass != null) {
+                    return JSON.parseObject(bodyStr, tClass);
+                } else {
+                    return null;
+                }
+            }
             JSONObject obj = JSON.parseObject(bodyStr);
             Integer code = obj.getInteger("code");
-            if (code != null) {
-                String message = obj.getString("message");
-                String traceId = response.header("X-Tps-Trace-Id");
-                log.error("API请求错误!");
-                log.error("TraceId: {}", traceId);
-                log.error("请求地址: {}", request.url().encodedPath());
-                log.error("状态码: {}", status);
-                log.error("返回内容: {}", bodyStr);
-                // 解析requestBody
-                RequestBody requestBody = request.body();
-                if (requestBody != null) {
-                    Buffer buffer = new Buffer();
-                    requestBody.writeTo(buffer);
-                    log.error("请求体: {}", buffer.readUtf8());
-                }
-                exception(code, message, traceId);
+            String message = obj.getString("message");
+            String traceId = response.header("X-Tps-Trace-Id");
+            log.error("API请求错误!");
+            log.error("TraceId: {}", traceId);
+            log.error("请求地址: {}", request.url().encodedPath());
+            log.error("状态码: {}", status);
+            log.error("返回内容: {}", bodyStr);
+            // 解析requestBody
+            RequestBody requestBody = request.body();
+            if (requestBody != null) {
+                Buffer buffer = new Buffer();
+                requestBody.writeTo(buffer);
+                log.error("请求体: {}", buffer.readUtf8());
             }
-
-            log.debug("API请求成功: {}", bodyStr);
-            if (tClass == JSONArray.class) {
-                //noinspection unchecked
-                return (T) JSON.parseArray(bodyStr);
-            }
-
-            if (tClass != null) {
-                return JSON.parseObject(bodyStr, tClass);
-            } else {
-                return null;
-            }
+            exception(code, message, traceId);
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
