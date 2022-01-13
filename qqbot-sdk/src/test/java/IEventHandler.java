@@ -1,5 +1,6 @@
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import me.zhenxin.qqbot.api.ApiManager;
 import me.zhenxin.qqbot.entity.Member;
 import me.zhenxin.qqbot.entity.Message;
@@ -29,25 +30,25 @@ class IEventHandler extends EventHandler {
 
     @Override
     protected void onUserMessage(UserMessageEvent event) {
-        Message message = event.getMessage();
+        val message = event.getMessage();
         message(message);
     }
 
     @Override
     protected void onAtMessage(AtMessageEvent event) {
-        Message message = event.getMessage();
+        val message = event.getMessage();
         message(message);
     }
 
     private void message(Message message) {
-        String guildId = message.getGuildId();
-        String channelId = message.getChannelId();
-        String content = message.getContent();
-        String messageId = message.getId();
-        User author = message.getAuthor();
+        val guildId = message.getGuildId();
+        val channelId = message.getChannelId();
+        val content = message.getContent();
+        val messageId = message.getId();
+        val author = message.getAuthor();
         try {
-            String[] args = content.split(" ");
-            String command = args[0];
+            val args = content.split(" ");
+            val command = args[0];
             switch (command) {
                 case "error":
                     api.getMessageApi().sendMessage(
@@ -56,8 +57,8 @@ class IEventHandler extends EventHandler {
                             messageId
                     );
                 case "members":
-                    List<Member> members = api.getGuildApi().getGuildMembers(guildId, 1000);
-                    for (Member member : members) {
+                    val members = api.getGuildApi().getGuildMembers(guildId, 1000);
+                    for (val member : members) {
                         member.getUser().setAvatar("");
                     }
                     api.getMessageApi().sendMessage(
@@ -78,16 +79,16 @@ class IEventHandler extends EventHandler {
                     api.getMuteApi().mute(guildId, author.getId(), 0);
                     break;
                 case "dMsg":
-                    Message m = api.getMessageApi().sendMessage(channelId, "你好", messageId);
-                    String id = m.getId();
+                    val m = api.getMessageApi().sendMessage(channelId, "你好", messageId);
+                    val id = m.getId();
                     api.getMessageApi().deleteMessage(channelId, id);
                     break;
                 case "embed":
-                    List<String> fields = new ArrayList<>();
+                    val fields = new ArrayList<String>();
                     fields.add("测试");
                     fields.add("测试2");
                     fields.add(String.valueOf(System.currentTimeMillis()));
-                    MessageEmbed embed = EmbedTemplate.builder()
+                    val embed = EmbedTemplate.builder()
                             .title("测试")
                             .prompt("[测试]Embed")
                             .thumbnail("https://b.armoe.cn/assets/image/logo.png")
@@ -99,7 +100,7 @@ class IEventHandler extends EventHandler {
                     api.getMessageApi().sendMessage(channelId, "pong", messageId);
                     break;
                 case "ark":
-                    MessageArk ark = TextThumbnailTemplate.builder()
+                    val ark = TextThumbnailTemplate.builder()
                             .build().toMessageArk();
                     api.getMessageApi().sendMessage(channelId, ark, messageId);
                     break;

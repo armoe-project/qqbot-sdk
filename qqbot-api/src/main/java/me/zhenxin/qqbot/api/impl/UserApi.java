@@ -2,6 +2,7 @@ package me.zhenxin.qqbot.api.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Guild;
 import me.zhenxin.qqbot.entity.User;
 
@@ -14,8 +15,8 @@ import java.util.List;
  * @since 2021/12/28 10:59
  */
 public class UserApi extends BaseApi {
-    public UserApi(Boolean isSandBoxMode, String token) {
-        super(isSandBoxMode, token);
+    public UserApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
     /**

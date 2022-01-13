@@ -1,6 +1,7 @@
 package me.zhenxin.qqbot.api.impl;
 
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.entity.MessageEmbed;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
@@ -19,8 +20,8 @@ import java.util.Map;
  */
 @SuppressWarnings("UnusedReturnValue")
 public class MessageApi extends BaseApi {
-    public MessageApi(Boolean isSandBoxMode, String token) throws ApiException {
-        super(isSandBoxMode, token);
+    public MessageApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
     /**

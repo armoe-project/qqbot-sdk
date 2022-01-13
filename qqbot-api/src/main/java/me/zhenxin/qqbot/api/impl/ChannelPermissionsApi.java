@@ -1,6 +1,7 @@
 package me.zhenxin.qqbot.api.impl;
 
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.ChannelPermissions;
 
 import java.util.HashMap;
@@ -13,8 +14,8 @@ import java.util.Map;
  * @since 2021/12/24 10:28
  */
 public class ChannelPermissionsApi extends BaseApi {
-    public ChannelPermissionsApi(Boolean isSandBoxMode, String token) {
-        super(isSandBoxMode, token);
+    public ChannelPermissionsApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
     /**

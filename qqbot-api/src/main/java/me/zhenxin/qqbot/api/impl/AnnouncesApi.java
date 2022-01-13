@@ -1,6 +1,7 @@
 package me.zhenxin.qqbot.api.impl;
 
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Announces;
 import me.zhenxin.qqbot.exception.ApiException;
 
@@ -14,8 +15,8 @@ import java.util.Map;
  * @since 2021/12/11 13:17
  */
 public class AnnouncesApi extends BaseApi {
-    public AnnouncesApi(Boolean isSandBoxMode, String token) {
-        super(isSandBoxMode, token);
+    public AnnouncesApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
 

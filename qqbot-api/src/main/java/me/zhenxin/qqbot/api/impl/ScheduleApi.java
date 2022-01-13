@@ -2,6 +2,7 @@ package me.zhenxin.qqbot.api.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Schedule;
 
 import java.util.HashMap;
@@ -15,8 +16,8 @@ import java.util.Map;
  * @since 2021/12/19 13:22
  */
 public class ScheduleApi extends BaseApi {
-    public ScheduleApi(Boolean isSandBoxMode, String token) {
-        super(isSandBoxMode, token);
+    public ScheduleApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
     /**

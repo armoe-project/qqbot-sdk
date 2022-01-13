@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Channel;
 import me.zhenxin.qqbot.entity.Role;
 import me.zhenxin.qqbot.entity.api.RoleList;
@@ -19,8 +20,8 @@ import java.util.Map;
  * @since 2021/12/11 11:02
  */
 public class RoleApi extends BaseApi {
-    public RoleApi(Boolean isSandBoxMode, String token) throws ApiException {
-        super(isSandBoxMode, token);
+    public RoleApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
     /**

@@ -1,5 +1,5 @@
 import lombok.extern.slf4j.Slf4j;
-import me.zhenxin.qqbot.api.ApiManager;
+import lombok.val;
 import me.zhenxin.qqbot.core.BotCore;
 import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.enums.Intent;
@@ -13,12 +13,12 @@ import me.zhenxin.qqbot.enums.Intent;
 @Slf4j
 class Example {
     public static void main(String[] args) throws InterruptedException {
-        AccessInfo accessInfo = new AccessInfo();
+        val accessInfo = new AccessInfo();
         accessInfo.setBotAppId(Integer.parseInt(System.getenv("BotAppid")));
         accessInfo.setBotToken(System.getenv("BotToken"));
         // accessInfo.useSandBoxMode();
-        BotCore bot = new BotCore(accessInfo);
-        ApiManager api = bot.getApiManager();
+        val bot = new BotCore(accessInfo);
+        val api = bot.getApiManager();
         bot.registerIntents(
                 Intent.GUILDS,
                 Intent.GUILD_MEMBERS,
@@ -27,11 +27,11 @@ class Example {
                 // Intent.AT_MESSAGES
                 Intent.USER_MESSAGES
         );
-        IEventHandler handler = new IEventHandler(api);
+        val handler = new IEventHandler(api);
         bot.setEventHandler(handler);
         log.info("正在启动中...");
         bot.start(0, 2);
-        Thread.sleep(2000);
-        bot.start(1, 2);
+        // Thread.sleep(2000);
+        // bot.start(1, 2);
     }
 }

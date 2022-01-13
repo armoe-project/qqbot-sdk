@@ -1,6 +1,7 @@
 package me.zhenxin.qqbot.api.impl;
 
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +13,8 @@ import java.util.Map;
  * @since 2021/12/24 12:21
  */
 public class MuteApi extends BaseApi {
-    public MuteApi(Boolean isSandBoxMode, String token) {
-        super(isSandBoxMode, token);
+    public MuteApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
     /**

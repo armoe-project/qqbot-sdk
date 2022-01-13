@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.exception.ApiException;
 import okhttp3.*;
 import okio.Buffer;
@@ -25,13 +26,16 @@ public abstract class BaseApi {
     private final OkHttpClient client = new OkHttpClient.Builder().build();
     private final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
 
-    protected BaseApi(Boolean isSandBoxMode, String token) {
-        if (isSandBoxMode) {
+    protected BaseApi(AccessInfo accessInfo) {
+        Integer botAppId = accessInfo.getBotAppId();
+        String botToken = accessInfo.getBotToken();
+        Boolean isUseSandBoxMode = accessInfo.getUseSandBoxMode();
+        if (isUseSandBoxMode) {
             api = "https://sandbox.api.sgroup.qq.com";
         } else {
             api = "https://api.sgroup.qq.com";
         }
-        this.token = token;
+        this.token = "Bot " + botAppId + "." + botToken;
     }
 
     protected <T> T get(String url, Class<T> tClass) throws ApiException {

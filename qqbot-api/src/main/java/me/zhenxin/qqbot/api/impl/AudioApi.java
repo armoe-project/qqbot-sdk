@@ -3,6 +3,7 @@ package me.zhenxin.qqbot.api.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import me.zhenxin.qqbot.api.BaseApi;
+import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.AudioControl;
 
 /**
@@ -12,8 +13,8 @@ import me.zhenxin.qqbot.entity.AudioControl;
  * @since 2021/12/19 15:52
  */
 public class AudioApi extends BaseApi {
-    public AudioApi(Boolean isSandBoxMode, String token) {
-        super(isSandBoxMode, token);
+    public AudioApi(AccessInfo accessInfo) {
+        super(accessInfo);
     }
 
     /**

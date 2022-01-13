@@ -1,5 +1,6 @@
 package me.zhenxin.qqbot.api;
 
+import lombok.AllArgsConstructor;
 import me.zhenxin.qqbot.api.impl.*;
 import me.zhenxin.qqbot.entity.AccessInfo;
 
@@ -9,99 +10,87 @@ import me.zhenxin.qqbot.entity.AccessInfo;
  * @author 真心
  * @since 2021/12/8 16:45
  */
+@AllArgsConstructor
 public class ApiManager {
-    private Boolean useSandBoxMode;
-    private String token;
-
     /**
-     * API 管理器
-     *
-     * @param accessInfo 访问信息
+     * 访问信息
      */
-    public ApiManager(AccessInfo accessInfo) {
-        this.useSandBoxMode = accessInfo.getUseSandBoxMode();
-        Integer botAppId = accessInfo.getBotAppId();
-        String botToken = accessInfo.getBotToken();
-        this.token = "Bot " + botAppId + "." + botToken;
-    }
-
-    public ApiManager() {
-    }
+    private AccessInfo accessInfo;
 
     /**
      * 获取 消息API 实例
      */
     public MessageApi getMessageApi() {
-        return new MessageApi(useSandBoxMode, token);
+        return new MessageApi(accessInfo);
     }
 
     /**
      * 获取 频道API 实例
      */
     public GuildApi getGuildApi() {
-        return new GuildApi(useSandBoxMode, token);
+        return new GuildApi(accessInfo);
     }
 
     /**
      * 获取 子频道API 实例
      */
     public ChannelApi getChannelApi() {
-        return new ChannelApi(useSandBoxMode, token);
+        return new ChannelApi(accessInfo);
     }
 
     /**
      * 获取 子频道权限API 实例
      */
     public ChannelPermissionsApi getChannelPermissionsApi() {
-        return new ChannelPermissionsApi(useSandBoxMode, token);
+        return new ChannelPermissionsApi(accessInfo);
     }
 
     /**
      * 获取 日程API 实例
      */
     public ScheduleApi getScheduleApi() {
-        return new ScheduleApi(useSandBoxMode, token);
+        return new ScheduleApi(accessInfo);
     }
 
     /**
      * 获取 音频API 实例
      */
     public AudioApi getAudioApi() {
-        return new AudioApi(useSandBoxMode, token);
+        return new AudioApi(accessInfo);
     }
 
     /**
      * 获取 身份组API 实例
      */
     public RoleApi getRoleApi() {
-        return new RoleApi(useSandBoxMode, token);
+        return new RoleApi(accessInfo);
     }
 
     /**
      * 获取 成员API 实例
      */
     public MemberApi getMemberApi() {
-        return new MemberApi(useSandBoxMode, token);
+        return new MemberApi(accessInfo);
     }
 
     /**
      * 获取 公告API 实例
      */
     public AnnouncesApi getAnnouncesApi() {
-        return new AnnouncesApi(useSandBoxMode, token);
+        return new AnnouncesApi(accessInfo);
     }
 
     /**
      * 获取 禁言API 实例
      */
     public MuteApi getMuteApi() {
-        return new MuteApi(useSandBoxMode, token);
+        return new MuteApi(accessInfo);
     }
 
     /**
      * 获取 用户API 实例
      */
     public UserApi getUserApi() {
-        return new UserApi(useSandBoxMode, token);
+        return new UserApi(accessInfo);
     }
 }
