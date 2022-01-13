@@ -34,6 +34,12 @@ implementation("me.zhenxin:qqbot-sdk:${version}")
 implementation 'me.zhenxin:qqbot-sdk:${version}'
 ```
 
+* Sbt
+
+```sbt
+libraryDependencies += "me.zhenxin" % "qqbot-sdk" % version
+```
+
 2.使用
 ```java
 class Example {
@@ -50,7 +56,7 @@ class Example {
         // 注册AT消息相关事件
         bot.registerAtMessageEvent();
         // 设置事件处理器
-        IEventHandler handler = new IEventHandler();
+        IEventHandler handler = new IEventHandler(api);
         // handler.setRemoveAt(false); // 取消删除消息中的艾特
         bot.setEventHandler(handler);
         // 启动
