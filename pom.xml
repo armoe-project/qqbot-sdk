@@ -10,7 +10,7 @@
     <groupId>me.zhenxin</groupId>
     <artifactId>qqbot-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <modules>
         <module>qqbot-common</module>
         <module>qqbot-api</module>
