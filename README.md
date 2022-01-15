@@ -155,7 +155,7 @@ class Example {
 本项目使用 [GPL-3.0](LICENSE) 协议开放源代码
 
 ```text
-qq-official-bot-sdk(qqbot) - QQ Official Bot SDK For Java
+qq-official-bot-sdk - QQ Official Bot SDK For Java
 Copyright (C) 2022 xiaoye-bot Project Team
 
 This program is free software: you can redistribute it and/or modify

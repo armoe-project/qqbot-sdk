@@ -1,5 +1,5 @@
 /*
- * qq-official-bot-sdk(qqbot) - QQ Official Bot SDK For Java
+ * qq-official-bot-sdk - QQ Official Bot SDK For Java
  * Copyright (C) 2021-2022 xiaoye-bot Project Team
  *
  * This program is free software: you can redistribute it and/or modify
