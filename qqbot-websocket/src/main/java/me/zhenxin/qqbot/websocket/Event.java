@@ -126,6 +126,12 @@ class Event {
                 MessageReactionRemoveEvent messageReactionRemoveEvent = new MessageReactionRemoveEvent(this, rr);
                 client.getEventHandler().onMessageReactionRemove(messageReactionRemoveEvent);
                 break;
+            case "DIRECT_MESSAGE_CREATE":
+                Message dm = JSON.toJavaObject((JSONObject) payload.getD(), Message.class);
+                log.info("[DirectMessage]: {}({}): {}", dm.getAuthor().getUsername(), dm.getAuthor().getId(), dm.getContent());
+                DirectMessageEvent directMessageEvent = new DirectMessageEvent(this, dm);
+                client.getEventHandler().onDirectMessage(directMessageEvent);
+                break;
             case "MESSAGE_AUDIT_PASS":
                 MessageAudited ap = JSON.toJavaObject((JSONObject) payload.getD(), MessageAudited.class);
                 log.info("消息审核通过: {}", ap);

@@ -23,6 +23,7 @@ class Example {
                 Intent.GUILDS,
                 Intent.GUILD_MEMBERS,
                 Intent.GUILD_MESSAGE_REACTIONS,
+                Intent.DIRECT_MESSAGE,
                 // Intent.FORUM_EVENT,
                 // Intent.AT_MESSAGES
                 Intent.MESSAGE_AUDIT,

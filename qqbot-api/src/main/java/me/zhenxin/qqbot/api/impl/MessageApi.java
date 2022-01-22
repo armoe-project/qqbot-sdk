@@ -54,7 +54,7 @@ public class MessageApi extends BaseApi {
         Map<String, Object> data = new HashMap<>();
         data.put("content", content);
         data.put("msg_id", messageId);
-        return getResult(channelId, data);
+        return sendMessage(channelId, data);
     }
 
     /**
@@ -69,7 +69,7 @@ public class MessageApi extends BaseApi {
         Map<String, Object> data = new HashMap<>();
         data.put("image", image.toString());
         data.put("msg_id", messageId);
-        return getResult(channelId, data);
+        return sendMessage(channelId, data);
     }
 
     /**
@@ -86,7 +86,7 @@ public class MessageApi extends BaseApi {
         data.put("content", content);
         data.put("image", image.toString());
         data.put("msg_id", messageId);
-        return getResult(channelId, data);
+        return sendMessage(channelId, data);
     }
 
     /**
@@ -101,7 +101,7 @@ public class MessageApi extends BaseApi {
         Map<String, Object> data = new HashMap<>();
         data.put("ark", ark);
         data.put("msg_id", messageId);
-        return getResult(channelId, data);
+        return sendMessage(channelId, data);
     }
 
     /**
@@ -116,7 +116,7 @@ public class MessageApi extends BaseApi {
         Map<String, Object> data = new HashMap<>();
         data.put("embed", embed);
         data.put("msg_id", messageId);
-        return getResult(channelId, data);
+        return sendMessage(channelId, data);
     }
 
     /**
@@ -205,7 +205,7 @@ public class MessageApi extends BaseApi {
     }
 
 
-    private Message getResult(String channelId, Map<String, Object> data) {
+    private Message sendMessage(String channelId, Map<String, Object> data) {
         return post("/channels/" + channelId + "/messages", data, Message.class);
     }
 }

@@ -2,8 +2,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import me.zhenxin.qqbot.api.ApiManager;
+import me.zhenxin.qqbot.entity.DirectMessageSession;
 import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.event.AtMessageEvent;
+import me.zhenxin.qqbot.event.DirectMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
 import me.zhenxin.qqbot.exception.ApiException;
 import me.zhenxin.qqbot.template.EmbedTemplate;
@@ -35,6 +37,17 @@ class IEventHandler extends EventHandler {
         message(message);
     }
 
+    @Override
+    protected void onDirectMessage(DirectMessageEvent event) {
+        val message = event.getMessage();
+        log.debug("{}", message);
+        api.getDirectMessageApi().sendMessage(
+                message.getGuildId(),
+                "测试",
+                message.getId()
+        );
+    }
+
     private void message(Message message) {
         val guildId = message.getGuildId();
         val channelId = message.getChannelId();
@@ -50,6 +63,17 @@ class IEventHandler extends EventHandler {
                             channelId,
                             "https://www.qq.com",
                             messageId
+                    );
+                    break;
+                case "dm":
+                    DirectMessageSession dms = api.getDirectMessageApi().createSession(
+                            author.getId(),
+                            guildId
+                    );
+                    api.getDirectMessageApi().sendMessage(
+                            dms.getGuildId(),
+                            "主动私信测试",
+                            null
                     );
                     break;
                 case "push":

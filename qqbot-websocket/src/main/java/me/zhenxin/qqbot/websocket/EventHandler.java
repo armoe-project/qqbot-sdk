@@ -154,7 +154,18 @@ public class EventHandler {
     }
 
     /**
+     * 私信消息事件
+     *
+     * @param event 事件
+     */
+    protected void onDirectMessage(DirectMessageEvent event) {
+
+    }
+
+    /**
      * 消息审核通过
+     *
+     * @param event 事件
      */
     protected void onMessageAuditPass(MessageAuditPassEvent event) {
 
@@ -162,6 +173,8 @@ public class EventHandler {
 
     /**
      * 消息审核不通过
+     *
+     * @param event 事件
      */
     protected void onMessageAuditReject(MessageAuditRejectEvent event) {
 

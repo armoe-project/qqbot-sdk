@@ -111,4 +111,11 @@ public class ApiManager {
     public UserApi getUserApi() {
         return new UserApi(accessInfo);
     }
+
+    /**
+     * 获取 私信API 实例
+     */
+    public DirectMessageApi getDirectMessageApi() {
+        return new DirectMessageApi(accessInfo);
+    }
 }
