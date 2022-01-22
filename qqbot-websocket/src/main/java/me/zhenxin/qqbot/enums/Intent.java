@@ -52,6 +52,10 @@ public enum Intent {
      */
     DIRECT_MESSAGE(1 << 12),
     /**
+     * 消息审核相关事件
+     */
+    MESSAGE_AUDIT(1 << 27),
+    /**
      * 论坛相关事件
      */
     FORUM_EVENT(1 << 28),

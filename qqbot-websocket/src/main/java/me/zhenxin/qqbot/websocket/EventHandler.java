@@ -154,6 +154,20 @@ public class EventHandler {
     }
 
     /**
+     * 消息审核通过
+     */
+    protected void onMessageAuditPass(MessageAuditPassEvent event) {
+
+    }
+
+    /**
+     * 消息审核不通过
+     */
+    protected void onMessageAuditReject(MessageAuditRejectEvent event) {
+
+    }
+
+    /**
      * 艾特信息
      *
      * @param event 事件

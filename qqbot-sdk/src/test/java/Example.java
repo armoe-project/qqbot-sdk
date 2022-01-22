@@ -25,6 +25,7 @@ class Example {
                 Intent.GUILD_MESSAGE_REACTIONS,
                 // Intent.FORUM_EVENT,
                 // Intent.AT_MESSAGES
+                Intent.MESSAGE_AUDIT,
                 Intent.USER_MESSAGES
         );
         val handler = new IEventHandler(api);

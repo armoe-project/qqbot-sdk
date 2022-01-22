@@ -51,6 +51,14 @@ class IEventHandler extends EventHandler {
                             "https://www.qq.com",
                             messageId
                     );
+                    break;
+                case "push":
+                    api.getMessageApi().sendMessage(
+                            channelId,
+                            "测试",
+                            null
+                    );
+                    break;
                 case "members":
                     val members = api.getGuildApi().getGuildMembers(guildId, 1000);
                     for (val member : members) {
