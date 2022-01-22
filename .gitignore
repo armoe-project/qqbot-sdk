@@ -2,3 +2,4 @@
 *.iml
 target
 pom.xml.versionsBackup
+logs
