@@ -16,6 +16,7 @@
         <module>qqbot-api</module>
         <module>qqbot-websocket</module>
         <module>qqbot-sdk</module>
+        <module>qqbot-logging</module>
     </modules>
 
     <distributionManagement>

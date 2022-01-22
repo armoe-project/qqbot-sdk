@@ -14,7 +14,6 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <logback.version>1.2.10</logback.version>
     </properties>
 
     <dependencies>
@@ -23,17 +22,15 @@
             <artifactId>qqbot-api</artifactId>
             <version>1.0.3</version>
         </dependency>
-        <!-- logback -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
         <dependency>
             <groupId>me.zhenxin</groupId>
             <artifactId>qqbot-websocket</artifactId>
             <version>1.0.3</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.zhenxin</groupId>
+            <artifactId>qqbot-logging</artifactId>
+            <version>1.0.3</version>
         </dependency>
     </dependencies>
 
