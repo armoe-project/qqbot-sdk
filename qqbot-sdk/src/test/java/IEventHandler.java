@@ -4,6 +4,9 @@ import lombok.val;
 import me.zhenxin.qqbot.api.ApiManager;
 import me.zhenxin.qqbot.entity.DirectMessageSession;
 import me.zhenxin.qqbot.entity.Message;
+import me.zhenxin.qqbot.entity.api.ApiPermission;
+import me.zhenxin.qqbot.entity.api.ApiPermissionDemand;
+import me.zhenxin.qqbot.entity.api.ApiPermissionDemandIdentify;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.DirectMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
@@ -13,6 +16,7 @@ import me.zhenxin.qqbot.template.TextThumbnailTemplate;
 import me.zhenxin.qqbot.websocket.EventHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 事件执行器
@@ -64,6 +68,32 @@ class IEventHandler extends EventHandler {
                             "https://www.qq.com",
                             messageId
                     );
+                    break;
+                case "apiList":
+                    List<ApiPermission> permissions = api.getGuildApi().getApiPermissions(guildId);
+                    for (ApiPermission permission : permissions) {
+                        log.debug("{}", permission);
+                        api.getMessageApi().sendMessage(
+                                channelId,
+                                permission.toString(),
+                                messageId
+                        );
+                    }
+                    break;
+                case "apiLink":
+                    ApiPermissionDemandIdentify identify = new ApiPermissionDemandIdentify();
+                    identify.setPath("/guilds/{guild_id}/members/{user_id}");
+                    identify.setMethod("GET");
+                    ApiPermissionDemand demand = api.getGuildApi().createApiPermissionDemand(
+                            guildId,
+                            channelId,
+                            identify,
+                            "测试"
+                    );
+                    api.getMessageApi().sendMessage(
+                            channelId,
+                            demand.toString(),
+                            messageId);
                     break;
                 case "dm":
                     DirectMessageSession dms = api.getDirectMessageApi().createSession(

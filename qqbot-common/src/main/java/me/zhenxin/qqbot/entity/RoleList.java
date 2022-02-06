@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.zhenxin.qqbot.entity.api;
+package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
 import me.zhenxin.qqbot.entity.Role;

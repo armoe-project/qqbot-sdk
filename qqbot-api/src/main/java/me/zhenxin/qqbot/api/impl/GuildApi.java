@@ -19,13 +19,19 @@
 package me.zhenxin.qqbot.api.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Guild;
 import me.zhenxin.qqbot.entity.Member;
+import me.zhenxin.qqbot.entity.api.ApiPermission;
+import me.zhenxin.qqbot.entity.api.ApiPermissionDemand;
+import me.zhenxin.qqbot.entity.api.ApiPermissionDemandIdentify;
 import me.zhenxin.qqbot.exception.ApiException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 频道相关接口
@@ -67,5 +73,38 @@ public class GuildApi extends BaseApi {
     public List<Member> getGuildMembers(String guildId, String after, Integer limit) throws ApiException {
         JSONArray array = get("/guilds/" + guildId + "/members?after=" + after + "&limit=" + limit, JSONArray.class);
         return array.toJavaList(Member.class);
+    }
+
+    /**
+     * 获取频道可用权限列表
+     *
+     * @param guildId 频道ID
+     * @return 频道可用权限列表
+     */
+    public List<ApiPermission> getApiPermissions(String guildId) throws ApiException {
+        JSONObject object = get("/guilds/" + guildId + "/api_permission", JSONObject.class);
+        return object.getJSONArray("apis").toJavaList(ApiPermission.class);
+    }
+
+    /**
+     * 创建频道 API 接口权限授权链接
+     *
+     * @param guildId   频道ID
+     * @param channelId 子频道ID
+     * @param identify  权限需求
+     * @param desc      权限需求描述
+     * @return {@link ApiPermissionDemand} 对象
+     */
+    public ApiPermissionDemand createApiPermissionDemand(
+            String guildId,
+            String channelId,
+            ApiPermissionDemandIdentify identify,
+            String desc
+    ) throws ApiException {
+        Map<String, Object> data = new HashMap<>();
+        data.put("channel_id", channelId);
+        data.put("api_identify", identify);
+        data.put("desc", desc);
+        return post("/guilds/" + guildId + "/api_permission/demand", data, ApiPermissionDemand.class);
     }
 }

@@ -25,7 +25,7 @@ import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Channel;
 import me.zhenxin.qqbot.entity.Role;
-import me.zhenxin.qqbot.entity.api.RoleList;
+import me.zhenxin.qqbot.entity.RoleList;
 import me.zhenxin.qqbot.exception.ApiException;
 
 import java.util.HashMap;
