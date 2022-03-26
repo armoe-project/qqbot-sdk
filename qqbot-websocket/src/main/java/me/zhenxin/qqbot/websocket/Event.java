@@ -144,6 +144,10 @@ class Event {
                 MessageAuditRejectEvent messageAuditRejectEvent = new MessageAuditRejectEvent(this, ar);
                 client.getEventHandler().onMessageAuditReject(messageAuditRejectEvent);
                 break;
+            case "FORUM_THREAD_CREATE":
+                me.zhenxin.qqbot.entity.forum.thread.Thread thread = JSON.toJavaObject((JSONObject) payload.getD(), me.zhenxin.qqbot.entity.forum.thread.Thread.class);
+                log.info("[ForumThread]: {}: {}", thread.getAuthorId(), thread.getThreadInfo().getTitle());
+                break;
             case "AT_MESSAGE_CREATE":
                 Message atMessage = JSON.toJavaObject((JSONObject) payload.getD(), Message.class);
                 log.info(
