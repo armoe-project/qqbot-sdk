@@ -67,7 +67,9 @@ public class AnnouncesApi extends BaseApi {
      *
      * @param channelId 子频道ID
      * @param messageId 消息ID
+     * @deprecated 已废弃，请使用 {@link PinsMessageApi#addPinsMessage(String, String)}
      */
+    @Deprecated
     public Announces createAnnounces(String channelId, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("message_id", messageId);
@@ -79,7 +81,9 @@ public class AnnouncesApi extends BaseApi {
      *
      * @param channelId 子频道ID
      * @param messageId 消息ID
+     * @deprecated 已废弃，请使用 {@link PinsMessageApi#deletePinsMessage(String, String)}
      */
+    @Deprecated
     public void deleteAnnounces(String channelId, String messageId) throws ApiException {
         delete("/channels/" + channelId + "/announces/" + messageId, null);
     }
