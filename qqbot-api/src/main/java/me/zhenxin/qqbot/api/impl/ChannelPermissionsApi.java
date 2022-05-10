@@ -72,4 +72,41 @@ public class ChannelPermissionsApi extends BaseApi {
         data.put("remove", permissions.toString());
         put("/channels/" + channelId + "/members/" + userId + "/permissions", data, null);
     }
+
+    /**
+     * 获取子频道身份组权限
+     *
+     * @param channelId 子频道ID
+     * @param roleId    身份组ID
+     * @return {@link ChannelPermissions} 对象
+     */
+    public ChannelPermissions getChannelRolePermissions(String channelId, String roleId) {
+        return get("/channels/" + channelId + "/roles/" + roleId + "/permissions", ChannelPermissions.class);
+    }
+
+    /**
+     * 添加子频道身份组权限
+     *
+     * @param channelId   子频道ID
+     * @param roleId      身份组ID
+     * @param permissions 权限 <a href="https://bot.q.qq.com/wiki/develop/api/openapi/channel_permissions/model.html#permissions">权限列表</a>
+     */
+    public void addChannelRolePermissions(String channelId, String roleId, Integer permissions) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("add", permissions.toString());
+        put("/channels/" + channelId + "/roles/" + roleId + "/permissions", data, null);
+    }
+
+    /**
+     * 移除子频道身份组权限
+     *
+     * @param channelId   子频道ID
+     * @param roleId      身份组ID
+     * @param permissions 权限 <a href="https://bot.q.qq.com/wiki/develop/api/openapi/channel_permissions/model.html#permissions">权限列表</a>
+     */
+    public void removeChannelRolePermissions(String channelId, String roleId, Integer permissions) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("remove", permissions.toString());
+        put("/channels/" + channelId + "/roles/" + roleId + "/permissions", data, null);
+    }
 }

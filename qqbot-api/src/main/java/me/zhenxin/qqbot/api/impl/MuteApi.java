@@ -59,4 +59,18 @@ public class MuteApi extends BaseApi {
         data.put("mute_seconds", duration.toString());
         patch("/guilds/" + guildId + "/members/" + userId + "/mute", data, null);
     }
+
+    /**
+     * 批量禁言
+     *
+     * @param guildId  频道ID
+     * @param userIds  用户ID列表
+     * @param duration 禁言时长，单位秒，0为解除禁言
+     */
+    public void muteBatch(String guildId, String[] userIds, Integer duration) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("mute_seconds", duration.toString());
+        data.put("user_ids", userIds);
+        patch("/guilds/" + guildId + "/mute", data, null);
+    }
 }

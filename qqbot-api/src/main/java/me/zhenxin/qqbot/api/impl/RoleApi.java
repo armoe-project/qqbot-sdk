@@ -92,7 +92,7 @@ public class RoleApi extends BaseApi {
     }
 
     /**
-     * 增加身份组成员
+     * 增加身份组成员 (仅私域可用)
      *
      * @param guildId   频道ID
      * @param userId    用户ID
@@ -110,7 +110,7 @@ public class RoleApi extends BaseApi {
     }
 
     /**
-     * 删除身份组成员
+     * 删除身份组成员 (仅私域可用)
      *
      * @param guildId   频道ID
      * @param userId    用户ID

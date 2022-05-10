@@ -18,10 +18,13 @@
 
 package me.zhenxin.qqbot.api.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Member;
 import me.zhenxin.qqbot.exception.ApiException;
+
+import java.util.List;
 
 /**
  * 成员相关接口
@@ -32,6 +35,32 @@ import me.zhenxin.qqbot.exception.ApiException;
 public class MemberApi extends BaseApi {
     public MemberApi(AccessInfo accessInfo) {
         super(accessInfo);
+    }
+
+    /**
+     * 获取成员列表
+     *
+     * @param guildId 频道ID
+     * @param limit   获取数量
+     */
+    public List<Member> getMemberList(String guildId, Integer limit) throws ApiException {
+        JSONArray array = get("/guilds/" + guildId + "/members?limit=" + limit, JSONArray.class);
+        return array.toJavaList(Member.class);
+    }
+
+    /**
+     * 获取成员列表
+     *
+     * @param guildId 频道ID
+     * @param after   频道ID (读此ID之后的数据)
+     * @param limit   获取数量
+     */
+    public List<Member> getMemberList(String guildId, String after, Integer limit) throws ApiException {
+        StringBuilder sb = new StringBuilder("/guilds/" + guildId + "/members");
+        sb.append("?after=").append(after);
+        sb.append("&limit=").append(limit);
+        JSONArray array = get(sb.toString(), JSONArray.class);
+        return array.toJavaList(Member.class);
     }
 
     /**
