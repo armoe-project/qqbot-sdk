@@ -132,6 +132,26 @@ public class DirectMessageApi extends BaseApi {
         return sendMessage(guildId, data);
     }
 
+    /**
+     * 撤回消息
+     *
+     * @param guildId   频道ID
+     * @param messageId 消息ID
+     * @param hidetip   是否隐藏撤回提示
+     */
+    public void deleteMessage(String guildId, String messageId, boolean hidetip) throws ApiException {
+        Map<String, Object> data = new HashMap<>();
+        data.put("hidetip", hidetip);
+        delete("/guilds/" + guildId + "/messages/" + messageId, data);
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param guildId 频道ID
+     * @param data    消息数据
+     * @return {@link Message} 对象
+     */
     private Message sendMessage(String guildId, Map<String, Object> data) {
         return post("/dms/" + guildId + "/messages", data, Message.class);
     }

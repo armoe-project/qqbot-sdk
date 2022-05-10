@@ -22,10 +22,10 @@ import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Message;
 import me.zhenxin.qqbot.entity.MessageEmbed;
+import me.zhenxin.qqbot.entity.MessageSetting;
 import me.zhenxin.qqbot.entity.ark.MessageArk;
 import me.zhenxin.qqbot.exception.ApiException;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +48,7 @@ public class MessageApi extends BaseApi {
      * @param channelId 子频道ID
      * @param content   文本内容
      * @param messageId 消息ID
-     * @return 消息对象
+     * @return {@link Message} 对象
      */
     public Message sendMessage(String channelId, String content, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
@@ -63,7 +63,7 @@ public class MessageApi extends BaseApi {
      * @param channelId 子频道ID
      * @param image     图片URL
      * @param messageId 消息ID
-     * @return 消息对象
+     * @return {@link Message} 对象
      */
     public Message sendMessage(String channelId, URL image, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
@@ -79,7 +79,7 @@ public class MessageApi extends BaseApi {
      * @param content   文本内容
      * @param image     图片URL
      * @param messageId 消息ID
-     * @return 消息对象
+     * @return {@link Message} 对象
      */
     public Message sendMessage(String channelId, String content, URL image, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
@@ -95,7 +95,7 @@ public class MessageApi extends BaseApi {
      * @param channelId 子频道ID
      * @param ark       MessageArk对象
      * @param messageId 消息ID
-     * @return 消息对象
+     * @return {@link Message} 对象
      */
     public Message sendMessage(String channelId, MessageArk ark, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
@@ -110,7 +110,7 @@ public class MessageApi extends BaseApi {
      * @param channelId 子频道ID
      * @param embed     Embed 消息
      * @param messageId 消息ID
-     * @return 消息对象
+     * @return {@link Message} 对象
      */
     public Message sendMessage(String channelId, MessageEmbed embed, String messageId) throws ApiException {
         Map<String, Object> data = new HashMap<>();
@@ -130,81 +130,34 @@ public class MessageApi extends BaseApi {
     }
 
     /**
-     * 发送文本消息
-     *
-     * @param channelId 子频道ID
-     * @param content   文本内容
-     * @param messageId 消息ID
-     * @return 消息对象
-     * @deprecated 使用 {@link #sendMessage(String, String, String)} 替代
-     */
-    public Message sendTextMessage(String channelId, String content, String messageId) throws ApiException {
-        return sendMessage(channelId, content, messageId);
-    }
-
-    /**
-     * 发送模板(Ark)消息
-     *
-     * @param channelId 子频道ID
-     * @param ark       MessageArk对象
-     * @param messageId 消息ID
-     * @return 消息对象
-     * @deprecated 使用 {@link #sendMessage(String, MessageArk, String)} 替代
-     */
-    public Message sendTemplateMessage(String channelId, MessageArk ark, String messageId) throws ApiException {
-        return sendMessage(channelId, ark, messageId);
-    }
-
-    /**
-     * 发送图片消息
-     *
-     * @param channelId 子频道ID
-     * @param image     图片URL
-     * @param messageId 消息ID
-     * @return 消息对象
-     * @deprecated 使用 {@link #sendMessage(String, URL, String)} 替代
-     */
-    public Message sendImageMessage(String channelId, String image, String messageId) throws ApiException {
-        try {
-            return sendMessage(channelId, new URL(image), messageId);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * 发送文本和图片消息
-     *
-     * @param channelId 子频道ID
-     * @param content   文本内容
-     * @param image     图片URL
-     * @param messageId 消息ID
-     * @return 消息对象
-     * @deprecated 使用 {@link #sendMessage(String, String, URL, String)} 替代
-     */
-    public Message sendTextAndImageMessage(String channelId, String content, String image, String messageId) throws ApiException {
-        try {
-            return sendMessage(channelId, content, new URL(image), messageId);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    /**
      * 获取指定消息
      *
      * @param channelId 子频道ID
      * @param messageId 消息ID
-     * @return 消息对象
+     * @return {@link Message} 对象
      */
     public Message getMessageInfo(String channelId, String messageId) {
         return get("/channels/" + channelId + "/messages/" + messageId, Message.class);
     }
 
+    /**
+     * 获取频道消息频率设置
+     *
+     * @param guildId 频道ID
+     * @return @{@link MessageSetting} 对象
+     */
+    public MessageSetting getMessageSetting(String guildId) {
+        return get("/guilds/" + guildId + "/message/setting", MessageSetting.class);
+    }
 
+
+    /**
+     * 发送消息
+     *
+     * @param channelId 子频道ID
+     * @param data      消息数据
+     * @return {@link Message} 对象
+     */
     private Message sendMessage(String channelId, Map<String, Object> data) {
         return post("/channels/" + channelId + "/messages", data, Message.class);
     }

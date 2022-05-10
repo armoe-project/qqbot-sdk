@@ -83,4 +83,24 @@ public class Message {
      * Ark消息
      */
     private MessageArk ark;
+    /**
+     * 消息序号
+     * <p>
+     * 子频道消息的序号，用于消息间的排序。<br/>
+     * 在同一子频道中按从先到后的顺序递增。<br/>
+     * 不同的子频道之间消息无法排序。
+     * </p>
+     */
+    private String seqInChannel;
+    /**
+     * 引用消息
+     */
+    private MessageReference messageReference;
+    /**
+     * 来源频道ID
+     * <p>
+     * 用于私信场景下识别真实的来源频道。
+     * </p>
+     */
+    private String srcGuildId;
 }
