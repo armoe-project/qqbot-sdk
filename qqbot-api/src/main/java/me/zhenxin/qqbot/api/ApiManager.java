@@ -43,6 +43,13 @@ public class ApiManager {
     }
 
     /**
+     * 获取 表情表态API 实例
+     */
+    public MessageReactionApi getMessageReactionApi() {
+        return new MessageReactionApi(accessInfo);
+    }
+
+    /**
      * 获取 频道API 实例
      */
     public GuildApi getGuildApi() {
