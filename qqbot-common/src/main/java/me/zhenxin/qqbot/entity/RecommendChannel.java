@@ -21,35 +21,19 @@ package me.zhenxin.qqbot.entity;
 import lombok.Data;
 
 /**
- * 公告对象
+ * 推荐子频道
  *
  * @author 真心
- * @since 2021/12/11 13:16
+ * @since 2022/5/11 3:00
  */
 @Data
-public class Announces {
-    /**
-     * 频道ID
-     */
-    private String guildId;
+public class RecommendChannel {
     /**
      * 子频道ID
      */
     private String channelId;
     /**
-     * 消息ID
+     * 推荐语
      */
-    private String messageId;
-    /**
-     * 公告类型
-     * <ul>
-     *     <li>0: 成员公告</li>
-     *     <li>1: 欢迎公告</li>
-     * </ul>
-     */
-    private int announcesType;
-    /**
-     * 推荐子频道列表
-     */
-    private RecommendChannel[] recommendChannels;
+    private String introduce;
 }

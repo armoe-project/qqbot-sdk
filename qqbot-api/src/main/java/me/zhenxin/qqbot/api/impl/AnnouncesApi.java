@@ -21,6 +21,7 @@ package me.zhenxin.qqbot.api.impl;
 import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AccessInfo;
 import me.zhenxin.qqbot.entity.Announces;
+import me.zhenxin.qqbot.entity.RecommendChannel;
 import me.zhenxin.qqbot.exception.ApiException;
 
 import java.util.HashMap;
@@ -41,14 +42,19 @@ public class AnnouncesApi extends BaseApi {
     /**
      * 创建频道全局公告
      *
-     * @param guildId   频道ID
-     * @param channelId 子频道ID
-     * @param messageId 消息ID
+     * @param guildId           频道ID
+     * @param channelId         子频道ID
+     * @param messageId         消息ID
+     * @param recommendChannels 推荐子频道列表 (可选)
+     * @return {@link Announces} 对象
      */
-    public Announces createGuildAnnounces(String guildId, String channelId, String messageId) throws ApiException {
+    public Announces createGuildAnnounces(String guildId, String channelId, String messageId, RecommendChannel[] recommendChannels) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("message_id", messageId);
         data.put("channel_id", channelId);
+        if (recommendChannels != null) {
+            data.put("recommend_channels", recommendChannels);
+        }
         return post("/guilds/" + guildId + "/announces", data, Announces.class);
     }
 
