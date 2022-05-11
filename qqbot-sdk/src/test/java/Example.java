@@ -32,7 +32,7 @@ class Example {
         val handler = new IEventHandler(api);
         bot.setEventHandler(handler);
         log.info("正在启动中...");
-        bot.start(0, 2);
+        bot.start();
         // Thread.sleep(2000);
         // bot.start(1, 2);
     }

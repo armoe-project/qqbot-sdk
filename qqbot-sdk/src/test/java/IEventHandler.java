@@ -4,6 +4,7 @@ import lombok.val;
 import me.zhenxin.qqbot.api.ApiManager;
 import me.zhenxin.qqbot.entity.DirectMessageSession;
 import me.zhenxin.qqbot.entity.Message;
+import me.zhenxin.qqbot.entity.MessageMarkdown;
 import me.zhenxin.qqbot.entity.api.ApiPermission;
 import me.zhenxin.qqbot.entity.api.ApiPermissionDemand;
 import me.zhenxin.qqbot.entity.api.ApiPermissionDemandIdentify;
@@ -62,6 +63,11 @@ class IEventHandler extends EventHandler {
             val args = content.split(" ");
             val command = args[0];
             switch (command) {
+                case "md":
+                    MessageMarkdown md = new MessageMarkdown();
+                    md.setContent("测试");
+                    api.getMessageApi().sendMessage(channelId, md, messageId);
+                    break;
                 case "error":
                     api.getMessageApi().sendMessage(
                             channelId,
