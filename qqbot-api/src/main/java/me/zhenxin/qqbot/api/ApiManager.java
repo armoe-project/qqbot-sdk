@@ -106,6 +106,13 @@ public class ApiManager {
     }
 
     /**
+     * 获取 精华消息API 实例
+     */
+    public PinsMessageApi getPinsMessageApi() {
+        return new PinsMessageApi(accessInfo);
+    }
+
+    /**
      * 获取 禁言API 实例
      */
     public MuteApi getMuteApi() {
