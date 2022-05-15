@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>QQBot</name>
-    <description>QQ Official Bot SDK</description>
-    <url>https://github.com/xiaoye-bot/qq-official-bot-sdk</url>
+    <description>QQ Bot SDK</description>
+    <url>https://github.com/xiaoye-bot/qqbot-sdk</url>
     <groupId>me.zhenxin</groupId>
     <artifactId>qqbot-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
     <modules>
         <module>qqbot-common</module>
         <module>qqbot-api</module>
@@ -53,8 +53,8 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <okhttp.version>4.9.3</okhttp.version>
-        <fastjson.version>1.2.79</fastjson.version>
-        <websocket.version>1.5.2</websocket.version>
+        <fastjson.version>1.2.80</fastjson.version>
+        <websocket.version>1.5.3</websocket.version>
     </properties>
 
     <dependencies>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
