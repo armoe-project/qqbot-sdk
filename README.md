@@ -178,7 +178,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ![img-pay]
 
-[maven]: https://search.maven.org/artifact/me.zhenxin/qqbot-sdk/1.0.2/jar
+[maven]: https://search.maven.org/artifact/me.zhenxin/qqbot-sdk
 
 [docs]: https://sdk.armoe.cn/qq/
 
