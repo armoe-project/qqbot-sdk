@@ -132,4 +132,11 @@ public class ApiManager {
     public DirectMessageApi getDirectMessageApi() {
         return new DirectMessageApi(accessInfo);
     }
+
+    /**
+     * 获取 帖子API 实例
+     */
+    public ForumApi getForumApi() {
+        return new ForumApi(accessInfo);
+    }
 }

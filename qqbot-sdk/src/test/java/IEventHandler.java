@@ -8,6 +8,7 @@ import me.zhenxin.qqbot.entity.MessageMarkdown;
 import me.zhenxin.qqbot.entity.api.ApiPermission;
 import me.zhenxin.qqbot.entity.api.ApiPermissionDemand;
 import me.zhenxin.qqbot.entity.api.ApiPermissionDemandIdentify;
+import me.zhenxin.qqbot.entity.forum.thread.Thread;
 import me.zhenxin.qqbot.event.AtMessageEvent;
 import me.zhenxin.qqbot.event.DirectMessageEvent;
 import me.zhenxin.qqbot.event.UserMessageEvent;
@@ -17,6 +18,7 @@ import me.zhenxin.qqbot.template.TextThumbnailTemplate;
 import me.zhenxin.qqbot.websocket.EventHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -63,6 +65,11 @@ class IEventHandler extends EventHandler {
             val args = content.split(" ");
             val command = args[0];
             switch (command) {
+                case "threads":
+                    List<Thread> threads = api.getForumApi().getThreadList("4348967");
+                    log.info("{}", threads);
+                    api.getMessageApi().sendMessage(channelId, Arrays.toString(threads.toArray()), messageId);
+                    break;
                 case "md":
                     MessageMarkdown md = new MessageMarkdown();
                     md.setContent("测试");
@@ -138,7 +145,7 @@ class IEventHandler extends EventHandler {
                     break;
                 case "muteMe":
                     api.getMuteApi().mute(guildId, author.getId(), 300);
-                    Thread.sleep(6000);
+                    java.lang.Thread.sleep(6000);
                     api.getMuteApi().mute(guildId, author.getId(), 0);
                     break;
                 case "dMsg":
