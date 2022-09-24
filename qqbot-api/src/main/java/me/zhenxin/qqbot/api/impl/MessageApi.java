@@ -133,6 +133,11 @@ public class MessageApi extends BaseApi {
 
     /**
      * 发送Keyboard消息
+     *
+     * @param channelId 子频道ID
+     * @param keyboard  {@link MessageKeyboard} 对象
+     * @param messageId 消息ID
+     * @return {@link Message} 对象
      */
     public Message sendMessage(String channelId, MessageKeyboard keyboard, String messageId) {
         Map<String, Object> data = new HashMap<>();
