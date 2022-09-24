@@ -20,6 +20,8 @@ package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Markdown消息对象
  *
@@ -39,7 +41,7 @@ public class MessageMarkdown {
     /**
      * 模板参数
      */
-    private MessageMarkdownParams params;
+    private List<MessageMarkdownParams> params;
     /**
      * 消息内容
      */
