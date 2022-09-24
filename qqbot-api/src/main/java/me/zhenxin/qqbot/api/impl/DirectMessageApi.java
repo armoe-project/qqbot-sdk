@@ -145,15 +145,17 @@ public class DirectMessageApi extends BaseApi {
     }
 
     /**
-     * 发送Keyboard消息
+     * 发送按钮消息
      *
      * @param guildId   频道ID
+     * @param markdown  {@link MessageMarkdown} 对象
      * @param keyboard  {@link MessageKeyboard} 对象
      * @param messageId 消息ID
      * @return {@link Message} 对象
      */
-    public Message sendMessage(String guildId, MessageKeyboard keyboard, String messageId) {
+    public Message sendMessage(String guildId, MessageMarkdown markdown, MessageKeyboard keyboard, String messageId) {
         Map<String, Object> data = new HashMap<>();
+        data.put("markdown", markdown);
         data.put("keyboard", keyboard);
         data.put("msg_id", messageId);
         return sendMessage(guildId, data);
