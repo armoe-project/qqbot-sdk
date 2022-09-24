@@ -44,4 +44,22 @@ public class AudioApi extends BaseApi {
     public void audioControl(String channelId, AudioControl control) {
         post("/channels/" + channelId + "/audio", (JSONObject) JSON.toJSON(control), null);
     }
+
+    /**
+     * 机器人上麦
+     *
+     * @param channelId 子频道ID
+     */
+    public void openMic(String channelId) {
+        put("/channels/" + channelId + "/mic", null, null);
+    }
+
+    /**
+     * 机器人下麦
+     *
+     * @param channelId 子频道ID
+     */
+    public void closeMic(String channelId) {
+        delete("/channels/" + channelId + "/mic", null);
+    }
 }

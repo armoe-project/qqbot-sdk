@@ -38,6 +38,12 @@ public class AudioControl {
     private String text;
     /**
      * 播放状态
+     * <ul>
+     *     <li>0: 开始播放操作</li>
+     *     <li>1: 暂停播放操作</li>
+     *     <li>2: 继续播放操作</li>
+     *     <li>3: 停止播放操作</li>
+     * </ul>
      */
     private Integer status;
 }
