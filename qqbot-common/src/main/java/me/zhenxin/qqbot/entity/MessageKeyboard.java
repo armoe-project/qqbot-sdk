@@ -19,6 +19,7 @@
 package me.zhenxin.qqbot.entity;
 
 import lombok.Data;
+import me.zhenxin.qqbot.entity.keyboard.InlineKeyboard;
 
 /**
  * Keyboard消息
@@ -35,5 +36,5 @@ public class MessageKeyboard {
     /**
      * Keyboard内容
      */
-    private String content; // 官方文档中没有该字段类型(InlineKeyboard) 待确认
+    private InlineKeyboard content;
 }

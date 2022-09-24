@@ -132,7 +132,17 @@ public class MessageApi extends BaseApi {
     }
 
     /**
-     * 撤回消息
+     * 发送Keyboard消息
+     */
+    public Message sendMessage(String channelId, MessageKeyboard keyboard, String messageId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("keyboard", keyboard);
+        data.put("msg_id", messageId);
+        return sendMessage(channelId, data);
+    }
+
+    /**
+     * 撤回消息 (仅私域可用)
      *
      * @param channelId 子频道ID
      * @param messageId 消息ID
