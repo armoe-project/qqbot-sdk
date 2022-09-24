@@ -20,6 +20,7 @@ package me.zhenxin.qqbot.api.impl;
 
 import me.zhenxin.qqbot.api.BaseApi;
 import me.zhenxin.qqbot.entity.AccessInfo;
+import me.zhenxin.qqbot.entity.ReactionUserList;
 
 /**
  * 表情表态API
@@ -55,6 +56,32 @@ public class MessageReactionApi extends BaseApi {
      */
     public void deleteReaction(String channelId, String messageId, Integer type, String id) {
         delete("/channels/" + channelId + "/messages/" + messageId + "/reactions/" + type + "/" + id, null);
+    }
+
+    /**
+     * 获取表情表态用户列表
+     *
+     * @param channelId 子频道ID
+     * @param messageId 消息ID
+     * @param type      表情表态类型
+     * @param id        表情ID 详细列表请参考：<a href="https://bot.q.qq.com/wiki/develop/api/openapi/emoji/model.html">官方文档</a>
+     */
+    public ReactionUserList getReactionUserList(String channelId, String messageId, Integer type, String id) {
+        return get("/channels/" + channelId + "/messages/" + messageId + "/reactions/" + type + "/" + id, ReactionUserList.class);
+    }
+
+    /**
+     * 获取表情表态用户列表
+     *
+     * @param channelId 子频道ID
+     * @param messageId 消息ID
+     * @param type      表情表态类型
+     * @param id        表情ID 详细列表请参考：<a href="https://bot.q.qq.com/wiki/develop/api/openapi/emoji/model.html">官方文档</a>
+     * @param cookie    上次请求返回的cookie
+     * @param limit     每次拉取数量
+     */
+    public ReactionUserList getReactionUserList(String channelId, String messageId, Integer type, String id, String cookie, Integer limit) {
+        return get("/channels/" + channelId + "/messages/" + messageId + "/reactions/" + type + "/" + id + "?cookie=" + cookie + "&limit=" + limit, ReactionUserList.class);
     }
 
 }
