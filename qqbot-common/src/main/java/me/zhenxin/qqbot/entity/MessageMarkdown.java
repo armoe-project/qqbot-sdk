@@ -33,6 +33,10 @@ public class MessageMarkdown {
      */
     private String templateId;
     /**
+     * 自定义模板ID
+     */
+    private String customTemplateId;
+    /**
      * 模板参数
      */
     private MessageMarkdownParams params;
