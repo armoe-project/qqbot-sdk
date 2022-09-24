@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 帖子API
+ * 帖子API (仅私域可用)
  *
  * @author 真心
  * @since 2022/5/15 13:23
@@ -40,7 +40,7 @@ public class ForumApi extends BaseApi {
     }
 
     /**
-     * 获取帖子列表
+     * 获取帖子列表 (仅私域可用)
      *
      * @param channelId 子频道ID
      * @return {@link Thread} 列表
@@ -52,7 +52,7 @@ public class ForumApi extends BaseApi {
     }
 
     /**
-     * 获取帖子详情
+     * 获取帖子详情 (仅私域可用)
      *
      * @param channelId 子频道ID
      * @param threadId  帖子ID
@@ -64,7 +64,7 @@ public class ForumApi extends BaseApi {
     }
 
     /**
-     * 发布帖子
+     * 发布帖子 (仅私域可用)
      *
      * @param channelId 子频道ID
      * @param title     帖子标题
@@ -80,7 +80,7 @@ public class ForumApi extends BaseApi {
     }
 
     /**
-     * 删除帖子
+     * 删除帖子 (仅私域可用)
      *
      * @param channelId 子频道ID
      * @param threadId  帖子ID
