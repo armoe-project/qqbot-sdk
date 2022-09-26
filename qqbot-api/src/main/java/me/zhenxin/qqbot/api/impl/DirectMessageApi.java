@@ -132,32 +132,28 @@ public class DirectMessageApi extends BaseApi {
     /**
      * 发送Markdown消息
      *
-     * @param guildId   频道ID
-     * @param markdown  {@link MessageMarkdown} 对象
-     * @param messageId 消息ID
+     * @param guildId  频道ID
+     * @param markdown {@link MessageMarkdown} 对象
      * @return {@link Message} 对象
      */
-    public Message sendMessage(String guildId, MessageMarkdown markdown, String messageId) throws ApiException {
+    public Message sendMessage(String guildId, MessageMarkdown markdown) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("markdown", markdown);
-        data.put("msg_id", messageId);
         return sendMessage(guildId, data);
     }
 
     /**
      * 发送按钮消息
      *
-     * @param guildId   频道ID
-     * @param markdown  {@link MessageMarkdown} 对象
-     * @param keyboard  {@link MessageKeyboard} 对象
-     * @param messageId 消息ID
+     * @param guildId  频道ID
+     * @param markdown {@link MessageMarkdown} 对象
+     * @param keyboard {@link MessageKeyboard} 对象
      * @return {@link Message} 对象
      */
-    public Message sendMessage(String guildId, MessageMarkdown markdown, MessageKeyboard keyboard, String messageId) {
+    public Message sendMessage(String guildId, MessageMarkdown markdown, MessageKeyboard keyboard) {
         Map<String, Object> data = new HashMap<>();
         data.put("markdown", markdown);
         data.put("keyboard", keyboard);
-        data.put("msg_id", messageId);
         return sendMessage(guildId, data);
     }
 

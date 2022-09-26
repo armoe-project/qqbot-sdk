@@ -121,13 +121,11 @@ public class MessageApi extends BaseApi {
      *
      * @param channelId 子频道ID
      * @param markdown  {@link MessageMarkdown} 对象
-     * @param messageId 消息ID
      * @return {@link Message} 对象
      */
-    public Message sendMessage(String channelId, MessageMarkdown markdown, String messageId) throws ApiException {
+    public Message sendMessage(String channelId, MessageMarkdown markdown) throws ApiException {
         Map<String, Object> data = new HashMap<>();
         data.put("markdown", markdown);
-        data.put("msg_id", messageId);
         return sendMessage(channelId, data);
     }
 
@@ -137,14 +135,12 @@ public class MessageApi extends BaseApi {
      * @param channelId 子频道ID
      * @param markdown  {@link MessageMarkdown} 对象
      * @param keyboard  {@link MessageKeyboard} 对象
-     * @param messageId 消息ID
      * @return {@link Message} 对象
      */
-    public Message sendMessage(String channelId, MessageMarkdown markdown, MessageKeyboard keyboard, String messageId) {
+    public Message sendMessage(String channelId, MessageMarkdown markdown, MessageKeyboard keyboard) {
         Map<String, Object> data = new HashMap<>();
         data.put("markdown", markdown);
         data.put("keyboard", keyboard);
-        data.put("msg_id", messageId);
         return sendMessage(channelId, data);
     }
 
