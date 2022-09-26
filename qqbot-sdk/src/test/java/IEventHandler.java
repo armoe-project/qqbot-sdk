@@ -73,7 +73,7 @@ class IEventHandler extends EventHandler {
                 case "md":
                     MessageMarkdown md = new MessageMarkdown();
                     md.setContent("测试");
-                    api.getMessageApi().sendMessage(channelId, md, messageId);
+                    api.getMessageApi().sendMessage(channelId, md);
                     break;
                 case "error":
                     api.getMessageApi().sendMessage(
