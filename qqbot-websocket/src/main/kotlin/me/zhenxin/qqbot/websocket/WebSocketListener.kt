@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.parseObject
 import com.alibaba.fastjson2.toJSONString
 import io.github.oshai.kotlinlogging.KotlinLogging
 import me.zhenxin.qqbot.entity.Payload
+import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger {}
 
@@ -26,16 +27,13 @@ class WebSocketListener(
         }
     }
 
-    fun onHeartbeat(payload: Payload) {
-
+    fun onReconnect() {
+        logger.info { "服务端下发重连通知，准备开始重连" }
     }
 
-    fun onReconnect(payload: Payload) {
-        logger.info { "收到重连通知，准备重连" }
-    }
-
-    fun onInvalidSession(payload: Payload) {
-
+    fun onInvalidSession() {
+        logger.warn { "鉴权失败！请检查 AccessInfo 是否正确，并查看是否注册了正确的 Intent" }
+        exitProcess(9)
     }
 
     fun onHello(payload: Payload) {
@@ -49,9 +47,5 @@ class WebSocketListener(
         }
 
         client.startHeartbeat()
-    }
-
-    fun onHeartbeatACK(payload: Payload) {
-
     }
 }

@@ -26,9 +26,11 @@ fun main() {
             Intent.GUILD_MEMBERS,
             Intent.GUILD_MESSAGE_REACTIONS,
             Intent.DIRECT_MESSAGE,
+            Intent.OPEN_FORUMS_EVENTS,
+            Intent.AUDIO_OR_LIVE_CHANNEL_MEMBERS,
+            Intent.INTERACTION,
             Intent.MESSAGE_AUDIT,
-            Intent.AT_MESSAGES,
-            Intent.AUDIO_ACTION
+            Intent.PUBLIC_GUILD_MESSAGES,
         )
         bot.start()
     } catch (e: ApiException) {

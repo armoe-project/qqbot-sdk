@@ -56,11 +56,9 @@ class WebSocketClient(
 
         when (payload.op) {
             0 -> listener.onDispatch(payload) // 事件分发
-            1 -> listener.onHeartbeat(payload) // 心跳
-            7 -> listener.onReconnect(payload) // 重连通知
-            9 -> listener.onInvalidSession(payload) // 鉴权失败
             10 -> listener.onHello(payload) // 连接成功之后，会收到该消息
-            11 -> listener.onHeartbeatACK(payload) // 心跳回应
+            7 -> listener.onReconnect() // 重连通知
+            9 -> listener.onInvalidSession() // 鉴权失败
         }
     }
 
