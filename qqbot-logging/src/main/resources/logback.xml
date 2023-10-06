@@ -1,0 +1,23 @@
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>
+                [%green(%d{yyyy-MM-dd HH:mm:ss}) %cyan(%-30.30c{29}) %yellow(%10.10t) %highlight(%5p)]: %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${QQBOT_LOG_PATH:-./logs}/latest.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${QQBOT_LOG_PATH:-./logs}/%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss} %-30.30c{29} %10.10t %5p]: %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <root level="${QQBOT_LOG_LEVEL:-INFO}">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="File"/>
+    </root>
+</configuration>
