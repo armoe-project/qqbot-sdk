@@ -21,10 +21,7 @@ package me.zhenxin.qqbot.websocket
 import com.alibaba.fastjson2.parseObject
 import com.alibaba.fastjson2.toJSONString
 import io.github.oshai.kotlinlogging.KotlinLogging
-import me.zhenxin.qqbot.entity.Channel
-import me.zhenxin.qqbot.entity.Guild
-import me.zhenxin.qqbot.entity.Payload
-import me.zhenxin.qqbot.entity.Ready
+import me.zhenxin.qqbot.entity.*
 
 private val logger = KotlinLogging.logger {}
 
@@ -45,32 +42,47 @@ class WebSocketEvent(
 
     fun onGuildCreate(payload: Payload) {
         val guild = payload.data<Guild>()
-        logger.info { "[频道加入] ${guild.name}(${guild.id})" }
+        logger.info { "机器人加入：${guild.name}(${guild.id})" }
     }
 
     fun onGuildUpdate(payload: Payload) {
         val guild = payload.data<Guild>()
-        logger.info { "[频道更新] ${guild.name}(${guild.id})" }
+        logger.info { "频道资料更新：${guild.name}(${guild.id})" }
     }
 
     fun onGuildDelete(payload: Payload) {
         val guild = payload.data<Guild>()
-        logger.info { "[频道退出] ${guild.name}(${guild.id})" }
+        logger.info { "机器人离开频道：${guild.name}(${guild.id})" }
     }
 
     fun onChannelCreate(payload: Payload) {
         val channel = payload.data<Channel>()
-        logger.info { "[子频道创建] ${channel.name}(${channel.id})" }
+        logger.info { "子频道创建：${channel.name}(${channel.id})" }
     }
 
     fun onChannelUpdate(payload: Payload) {
         val channel = payload.data<Channel>()
-        logger.info { "[子频道更新] ${channel.name}(${channel.id})" }
+        logger.info { "子频道更新：${channel.name}(${channel.id})" }
     }
 
     fun onChannelDelete(payload: Payload) {
         val channel = payload.data<Channel>()
-        logger.info { "[子频道删除] ${channel.name}(${channel.id})" }
+        logger.info { "子频道删除：${channel.name}(${channel.id})" }
+    }
+
+    fun onGuildMemberAdd(payload: Payload) {
+        val member = payload.data<Member>()
+        logger.info { "频道成员加入：${member.user.username}(${member.user.id})" }
+    }
+
+    fun onGuildMemberUpdate(payload: Payload) {
+        val member = payload.data<Member>()
+        logger.info { "频道成员更新：${member.user.username}(${member.user.id})" }
+    }
+
+    fun onGuildMemberRemove(payload: Payload) {
+        val member = payload.data<Member>()
+        logger.info { "频道成员离开：${member.user.username}(${member.user.id})" }
     }
 
     private inline fun <reified T> Payload.data(): T {

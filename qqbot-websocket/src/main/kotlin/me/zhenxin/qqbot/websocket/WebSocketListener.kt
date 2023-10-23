@@ -47,6 +47,9 @@ class WebSocketListener(
             "CHANNEL_CREATE" -> event.onChannelCreate(payload)
             "CHANNEL_UPDATE" -> event.onChannelUpdate(payload)
             "CHANNEL_DELETE" -> event.onChannelDelete(payload)
+            "GUILD_MEMBER_ADD" -> event.onGuildMemberAdd(payload)
+            "GUILD_MEMBER_UPDATE" -> event.onGuildMemberUpdate(payload)
+            "GUILD_MEMBER_REMOVE" -> event.onGuildMemberRemove(payload)
             else -> logger.warn { "未知事件：${payload.type}" }
         }
     }
