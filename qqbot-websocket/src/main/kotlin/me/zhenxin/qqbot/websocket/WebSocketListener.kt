@@ -41,6 +41,12 @@ class WebSocketListener(
         when (payload.type) {
             "READY" -> event.onReady(payload)
             "RESUMED" -> logger.info { "恢复连接成功，离线事件已处理" }
+            "GUILD_CREATE" -> event.onGuildCreate(payload)
+            "GUILD_UPDATE" -> event.onGuildUpdate(payload)
+            "GUILD_DELETE" -> event.onGuildDelete(payload)
+            "CHANNEL_CREATE" -> event.onChannelCreate(payload)
+            "CHANNEL_UPDATE" -> event.onChannelUpdate(payload)
+            "CHANNEL_DELETE" -> event.onChannelDelete(payload)
             else -> logger.warn { "未知事件：${payload.type}" }
         }
     }

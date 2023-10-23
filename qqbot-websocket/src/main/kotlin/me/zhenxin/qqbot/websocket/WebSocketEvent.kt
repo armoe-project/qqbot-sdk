@@ -19,11 +19,12 @@
 package me.zhenxin.qqbot.websocket
 
 import com.alibaba.fastjson2.parseObject
-import com.alibaba.fastjson2.to
 import com.alibaba.fastjson2.toJSONString
 import io.github.oshai.kotlinlogging.KotlinLogging
+import me.zhenxin.qqbot.entity.Channel
+import me.zhenxin.qqbot.entity.Guild
 import me.zhenxin.qqbot.entity.Payload
-import me.zhenxin.qqbot.entity.User
+import me.zhenxin.qqbot.entity.Ready
 
 private val logger = KotlinLogging.logger {}
 
@@ -37,13 +38,44 @@ class WebSocketEvent(
     private val client: WebSocketClient
 ) {
     fun onReady(payload: Payload) {
-        val data = payload.data.toJSONString().parseObject()
-        val sessionId = data.getString("session_id")
-        client.sessionId = sessionId
-
-        val user = data.getString("user").to<User>()
-        val username = user.username
-        logger.info { "机器人 $username 已上线，会话ID：$sessionId" }
+        val ready = payload.data<Ready>()
+        client.sessionId = ready.sessionId
+        logger.info { "机器人 ${ready.user.username} 已上线，会话ID：${ready.sessionId}" }
     }
 
+    fun onGuildCreate(payload: Payload) {
+        val guild = payload.data<Guild>()
+        logger.info { "[频道加入] ${guild.name}(${guild.id})" }
+    }
+
+    fun onGuildUpdate(payload: Payload) {
+        val guild = payload.data<Guild>()
+        logger.info { "[频道更新] ${guild.name}(${guild.id})" }
+    }
+
+    fun onGuildDelete(payload: Payload) {
+        val guild = payload.data<Guild>()
+        logger.info { "[频道退出] ${guild.name}(${guild.id})" }
+    }
+
+    fun onChannelCreate(payload: Payload) {
+        val channel = payload.data<Channel>()
+        logger.info { "[子频道创建] ${channel.name}(${channel.id})" }
+    }
+
+    fun onChannelUpdate(payload: Payload) {
+        val channel = payload.data<Channel>()
+        logger.info { "[子频道更新] ${channel.name}(${channel.id})" }
+    }
+
+    fun onChannelDelete(payload: Payload) {
+        val channel = payload.data<Channel>()
+        logger.info { "[子频道删除] ${channel.name}(${channel.id})" }
+    }
+
+    private inline fun <reified T> Payload.data(): T {
+        val data = this.data.toJSONString().parseObject<T>()
+        logger.debug { "事件数据：$data" }
+        return data
+    }
 }
