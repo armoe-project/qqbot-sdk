@@ -24,6 +24,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import me.zhenxin.qqbot.entity.AccessInfo
 import me.zhenxin.qqbot.entity.Identify
 import me.zhenxin.qqbot.entity.Payload
+import me.zhenxin.qqbot.entity.Resume
 import me.zhenxin.qqbot.enums.Intent
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
@@ -68,8 +69,8 @@ class WebSocketClient(
         val payload = message.to<Payload>() ?: return
         val listener = WebSocketListener(this)
 
-        if (payload.s != null) {
-            sequence = payload.s
+        if (payload.seq != null) {
+            sequence = payload.seq
         }
 
         when (payload.op) {
@@ -130,7 +131,7 @@ class WebSocketClient(
     private fun sendHeartbeat() {
         val payload = Payload(
             op = 1,
-            d = sequence
+            data = sequence
         )
         send(payload.toJSONString())
     }
@@ -147,20 +148,21 @@ class WebSocketClient(
         )
         val payload = Payload(
             op = 2,
-            d = identify
+            data = identify
         )
         send(payload.toJSONString())
     }
 
     fun sendResume() {
         logger.info { "正在发送恢复信息..." }
+        val resume = Resume(
+            token = token,
+            sessionId = sessionId,
+            seq = sequence
+        )
         val payload = Payload(
             op = 6,
-            d = mapOf(
-                "token" to token,
-                "session_id" to sessionId,
-                "seq" to sequence
-            )
+            data = resume
         )
         send(payload.toJSONString())
     }

@@ -37,7 +37,7 @@ class WebSocketEvent(
     private val client: WebSocketClient
 ) {
     fun onReady(payload: Payload) {
-        val data = payload.d.toJSONString().parseObject()
+        val data = payload.data.toJSONString().parseObject()
         val sessionId = data.getString("session_id")
         client.sessionId = sessionId
 

@@ -42,7 +42,8 @@ data class User(
     /**
      * 是否是机器人
      */
-    var bot: Boolean = false,
+    @JSONField(name = "bot")
+    var isBot: Boolean = false,
     /**
      * UnionOpenId
      */
@@ -51,5 +52,6 @@ data class User(
     /**
      * UnionUserAccount
      */
+    @JSONField(name = "union_user_account")
     var unionUserAccount: String = "",
 )

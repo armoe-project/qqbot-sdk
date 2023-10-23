@@ -35,6 +35,7 @@ fun main() {
     val accessInfo = AccessInfo().apply {
         botAppId = System.getenv("BOT_APP_ID")?.toInt() ?: 0
         botToken = System.getenv("BOT_TOKEN") ?: ""
+        isSandbox = System.getenv("IS_SANDBOX")?.toBoolean() ?: true
     }
 
     try {

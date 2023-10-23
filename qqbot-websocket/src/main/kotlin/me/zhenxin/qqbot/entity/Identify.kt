@@ -18,6 +18,8 @@
 
 package me.zhenxin.qqbot.entity
 
+import com.alibaba.fastjson2.annotation.JSONField
+
 /**
  * WebSocket 鉴权信息
  *
@@ -28,17 +30,21 @@ data class Identify(
     /**
      * Token
      */
+    @JSONField(name = "token")
     var token: String,
     /**
      * 订阅事件
      */
+    @JSONField(name = "intents")
     var intents: Int,
     /**
      * 分片数量
      */
+    @JSONField(name = "shard")
     val shard: List<Int> = listOf(0, 1),
     /**
      * 配置信息
      */
+    @JSONField(name = "properties")
     val properties: Map<String, String> = mapOf()
 )

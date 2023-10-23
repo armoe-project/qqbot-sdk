@@ -21,30 +21,25 @@ package me.zhenxin.qqbot.entity
 import com.alibaba.fastjson2.annotation.JSONField
 
 /**
- * 机器人 WebSocket 消息载荷
+ * WebSocket 恢复
  *
  * @author 真心
- * @since 2023/10/5 22:27
+ * @since 2023/10/21 15:34
  */
-data class Payload(
+data class Resume(
     /**
-     * 操作
+     * Token
      */
-    @JSONField(name = "op")
-    val op: Int = 0,
+    @JSONField(name = "token")
+    val token: String,
     /**
-     * 数据
+     * 会话ID
      */
-    @JSONField(name = "d")
-    val data: Any = Any(),
+    @JSONField(name = "session_id")
+    val sessionId: String,
     /**
      * 序号
      */
-    @JSONField(name = "s")
-    val seq: Long? = null,
-    /**
-     * 事件类型
-     */
-    @JSONField(name = "t")
-    val type: String? = null
+    @JSONField(name = "seq")
+    val seq: Long
 )

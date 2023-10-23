@@ -38,10 +38,10 @@ class WebSocketListener(
     private val event = WebSocketEvent(client)
 
     fun onDispatch(payload: Payload) {
-        when (payload.t) {
+        when (payload.type) {
             "READY" -> event.onReady(payload)
             "RESUMED" -> logger.info { "恢复连接成功，离线事件已处理" }
-            else -> logger.warn { "未知事件：${payload.t}" }
+            else -> logger.warn { "未知事件：${payload.type}" }
         }
     }
 
@@ -55,7 +55,7 @@ class WebSocketListener(
     }
 
     fun onHello(payload: Payload) {
-        val data = payload.d.toJSONString().parseObject()
+        val data = payload.data.toJSONString().parseObject()
         client.heartbeatInterval = data.getLong("heartbeat_interval")
 
         if (client.sessionId.isNotEmpty()) {
