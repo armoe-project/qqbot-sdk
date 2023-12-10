@@ -5,7 +5,7 @@
     <parent>
         <artifactId>qqbot-parent</artifactId>
         <groupId>me.zhenxin</groupId>
-        <version>1.2.0</version>
+        <version>1.3.0-dev.edda6d0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,17 +20,17 @@
         <dependency>
             <groupId>me.zhenxin</groupId>
             <artifactId>qqbot-api</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0-dev.edda6d0</version>
         </dependency>
         <dependency>
             <groupId>me.zhenxin</groupId>
             <artifactId>qqbot-websocket</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0-dev.edda6d0</version>
         </dependency>
         <dependency>
             <groupId>me.zhenxin</groupId>
             <artifactId>qqbot-logging</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0-dev.edda6d0</version>
         </dependency>
     </dependencies>
 
