@@ -178,6 +178,16 @@ class Event {
                 UserMessageEvent userMessageEvent = new UserMessageEvent(this, userMessage);
                 client.getEventHandler().onUserMessage(userMessageEvent);
                 break;
+            case "GROUP_AT_MESSAGE_CREATE":
+                Message groupMessage = JSON.toJavaObject((JSONObject) payload.getD(), Message.class);
+                log.info(
+                        "[GroupMessage] 群聊({}) {}: {}",
+                        groupMessage.getGroupId(),
+                        groupMessage.getAuthor().getId(),
+                        groupMessage.getContent()
+                );
+                GroupMessageEvent groupMessageEvent = new GroupMessageEvent(this, groupMessage);
+                client.getEventHandler().onGroupMessage(groupMessageEvent);
             case "RESUMED":
                 log.info("恢复连接成功, 离线消息已处理!");
                 break;

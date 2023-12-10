@@ -32,7 +32,7 @@ class Example {
                 Intent.PUBLIC_GUILD_MESSAGES
         );
         val handler = new IEventHandler(api);
-        // bot.setEventHandler(handler);
+        bot.setEventHandler(handler);
         log.info("正在启动中...");
         bot.start();
     }

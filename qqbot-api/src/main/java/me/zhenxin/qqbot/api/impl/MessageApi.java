@@ -186,4 +186,21 @@ public class MessageApi extends BaseApi {
     private Message sendMessage(String channelId, Map<String, Object> data) {
         return post("/channels/" + channelId + "/messages", data, Message.class);
     }
+
+    /**
+     * 发送群聊文字消息
+     */
+    public Message sendGroupMessage(String groupOpenId, String content, String messageId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("content", content);
+        data.put("msg_id", messageId);
+        return sendGroupMessage(groupOpenId, data);
+    }
+
+    /**
+     * 发送群聊消息
+     */
+    private Message sendGroupMessage(String groupOpenId, Map<String, Object> data) {
+        return post("/v2/groups/" + groupOpenId + "/messages", data, Message.class);
+    }
 }

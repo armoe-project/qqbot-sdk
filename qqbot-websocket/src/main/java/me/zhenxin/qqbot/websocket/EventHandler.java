@@ -197,4 +197,13 @@ public class EventHandler {
     protected void onUserMessage(UserMessageEvent event) {
 
     }
+
+    /**
+     * 群聊消息事件
+     *
+     * @param event 事件
+     */
+    protected void onGroupMessage(GroupMessageEvent event) {
+
+    }
 }

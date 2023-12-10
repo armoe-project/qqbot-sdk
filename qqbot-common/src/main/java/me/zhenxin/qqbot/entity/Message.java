@@ -44,6 +44,10 @@ public class Message {
      */
     private String guildId;
     /**
+     * 群聊ID
+     */
+    private String groupId;
+    /**
      * 消息内容
      */
     private String content;
