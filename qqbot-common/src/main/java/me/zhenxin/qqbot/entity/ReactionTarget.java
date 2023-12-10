@@ -34,12 +34,6 @@ public class ReactionTarget {
     private String id;
     /**
      * 表态对象类型
-     * <ul>
-     *     <li>0: 消息</li>
-     *     <li>1: 帖子</li>
-     *     <li>2: 评论</li>
-     *     <li>3: 回复</li>
-     * </ul>
      */
-    private Integer type;
+    private String type;
 }
