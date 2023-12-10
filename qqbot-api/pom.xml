@@ -5,7 +5,7 @@
     <parent>
         <artifactId>qqbot-parent</artifactId>
         <groupId>me.zhenxin</groupId>
-        <version>1.3.0-dev.edda6d0</version>
+        <version>1.3.1-dev</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>me.zhenxin</groupId>
             <artifactId>qqbot-common</artifactId>
-            <version>1.3.0-dev.edda6d0</version>
+            <version>1.3.1-dev</version>
         </dependency>
         <!-- fastjson -->
         <dependency>
