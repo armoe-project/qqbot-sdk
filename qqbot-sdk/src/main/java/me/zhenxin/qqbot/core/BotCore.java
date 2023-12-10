@@ -229,6 +229,6 @@ public class BotCore {
      * @deprecated 使用 {@link #registerIntents(Intent...)} 替代
      */
     public void registerAtMessageEvent() {
-        intents.add(Intent.AT_MESSAGES);
+        intents.add(Intent.PUBLIC_GUILD_MESSAGES);
     }
 }

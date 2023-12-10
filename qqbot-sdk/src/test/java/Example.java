@@ -22,18 +22,18 @@ class Example {
         bot.registerIntents(
                 Intent.GUILDS,
                 Intent.GUILD_MEMBERS,
+                // Intent.GUILD_MESSAGES,
                 Intent.GUILD_MESSAGE_REACTIONS,
                 Intent.DIRECT_MESSAGE,
-                Intent.FORUM_EVENT,
-                // Intent.AT_MESSAGES
+                Intent.GROUP_MESSAGE,
+                Intent.INTERACTION,
                 Intent.MESSAGE_AUDIT,
-                Intent.USER_MESSAGES
+                // Intent.FORUM_EVENT,
+                Intent.PUBLIC_GUILD_MESSAGES
         );
         val handler = new IEventHandler(api);
-        bot.setEventHandler(handler);
+        // bot.setEventHandler(handler);
         log.info("正在启动中...");
         bot.start();
-        // Thread.sleep(2000);
-        // bot.start(1, 2);
     }
 }

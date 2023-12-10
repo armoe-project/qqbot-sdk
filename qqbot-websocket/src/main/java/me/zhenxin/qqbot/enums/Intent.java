@@ -41,8 +41,15 @@ public enum Intent {
     GUILD_MEMBERS(1 << 1),
     /**
      * 用户消息事件(私域可用)
+     *
+     * @deprecated 请使用 {@link #GUILD_MESSAGES}
      */
+    @Deprecated
     USER_MESSAGES(1 << 9),
+    /**
+     * 私域频道消息事件
+     */
+    GUILD_MESSAGES(1 << 9),
     /**
      * 消息表态相关事件
      */
@@ -52,11 +59,19 @@ public enum Intent {
      */
     DIRECT_MESSAGE(1 << 12),
     /**
+     * 群聊消息相关事件
+     */
+    GROUP_MESSAGE(1 << 25),
+    /**
+     * 互动相关事件
+     */
+    INTERACTION(1 << 26),
+    /**
      * 消息审核相关事件
      */
     MESSAGE_AUDIT(1 << 27),
     /**
-     * 论坛相关事件
+     * 论坛相关事件 (私域可用)
      */
     FORUM_EVENT(1 << 28),
     /**
@@ -65,8 +80,15 @@ public enum Intent {
     AUDIO_ACTION(1 << 29),
     /**
      * 艾特消息事件
+     *
+     * @deprecated 请使用 {@link #PUBLIC_GUILD_MESSAGES}
      */
-    AT_MESSAGES(1 << 30);
+    @Deprecated
+    AT_MESSAGES(1 << 30),
+    /**
+     * 公域频道消息事件
+     */
+    PUBLIC_GUILD_MESSAGES(1 << 30);
 
     private final Integer value;
 }
