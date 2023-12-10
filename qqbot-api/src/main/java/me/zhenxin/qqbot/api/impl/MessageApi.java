@@ -198,6 +198,66 @@ public class MessageApi extends BaseApi {
     }
 
     /**
+     * 发送群聊图片消息
+     */
+    public Message sendGroupMessage(String groupOpenId, URL image, String messageId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("image", image.toString());
+        data.put("msg_id", messageId);
+        return sendGroupMessage(groupOpenId, data);
+    }
+
+    /**
+     * 发送群聊文字和图片消息
+     */
+    public Message sendGroupMessage(String groupOpenId, String content, URL image, String messageId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("content", content);
+        data.put("image", image.toString());
+        data.put("msg_id", messageId);
+        return sendGroupMessage(groupOpenId, data);
+    }
+
+    /**
+     * 发送群聊模板(Ark)消息
+     */
+    public Message sendGroupMessage(String groupOpenId, MessageArk ark, String messageId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("ark", ark);
+        data.put("msg_id", messageId);
+        return sendGroupMessage(groupOpenId, data);
+    }
+
+    /**
+     * 发送群聊Embed消息
+     */
+    public Message sendGroupMessage(String groupOpenId, MessageEmbed embed, String messageId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("embed", embed);
+        data.put("msg_id", messageId);
+        return sendGroupMessage(groupOpenId, data);
+    }
+
+    /**
+     * 发送群聊Markdown消息
+     */
+    public Message sendGroupMessage(String groupOpenId, MessageMarkdown markdown) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("markdown", markdown);
+        return sendGroupMessage(groupOpenId, data);
+    }
+
+    /**
+     * 发送群聊按钮消息
+     */
+    public Message sendGroupMessage(String groupOpenId, MessageMarkdown markdown, MessageKeyboard keyboard) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("markdown", markdown);
+        data.put("keyboard", keyboard);
+        return sendGroupMessage(groupOpenId, data);
+    }
+
+    /**
      * 发送群聊消息
      */
     private Message sendGroupMessage(String groupOpenId, Map<String, Object> data) {
