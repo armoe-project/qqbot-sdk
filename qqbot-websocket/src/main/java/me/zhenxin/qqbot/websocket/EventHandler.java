@@ -206,4 +206,25 @@ public class EventHandler {
     protected void onGroupMessage(GroupMessageEvent event) {
 
     }
+
+    /**
+     * 机器人加入群聊
+     *
+     * @param event 事件
+     */
+    protected void onGroupAddRobot(GroupAddRobotEvent event) {
+
+    }
+
+    protected void onGroupDelRobot(GroupDelRobotEvent event) {
+
+    }
+
+    protected void onGroupMsgReject(GroupMsgRejectEvent event) {
+
+    }
+
+    protected void onGroupMsgReceive(GroupMsgReceiveEvent event) {
+
+    }
 }

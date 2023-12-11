@@ -18,6 +18,12 @@
     </properties>
 
     <dependencies>
+        <!-- fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
         <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
