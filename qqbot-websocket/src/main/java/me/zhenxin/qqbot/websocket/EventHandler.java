@@ -32,17 +32,16 @@ import me.zhenxin.qqbot.event.*;
  */
 @SuppressWarnings("unused")
 @Slf4j
+@Setter
 public class EventHandler {
     /**
      * 机器人本身的用户信息
      */
-    @Setter
     protected User me;
     /**
      * 是否去除消息中的@机器人
      */
     @Getter
-    @Setter
     private boolean removeAt = true;
 
     /**
