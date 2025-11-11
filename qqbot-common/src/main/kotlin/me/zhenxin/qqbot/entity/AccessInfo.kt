@@ -32,6 +32,7 @@ data class AccessInfo(
     /**
      * 管理端的 机器人令牌
      */
+    @Deprecated("固定Token已禁用，请使用AccessToken鉴权，参考文档：https://bot.q.qq.com/wiki/develop/api-v2/dev-prepare/interface-framework/api-use.html")
     var botToken: String = "",
     /**
      * 管理端的 机器人密钥

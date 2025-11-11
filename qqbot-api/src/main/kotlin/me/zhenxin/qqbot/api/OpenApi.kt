@@ -28,6 +28,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.time.LocalDateTime
 
 val logger = KotlinLogging.logger {}
 
@@ -37,10 +38,15 @@ val logger = KotlinLogging.logger {}
  * @author 真心
  * @since 2023/10/3 20:38
  */
+@Suppress("unused")
 abstract class OpenApi(accessInfo: AccessInfo) {
     private val base = if (accessInfo.isSandbox) "https://sandbox.api.sgroup.qq.com" else "https://api.sgroup.qq.com"
     private val botAppId = accessInfo.botAppId
     private val botToken = accessInfo.botToken
+    private val botSecret = accessInfo.botSecret
+
+    private var accessToken = ""
+    private var expireTime = LocalDateTime.now()
 
     private val client = OkHttpClient()
 
@@ -90,8 +96,7 @@ abstract class OpenApi(accessInfo: AccessInfo) {
 
         val call = client.newCall(request)
         val response = call.execute()
-        val body = response.body?.string()
-            ?: throw RuntimeException("HTTP Request failed with code ${response.code}, message: ${response.message}")
+        val body = response.body.string()
 
         logger.debug { "HTTP Response: ${response.code} ${response.message}" }
         logger.debug { "HTTP Response Body: $body" }
@@ -100,7 +105,7 @@ abstract class OpenApi(accessInfo: AccessInfo) {
             throw ApiException(
                 response.code,
                 body,
-                response.headers["X-Trace-Id"] ?: "N/A"
+                response.headers["X-Tps-trace-ID"] ?: "N/A"
             )
         }
 
@@ -109,9 +114,44 @@ abstract class OpenApi(accessInfo: AccessInfo) {
     }
 
     private fun Request.Builder.addBotHeader(): Request.Builder {
+        if (accessToken.isBlank() || LocalDateTime.now() > expireTime) {
+            refreshAccessToken()
+        }
+
         addHeader("User-Agent", "qqbot-sdk/2.0.0-dev")
-        addHeader("Authorization", "Bot $botAppId.$botToken")
+        addHeader("Authorization", "Bot $accessToken")
         return this
     }
 
+    private fun refreshAccessToken() {
+        val url = "https://bots.qq.com/app/getAppAccessToken"
+        val data = mapOf(
+            "appId" to botAppId,
+            "clientSecret" to botSecret
+        )
+        val builder = Request.Builder().url(url)
+        val requestBody = requestBody(data)
+        val request = builder.post(requestBody).build()
+        val call = client.newCall(request)
+        val response = call.execute()
+        val body = response.body.string()
+        logger.debug { "HTTP Response: ${response.code} ${response.message}" }
+        logger.debug { "HTTP Response Body: $body" }
+        val json = JSON.parseObject(body)
+
+        val code = json.getInteger("code")
+        if (code != 0) {
+            throw ApiException(
+                code,
+                json.getString("message"),
+                response.headers["X-Tps-trace-ID"] ?: "N/A"
+            )
+        }
+        val accessToken = json.getString("access_token")
+        this.accessToken = accessToken
+        val expireIn = json.getLong("expires_in")
+        val expireTime = LocalDateTime.now().plusSeconds(expireIn)
+        this.expireTime = expireTime
+        logger.debug { "accessToken: $accessToken, expireIn: $expireIn, expireTime: $expireTime" }
+    }
 }
