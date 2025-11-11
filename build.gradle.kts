@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
 }
@@ -12,10 +10,6 @@ allprojects {
 subprojects {
     apply {
         plugin("org.jetbrains.kotlin.jvm")
-    }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
     }
 }
 

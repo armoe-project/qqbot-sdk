@@ -109,7 +109,7 @@ abstract class OpenApi(accessInfo: AccessInfo) {
     }
 
     private fun Request.Builder.addBotHeader(): Request.Builder {
-        addHeader("User-Agent", "qqbot-sdk/#VERSION#")
+        addHeader("User-Agent", "qqbot-sdk/2.0.0-dev")
         addHeader("Authorization", "Bot $botAppId.$botToken")
         return this
     }

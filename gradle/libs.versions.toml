@@ -1,15 +1,13 @@
 [versions]
-kotlin = "1.9.10"
-blossom = "1.3.1"
-okhttp = "4.11.0"
-java-websocket = "1.5.4"
-fastjson = "2.0.40"
-kotlin-logging = "5.1.0"
-logback = "1.3.11"
+kotlin = "2.2.21"
+okhttp = "5.3.0"
+java-websocket = "1.6.0"
+fastjson = "2.0.60"
+kotlin-logging = "7.0.3"
+logback = "1.5.21"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kyori-blossom = { id = "net.kyori.blossom", version.ref = "blossom" }
 
 [libraries]
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
